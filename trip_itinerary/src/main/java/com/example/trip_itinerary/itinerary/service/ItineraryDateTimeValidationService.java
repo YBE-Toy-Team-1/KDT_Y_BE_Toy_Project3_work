@@ -8,7 +8,9 @@ import com.example.trip_itinerary.itinerary.dto.request.update.StayPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.TransportPatchRequest;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.util.DateUtil;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ItineraryDateTimeValidationService {
     public void validateTransportSaveTimeRange(TransportSaveRequest request, Trip trip) {
         DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getDepartureDateTime());

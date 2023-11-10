@@ -10,10 +10,12 @@ import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.exception.InvalidDateRangeException;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;
 import com.example.trip_itinerary.util.DateUtil;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class TripDateValidationService {
     public void validateTripSaveDate(TripSaveRequest tripSaveRequest){
         validateTripSaveDateRange(tripSaveRequest);

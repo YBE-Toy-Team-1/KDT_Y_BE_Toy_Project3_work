@@ -8,7 +8,6 @@ import com.example.trip_itinerary.itinerary.dto.request.save.AccommodationSaveRe
 import com.example.trip_itinerary.itinerary.dto.request.save.StaySaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.save.TransportSaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.AccommodationPatchRequest;
-import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.StayPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.TransportPatchRequest;
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
@@ -30,16 +29,17 @@ public class ItineraryService {
 
     private final ItineraryRepository itineraryRepository;
     private final TripRepository tripRepository;
-    private final ItineraryDateTimeValidationService itineraryTimeValidationService = new ItineraryDateTimeValidationService();
+    private final ItineraryDateTimeValidationService itineraryTimeValidationService;
 
     private final String TRANSPORT = "transport";
     private final String ACCOMMODATION = "accommodation";
     private final String STAY = "stay";
 
 
-    public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository) {
+    public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository, ItineraryDateTimeValidationService itineraryTimeValidationService) {
         this.itineraryRepository = itineraryRepository;
         this.tripRepository = tripRepository;
+        this.itineraryTimeValidationService = itineraryTimeValidationService;
     }
 
     public Transport saveTransport(Long id, TransportSaveRequest request) {
