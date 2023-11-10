@@ -28,13 +28,15 @@ import java.util.stream.Collectors;
 public class TripService {
 
     private final TripRepository tripRepository;
+    private final TripDateValidationService tripDateValidationService = new TripDateValidationService();
 
     public TripService(TripRepository tripRepository) {
         this.tripRepository = tripRepository;
     }
 
     public Long saveTrip(TripSaveRequest tripSaveRequest) {
-        DateUtil.checkValidDateRange(tripSaveRequest.getStartDate(), tripSaveRequest.getEndDate());
+        tripDateValidationService.validateTripSaveDate(tripSaveRequest);
+
         return tripRepository.save(tripSaveRequest.toEntity()).getId();
     }
 
@@ -72,50 +74,10 @@ public class TripService {
 
     public Long updateTrip(Long id, TripPatchRequest tripPatchRequest) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        DateUtil.checkValidDateRange(tripPatchRequest.getStartDate(), tripPatchRequest.getEndDate());
-        validateTripDateForItineraries(foundTrip, tripPatchRequest.getStartDate(), tripPatchRequest.getEndDate());
+        tripDateValidationService.validateTripPatchDate(tripPatchRequest, foundTrip);
+
         foundTrip.updateTrip(tripPatchRequest.getName(), DateUtil.toLocalDate(tripPatchRequest.getStartDate()),
                 DateUtil.toLocalDate(tripPatchRequest.getEndDate()), tripPatchRequest.getIsDomestic());
         return foundTrip.getId();
     }
-
-
-    private void validateTripDateForItineraries(Trip trip, String nowTripStart, String nowTripEnd) {
-        List<Itinerary> itineraryList = trip.getItineraryList();
-        for (Itinerary i : itineraryList) {
-            if (i instanceof Transport) {
-                LocalDate departureDate = ((Transport) i).getDepartureDateTime().toLocalDate();
-                LocalDate arrivalDate = ((Transport) i).getArrivalDateTime().toLocalDate();
-
-                if (departureDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (arrivalDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-            } else if (i instanceof Accommodation) {
-                LocalDate checkInDate = ((Accommodation) i).getCheckInTime().toLocalDate();
-                LocalDate checkOutDate = ((Accommodation) i).getCheckOutTime().toLocalDate();
-
-                if (checkInDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (checkOutDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-            } else {
-                LocalDate arrivalDate = ((Stay) i).getArrivalDateTime().toLocalDate();
-                LocalDate leaveDate = ((Stay) i).getLeaveDateTime().toLocalDate();
-
-                if (arrivalDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (leaveDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-            }
-
-        }
-    }
-
 }
