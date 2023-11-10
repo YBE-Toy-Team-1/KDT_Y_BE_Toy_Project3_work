@@ -31,7 +31,7 @@ public class Transport extends Itinerary {
 
     private Transport(String name, Trip trip, String transportation, String departureLocation, String arrivalLocation,
                       LocalDateTime departureDate, LocalDateTime arrivalDateTime) {
-        super(null, name, trip);
+        super(name, trip);
         this.transportation = transportation;
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
@@ -48,26 +48,11 @@ public class Transport extends Itinerary {
                                 String endLocation, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         super.updateItinerary(name);
-
-        if (transportation != null) {
-            this.transportation = transportation;
-        }
-
-        if (startLocation != null) {
-            this.departureLocation = startLocation;
-        }
-
-        if (endLocation != null) {
-            this.arrivalLocation = endLocation;
-        }
-
-        if (startDateTime != null) {
-            this.departureDateTime = startDateTime;
-        }
-
-        if (endDateTime != null) {
-            this.arrivalDateTime = endDateTime;
-        }
+        this.transportation = transportation;
+        this.departureLocation = startLocation;
+        this.arrivalLocation = endLocation;
+        this.departureDateTime = startDateTime;
+        this.arrivalDateTime = endDateTime;
     }
 
     public String getTransportation() {

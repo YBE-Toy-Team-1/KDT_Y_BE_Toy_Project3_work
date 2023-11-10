@@ -24,7 +24,7 @@ public class Accommodation extends Itinerary {
     }
 
     private Accommodation(String name, Trip trip, String accommodationName, LocalDateTime checkInTime, LocalDateTime checkOutTime) {
-        super(null, name, trip);
+        super(name, trip);
         this.accommodationName = accommodationName;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
@@ -36,15 +36,9 @@ public class Accommodation extends Itinerary {
 
     public void updateAccommodation(String name, String accommodationName, LocalDateTime checkInTime, LocalDateTime checkOutTime) {
         super.updateItinerary(name);
-        if (accommodationName != null) {
-            this.accommodationName = accommodationName;
-        }
-        if (checkInTime != null) {
-            this.checkInTime = checkInTime;
-        }
-        if (checkOutTime != null) {
-            this.checkOutTime = checkOutTime;
-        }
+        this.accommodationName = accommodationName;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
     }
 
     public String getAccommodationName() {

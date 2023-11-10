@@ -34,8 +34,7 @@ public class Trip {
     protected Trip() {
     }
 
-    private Trip(Long id, String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
-        this.id = id;
+    private Trip(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -43,23 +42,15 @@ public class Trip {
         this.itineraryList = itineraryList;
     }
 
-    public static Trip of(Long id, String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
-        return new Trip(id, name, startDate, endDate, isDomestic, itineraryList);
+    public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
+        return new Trip(name, startDate, endDate, isDomestic, itineraryList);
     }
 
     public void updateTrip(String name, LocalDate startDate, LocalDate endDate, Boolean isDomestic) {
-        if (name != null) {
-            this.name = name;
-        }
-        if (startDate != null) {
-            this.startDate = startDate;
-        }
-        if (endDate != null) {
-            this.endDate = endDate;
-        }
-        if (isDomestic != null) {
-            this.isDomestic = isDomestic;
-        }
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isDomestic = isDomestic;
     }
 
 }

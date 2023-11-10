@@ -8,11 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
-@Builder
+@NoArgsConstructor
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripPatchRequest {
 

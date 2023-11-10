@@ -24,7 +24,7 @@ public class Stay extends Itinerary {
     }
 
     private Stay(String name, Trip trip, String location, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
-        super(null, name, trip);
+        super(name, trip);
         this.location = location;
         this.arrivalDateTime = arrivalDateTime;
         this.leaveDateTime = leaveDateTime;
@@ -36,15 +36,9 @@ public class Stay extends Itinerary {
 
     public void updateStay(String name, String location, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
         super.updateItinerary(name);
-        if (location != null) {
-            this.location = location;
-        }
-        if (arrivalDateTime != null) {
-            this.arrivalDateTime = arrivalDateTime;
-        }
-        if (leaveDateTime != null) {
-            this.leaveDateTime = leaveDateTime;
-        }
+        this.location = location;
+        this.arrivalDateTime = arrivalDateTime;
+        this.leaveDateTime = leaveDateTime;
     }
 
     public String getLocation() {
