@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
-public abstract class DateUtil {
+public final class DateUtil {
 
     private DateUtil() {
     }

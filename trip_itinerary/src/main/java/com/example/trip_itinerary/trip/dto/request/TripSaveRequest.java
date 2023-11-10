@@ -13,8 +13,6 @@ import lombok.*;
 
 
 @Getter
-@Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -35,7 +33,7 @@ public class TripSaveRequest {
     private Boolean isDomestic;
 
     public Trip toEntity() {
-        return Trip.of(null, name, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate), isDomestic, null);
+        return Trip.of(name, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate), isDomestic, null);
     }
 
 }

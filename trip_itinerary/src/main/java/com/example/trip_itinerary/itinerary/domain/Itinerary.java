@@ -22,16 +22,13 @@ public class Itinerary {
     protected Itinerary() {
     }
 
-    protected Itinerary(Long id, String name, Trip trip) {
-        this.id = id;
+    protected Itinerary(String name, Trip trip) {
         this.name = name;
         this.trip = trip;
     }
 
     public void updateItinerary(String name) {
-        if (name != null) {
-            this.name = name;
-        }
+        this.name = name;
     }
 
     public Long getId() {
