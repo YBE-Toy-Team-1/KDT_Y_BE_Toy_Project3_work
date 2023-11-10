@@ -6,6 +6,8 @@ import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.service.TripService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,23 +24,31 @@ public class TripController {
     }
 
     @PostMapping
-    public Long saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
-        return tripService.saveTrip(tripSaveRequest);
+    public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
+        tripService.saveTrip(tripSaveRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public List<TripListFindResponse> getAllTrips() {
-        return tripService.findAllTrips();
+    public ResponseEntity<List<TripListFindResponse>> getAllTrips() {
+        List<TripListFindResponse> trips = tripService.findAllTrips();
+
+        return ResponseEntity.status(HttpStatus.OK).body(trips);
     }
 
     @GetMapping("/{id}")
-    public TripFindResponse getTripById(@PathVariable Long id) {
-        return tripService.getTripById(id);
+    public ResponseEntity<TripFindResponse> getTripById(@PathVariable Long id) {
+        TripFindResponse trip = tripService.getTripById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(trip);
     }
 
     @PatchMapping("/{id}")
-    public Long updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
-        return tripService.updateTrip(id, tripPatchRequest);
+    public ResponseEntity<HttpStatus> updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
+        tripService.updateTrip(id, tripPatchRequest);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
