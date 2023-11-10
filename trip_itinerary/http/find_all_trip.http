@@ -1,0 +1,2 @@
+### 여행 전체 조회 성공
+GET http://localhost:8080/trips

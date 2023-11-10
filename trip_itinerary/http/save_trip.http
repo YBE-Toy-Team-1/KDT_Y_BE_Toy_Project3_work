@@ -1,0 +1,10 @@
+### 여행 생성 성공
+POST http://localhost:8080/trips
+Content-Type: application/json
+
+{
+  "name": "서울 여행",
+  "start_date": "2023-12-25",
+  "end_date": "2023-12-26",
+  "is_domestic": true
+}
