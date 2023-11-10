@@ -35,7 +35,18 @@ public class TripService {
 
     public Long saveTrip(TripSaveRequest tripSaveRequest) {
         DateUtil.checkValidDateRange(tripSaveRequest.getStartDate(), tripSaveRequest.getEndDate());
-        return tripRepository.save(tripSaveRequest.toEntity()).getId();
+        return tripRepository.save(trip).getId();
+    }
+
+    private Trip toEntity(TripSaveRequest tripSaveRequest){
+
+        return Trip.of(
+                tripSaveRequest.getName(),
+                DateUtil.toLocalDate(tripSaveRequest.getStartDate()),
+                DateUtil.toLocalDate(tripSaveRequest.getEndDate()),
+                tripSaveRequest.getIsDomestic(),
+                null
+        );
     }
 
     @Transactional(readOnly = true)
