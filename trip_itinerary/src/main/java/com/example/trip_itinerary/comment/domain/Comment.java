@@ -1,5 +1,6 @@
 package com.example.trip_itinerary.comment.domain;
 
+import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.user.domain.User;
 import jakarta.persistence.*;
@@ -34,5 +35,9 @@ public class Comment {
         this.user = user;
         this.trip = trip;
         this.content = content;
+    }
+
+    public void update(UpdateCommentRequest request) {
+        this.content = request.getContent();
     }
 }
