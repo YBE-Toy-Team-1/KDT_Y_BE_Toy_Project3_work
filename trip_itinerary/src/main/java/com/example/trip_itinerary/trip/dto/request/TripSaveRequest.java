@@ -32,8 +32,5 @@ public class TripSaveRequest {
     @JsonProperty("is_domestic")
     private Boolean isDomestic;
 
-    public Trip toEntity() {
-        return Trip.of(name, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate), isDomestic, null);
-    }
 
 }
