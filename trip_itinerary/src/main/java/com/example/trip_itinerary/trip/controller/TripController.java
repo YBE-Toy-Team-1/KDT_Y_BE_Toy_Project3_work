@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class TripController {
     public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
         tripService.saveTrip(tripSaveRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.created(URI.create("/trips")).build();
     }
 
     @GetMapping
@@ -48,7 +49,7 @@ public class TripController {
     public ResponseEntity<HttpStatus> updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
         tripService.updateTrip(id, tripPatchRequest);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.created(URI.create("/trips" + id)).build();
     }
 
 }
