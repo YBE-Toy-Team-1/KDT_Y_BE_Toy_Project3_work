@@ -2,6 +2,7 @@ package com.example.trip_itinerary.comment.service;
 
 import com.example.trip_itinerary.comment.domain.Comment;
 import com.example.trip_itinerary.comment.dto.request.CreateCommentRequest;
+import com.example.trip_itinerary.comment.dto.request.DeleteCommentRequest;
 import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
 import com.example.trip_itinerary.comment.repository.CommentRepository;
 import com.example.trip_itinerary.trip.domain.Trip;
@@ -22,17 +23,27 @@ public class CommentService {
     private final TripRepository tripRepository;
 
     public void createComment(CreateCommentRequest request, Long userId) {
-        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        User findUser = validateCorrectUser(userId);
         Trip findTrip = tripRepository.findById(request.getTripId()).orElseThrow(RuntimeException::new);
         Comment comment = new Comment(findUser, findTrip, request.getContent());
         commentRepository.save(comment);
     }
 
     public void updateComment(Long commentId, UpdateCommentRequest request, Long userId) {
-        userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        validateCorrectUser(userId);
         tripRepository.findById(request.getTripId()).orElseThrow(RuntimeException::new);
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
-        findComment.update(request);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
+        comment.update(request);
     }
 
+    public void deleteComment(Long commentId, DeleteCommentRequest request, Long userId) {
+        validateCorrectUser(userId);
+        tripRepository.findById(request.getTripId()).orElseThrow(RuntimeException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
+        commentRepository.delete(comment);
+    }
+
+    private User validateCorrectUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(RuntimeException::new);
+    }
 }

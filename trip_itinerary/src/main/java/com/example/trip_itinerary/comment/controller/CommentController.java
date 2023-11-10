@@ -1,6 +1,7 @@
 package com.example.trip_itinerary.comment.controller;
 
 import com.example.trip_itinerary.comment.dto.request.CreateCommentRequest;
+import com.example.trip_itinerary.comment.dto.request.DeleteCommentRequest;
 import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
 import com.example.trip_itinerary.comment.service.CommentService;
 import com.example.trip_itinerary.user.dto.data.UserId;
@@ -18,11 +19,11 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/{trip_id}/comment")
+    @PostMapping("")
     public ResponseEntity<Void> createComment(@RequestBody CreateCommentRequest request, UserId userId) {
         commentService.createComment(request, userId.getId());
 
-        return ResponseEntity.created(URI.create("/comment/" + request.getTripId() + "/comment")).build();
+        return ResponseEntity.created(URI.create("/comment/" + request.getTripId())).build();
     }
 
     @PatchMapping("/{comment_id}")
@@ -31,6 +32,14 @@ public class CommentController {
         commentService.updateComment(comment_id, request, userId.getId());
 
         return ResponseEntity.created(URI.create("/comment/" + comment_id)).build();
+    }
+
+    @DeleteMapping("/{comment_id}")
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable Long comment_id,
+                                              @RequestBody DeleteCommentRequest request, UserId userId) {
+        commentService.deleteComment(comment_id, request, userId.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
