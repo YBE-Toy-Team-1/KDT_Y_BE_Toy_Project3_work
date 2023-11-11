@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.comment.controller;
 
 import com.example.trip_itinerary.comment.dto.request.CreateCommentRequest;
-import com.example.trip_itinerary.comment.dto.request.DeleteCommentRequest;
 import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
 import com.example.trip_itinerary.comment.service.CommentService;
 import com.example.trip_itinerary.user.dto.data.UserId;
@@ -20,24 +19,23 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("")
-    public ResponseEntity<Void> createComment(@RequestBody CreateCommentRequest request, UserId userId) {
+    public ResponseEntity<HttpStatus> createComment(@RequestBody CreateCommentRequest request, UserId userId) {
         commentService.createComment(request, userId.getId());
 
         return ResponseEntity.created(URI.create("/comment/" + request.getTripId())).build();
     }
 
-    @PatchMapping("/{comment_id}")
-    public ResponseEntity<Void> updateComment(@PathVariable Long comment_id,
+    @PutMapping("/{comment_id}")
+    public ResponseEntity<HttpStatus> updateComment(@PathVariable(name = "comment_id") Long commentId,
                                                     @RequestBody UpdateCommentRequest request, UserId userId) {
-        commentService.updateComment(comment_id, request, userId.getId());
+        commentService.updateComment(commentId, request, userId.getId());
 
-        return ResponseEntity.created(URI.create("/comment/" + comment_id)).build();
+        return ResponseEntity.created(URI.create("/comment/" + commentId)).build();
     }
 
     @DeleteMapping("/{comment_id}")
-    public ResponseEntity<HttpStatus> deleteComment(@PathVariable Long comment_id,
-                                              @RequestBody DeleteCommentRequest request, UserId userId) {
-        commentService.deleteComment(comment_id, request, userId.getId());
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable(name = "comment_id") Long commentId, UserId userId) {
+        commentService.deleteComment(commentId, userId.getId());
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -5,6 +5,5 @@ import lombok.Getter;
 @Getter
 public class UpdateCommentRequest {
 
-    private Long tripId;
     private String content;
 }
