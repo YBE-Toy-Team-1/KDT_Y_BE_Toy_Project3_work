@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class LikeService {
 
@@ -19,7 +19,6 @@ public class LikeService {
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
 
-    @Transactional
     public void likeTrip(Long tripId, Long userId) {
         User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Trip trip = tripRepository.findById(tripId).orElseThrow(RuntimeException::new);

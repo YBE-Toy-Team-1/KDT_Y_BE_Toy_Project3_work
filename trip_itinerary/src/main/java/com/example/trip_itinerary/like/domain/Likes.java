@@ -23,11 +23,12 @@ public class Likes {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Trip_id")
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
     public Likes(User user, Trip trip) {
         this.user = user;
         this.trip = trip;
+//        trip.mappingLikes(this);  연관관계 편의 메서드
     }
 }
