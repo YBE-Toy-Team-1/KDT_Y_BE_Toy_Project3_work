@@ -25,7 +25,7 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
+    public ResponseEntity<Void> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
         tripService.saveTrip(tripSaveRequest);
 
         return ResponseEntity.created(URI.create("/trips")).build();
@@ -46,7 +46,7 @@ public class TripController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
+    public ResponseEntity<Void> updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
         tripService.updateTrip(id, tripPatchRequest);
 
         return ResponseEntity.created(URI.create("/trips" + id)).build();
