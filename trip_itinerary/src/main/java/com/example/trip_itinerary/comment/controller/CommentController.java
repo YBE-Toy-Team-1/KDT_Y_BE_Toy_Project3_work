@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -22,7 +22,7 @@ public class CommentController {
     public ResponseEntity<HttpStatus> createComment(@RequestBody CreateCommentRequest request, UserId userId) {
         commentService.createComment(request, userId.getId());
 
-        return ResponseEntity.created(URI.create("/comment/" + request.getTripId())).build();
+        return ResponseEntity.created(URI.create("/comments/" + request.getTripId())).build();
     }
 
     @PutMapping("/{comment_id}")
@@ -30,7 +30,7 @@ public class CommentController {
                                                     @RequestBody UpdateCommentRequest request, UserId userId) {
         commentService.updateComment(commentId, request, userId.getId());
 
-        return ResponseEntity.created(URI.create("/comment/" + commentId)).build();
+        return ResponseEntity.created(URI.create("/comments/" + commentId)).build();
     }
 
     @DeleteMapping("/{comment_id}")
