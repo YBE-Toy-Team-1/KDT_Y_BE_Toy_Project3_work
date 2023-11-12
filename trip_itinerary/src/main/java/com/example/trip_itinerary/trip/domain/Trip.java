@@ -33,6 +33,9 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Itinerary> itineraryList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
+
     protected Trip() {
     }
 
@@ -81,5 +84,9 @@ public class Trip {
 
     public List<Itinerary> getItineraryList() {
         return itineraryList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
     }
 }
