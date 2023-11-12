@@ -35,14 +35,14 @@ public class TripController {
     public ResponseEntity<List<TripListFindResponse>> getAllTrips() {
         List<TripListFindResponse> trips = tripService.findAllTrips();
 
-        return ResponseEntity.status(HttpStatus.OK).body(trips);
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TripFindResponse> getTripById(@PathVariable Long id) {
         TripFindResponse trip = tripService.getTripById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(trip);
+        return ResponseEntity.ok(trip);
     }
 
     @PatchMapping("/{id}")
@@ -50,6 +50,13 @@ public class TripController {
         tripService.updateTrip(id, tripPatchRequest);
 
         return ResponseEntity.created(URI.create("/trips" + id)).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<TripFindResponse> searchTripByName(@RequestParam("trip_name") String tripName){
+        TripFindResponse trip = tripService.searchTrip(tripName);
+
+        return ResponseEntity.ok(trip);
     }
 
 }
