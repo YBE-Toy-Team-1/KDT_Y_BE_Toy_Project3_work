@@ -45,11 +45,13 @@ public class Stay extends Itinerary {
         return location;
     }
 
-    public LocalDateTime getArrivalDateTime() {
+    @Override
+    public LocalDateTime getStartDateTime() {
         return arrivalDateTime;
     }
 
-    public LocalDateTime getLeaveDateTime() {
+    @Override
+    public LocalDateTime getEndDateTime() {
         return leaveDateTime;
     }
 

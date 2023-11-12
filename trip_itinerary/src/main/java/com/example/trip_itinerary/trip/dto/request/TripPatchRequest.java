@@ -14,7 +14,6 @@ import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
-
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripPatchRequest {
 

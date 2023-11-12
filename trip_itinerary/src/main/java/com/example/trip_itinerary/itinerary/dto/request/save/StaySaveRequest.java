@@ -24,4 +24,13 @@ public class StaySaveRequest extends ItinerarySaveRequest {
     @NotNull(message = "체류 장소에서 떠날 시간을 입력해주세요.")
     private String leaveDateTime;
 
+    @Override
+    public String getStartDateTime() {
+        return arrivalDateTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return leaveDateTime;
+    }
 }

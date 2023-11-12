@@ -45,11 +45,13 @@ public class Accommodation extends Itinerary {
         return accommodationName;
     }
 
-    public LocalDateTime getCheckInTime() {
+    @Override
+    public LocalDateTime getStartDateTime() {
         return checkInTime;
     }
 
-    public LocalDateTime getCheckOutTime() {
+    @Override
+    public LocalDateTime getEndDateTime() {
         return checkOutTime;
     }
 

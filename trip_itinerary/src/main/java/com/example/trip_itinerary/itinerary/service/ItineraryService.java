@@ -31,10 +31,6 @@ public class ItineraryService {
     private final TripRepository tripRepository;
     private final ItineraryDateTimeValidationService itineraryTimeValidationService;
 
-    private final String TRANSPORT = "transport";
-    private final String ACCOMMODATION = "accommodation";
-    private final String STAY = "stay";
-
 
     public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository, ItineraryDateTimeValidationService itineraryTimeValidationService) {
         this.itineraryRepository = itineraryRepository;
@@ -44,7 +40,8 @@ public class ItineraryService {
 
     public void saveTransport(Long id, TransportSaveRequest request) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        itineraryTimeValidationService.validateTransportSaveTimeRange(request, foundTrip);
+//        itineraryTimeValidationService.validateTransportSaveTimeRange(request, foundTrip);
+        itineraryTimeValidationService.validateItinerarySaveTimeRange(request, foundTrip);
 
         Transport transport = Transport.of(request.getName(), foundTrip, request.getTransportation(), request.getDepartureLocation(),
                 request.getArrivalLocation(), DateUtil.toLocalDateTime(request.getDepartureDateTime()),
@@ -55,7 +52,8 @@ public class ItineraryService {
 
     public void saveAccommodation(Long id, AccommodationSaveRequest request) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        itineraryTimeValidationService.validateAccommodationSaveTimeRange(request, foundTrip);
+//        itineraryTimeValidationService.validateAccommodationSaveTimeRange(request, foundTrip);
+        itineraryTimeValidationService.validateItinerarySaveTimeRange(request, foundTrip);
 
         Accommodation accommodation = Accommodation.of(request.getName(), foundTrip, request.getAccommodationName(),
                 DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
@@ -65,7 +63,8 @@ public class ItineraryService {
 
     public void saveStay(Long id, StaySaveRequest request) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        itineraryTimeValidationService.validateStaySaveTimeRange(request, foundTrip);
+//        itineraryTimeValidationService.validateStaySaveTimeRange(request, foundTrip);
+        itineraryTimeValidationService.validateItinerarySaveTimeRange(request, foundTrip);
 
         Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), DateUtil.toLocalDateTime(request.getArrivalDateTime()),
                 DateUtil.toLocalDateTime(request.getLeaveDateTime()));
@@ -74,7 +73,8 @@ public class ItineraryService {
 
     public Long patchTransport(Long id, TransportPatchRequest request) {
         Transport foundTransport = (Transport) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
-        itineraryTimeValidationService.validateTransportPatchTimeRange(request, foundTransport.getTrip());
+//        itineraryTimeValidationService.validateTransportPatchTimeRange(request, foundTransport.getTrip());
+        itineraryTimeValidationService.validateItineraryPatchTimeRange(request, foundTransport.getTrip());
 
         foundTransport.updateTransport(request.getName(), request.getTransportation(),
                 request.getDepartureLocation(), request.getArrivalLocation(),
@@ -85,7 +85,8 @@ public class ItineraryService {
 
     public Long patchAccommodation(Long id, AccommodationPatchRequest request) {
         Accommodation foundAccommodation = (Accommodation) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
-        itineraryTimeValidationService.validateAccommodationPatchTimeRange(request, foundAccommodation.getTrip());
+//        itineraryTimeValidationService.validateAccommodationPatchTimeRange(request, foundAccommodation.getTrip());
+        itineraryTimeValidationService.validateItineraryPatchTimeRange(request, foundAccommodation.getTrip());
 
         foundAccommodation.updateAccommodation(request.getName(), request.getAccommodationName(),
                 DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
@@ -95,8 +96,8 @@ public class ItineraryService {
 
     public Long patchStay(Long id, StayPatchRequest request) {
         Stay foundStay = (Stay) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
-
-        itineraryTimeValidationService.validateStayPatchTimeRange(request, foundStay.getTrip());
+//        itineraryTimeValidationService.validateStayPatchTimeRange(request, foundStay.getTrip());
+        itineraryTimeValidationService.validateItineraryPatchTimeRange(request, foundStay.getTrip());
 
         foundStay.updateStay(request.getName(), request.getLocation(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
