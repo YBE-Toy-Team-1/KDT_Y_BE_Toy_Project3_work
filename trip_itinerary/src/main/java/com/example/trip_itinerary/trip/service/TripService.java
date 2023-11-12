@@ -58,8 +58,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public TripFindResponse getTripById(Long id) {
-        Optional<Trip> foundTripOptional = tripRepository.findById(id);
-        Trip foundTrip = foundTripOptional.orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
         return TripFindResponse.fromEntity(foundTrip);
     }
 
