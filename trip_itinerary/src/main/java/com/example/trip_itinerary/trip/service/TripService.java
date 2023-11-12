@@ -70,4 +70,11 @@ public class TripService {
                 DateUtil.toLocalDate(tripPatchRequest.getEndDate()), tripPatchRequest.getIsDomestic());
         return foundTrip.getId();
     }
+
+    @Transactional(readOnly = true)
+    public TripFindResponse searchTrip(String tripName) {
+        Trip foundTrip = tripRepository.findByName(tripName).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        return TripFindResponse.fromEntity(foundTrip);
+    }
+
 }
