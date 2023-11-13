@@ -50,4 +50,9 @@ public class ItineraryExceptionHandler {
         return ItineraryErrorResponse.from(ItineraryErrorCode.NOT_MATCH_DATA_TYPE);
     }
 
+    @ExceptionHandler(KakaoApiException.class)
+    public ItineraryErrorResponse handle(KakaoApiException e) {
+        return ItineraryErrorResponse.from(ItineraryErrorCode.NOT_MATCH_DATA_TYPE);
+    }
+
 }
