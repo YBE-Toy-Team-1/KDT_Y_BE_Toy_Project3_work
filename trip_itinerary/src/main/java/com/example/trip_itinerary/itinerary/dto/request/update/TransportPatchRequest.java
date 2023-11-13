@@ -15,10 +15,19 @@ public class TransportPatchRequest extends ItineraryPatchRequest {
 
     @Size(max = 30, message = "이동 방법은 최대 30자입니다.")
     private String transportation;
+
     @Size(max = 30, message = "출발 장소는 최대 30자입니다.")
     private String departureLocation;
+
+    @Size(max = 30, message = "출발 주소는 최대 30자입니다.")
+    private String departureRoadAddress;
+
     @Size(max = 30, message = "도착 장소는 최대 30자입니다.")
     private String arrivalLocation;
+
+    @Size(max = 30, message = "도착 주소는 최대 30자입니다.")
+    private String arrivalRoadAddress;
+
     private String departureDateTime;
     private String arrivalDateTime;
 

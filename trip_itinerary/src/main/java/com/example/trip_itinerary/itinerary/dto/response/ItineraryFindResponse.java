@@ -23,7 +23,11 @@ ItineraryFindResponse {
 
     private String departureLocation;
 
+    private String departureRoadAddress;
+
     private String arrivalLocation;
+
+    private String arrivalRoadAddress;
 
     private LocalDateTime departureDateTime;
 
@@ -33,18 +37,24 @@ ItineraryFindResponse {
 
     private String accommodationName;
 
+    private String accommodationRoadAddress;
+
     private LocalDateTime checkInTime;
 
     private LocalDateTime checkOutTime;
 
     private String location;
 
+    private String locationRoadAddress;
+
     public static ItineraryFindResponse fromEntity(Transport transport) {
         return ItineraryFindResponse.builder()
                 .name(transport.getName())
                 .transportation(transport.getTransportation())
                 .departureLocation(transport.getDepartureLocation())
+                .departureRoadAddress(transport.getDepartureRoadAddress())
                 .arrivalLocation(transport.getArrivalLocation())
+                .arrivalRoadAddress(transport.getArrivalRoadAddress())
                 .departureDateTime(transport.getDepartureDateTime())
                 .arrivalDateTime(transport.getArrivalDateTime())
                 .build();
@@ -54,6 +64,7 @@ ItineraryFindResponse {
         return ItineraryFindResponse.builder()
                 .name(accommodation.getName())
                 .accommodationName(accommodation.getName())
+                .accommodationRoadAddress(accommodation.getRoadAddress())
                 .checkInTime(accommodation.getCheckInTime())
                 .checkOutTime(accommodation.getCheckOutTime())
                 .build();
@@ -63,6 +74,7 @@ ItineraryFindResponse {
         return ItineraryFindResponse.builder()
                 .name(stay.getName())
                 .location(stay.getLocation())
+                .locationRoadAddress(stay.getRoadAddress())
                 .arrivalDateTime(stay.getArrivalDateTime())
                 .leaveDateTime(stay.getLeaveDateTime())
                 .build();

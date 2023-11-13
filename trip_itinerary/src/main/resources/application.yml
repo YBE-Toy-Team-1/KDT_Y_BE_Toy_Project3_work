@@ -19,3 +19,11 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+kakao:
+  api:
+    key: de85ce8610b9303252cedfbe5cbad650
+  url:
+    address: https://dapi.kakao.com/v2/local/search/
+    keyword: https://dapi.kakao.com/v2/local/search/keyword
+  query: ?query=

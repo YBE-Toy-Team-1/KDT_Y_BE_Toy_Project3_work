@@ -14,6 +14,9 @@ public class Stay extends Itinerary {
     @Column(nullable = false, length = 30)
     private String location;
 
+    @Column(name = "road_address", nullable = false, length = 30)
+    private String roadAddress;
+
     @Column(nullable = false, name = "arrival_date_time")
     private LocalDateTime arrivalDateTime;
 
@@ -23,26 +26,32 @@ public class Stay extends Itinerary {
     protected Stay() {
     }
 
-    private Stay(String name, Trip trip, String location, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
+    private Stay(String name, Trip trip, String location, String roadAddress, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
         super(name, trip);
         this.location = location;
+        this.roadAddress = roadAddress;
         this.arrivalDateTime = arrivalDateTime;
         this.leaveDateTime = leaveDateTime;
     }
 
-    public static Stay of(String name, Trip trip, String location, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
-        return new Stay(name, trip, location, arrivalDateTime, leaveDateTime);
+    public static Stay of(String name, Trip trip, String location, String roadAddress, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
+        return new Stay(name, trip, location, roadAddress, arrivalDateTime, leaveDateTime);
     }
 
-    public void updateStay(String name, String location, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
+    public void updateStay(String name, String location, String roadAddress, LocalDateTime arrivalDateTime, LocalDateTime leaveDateTime) {
         super.updateItinerary(name);
         this.location = location;
+        this.roadAddress = roadAddress;
         this.arrivalDateTime = arrivalDateTime;
         this.leaveDateTime = leaveDateTime;
     }
 
     public String getLocation() {
         return location;
+    }
+
+    public String getRoadAddress() {
+        return roadAddress;
     }
 
     public LocalDateTime getArrivalDateTime() {

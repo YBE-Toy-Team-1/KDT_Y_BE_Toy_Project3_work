@@ -21,9 +21,17 @@ public class TransportSaveRequest extends ItinerarySaveRequest {
     @Size(max = 30, message = "출발 장소는 최대 30자입니다.")
     private String departureLocation;
 
+    @NotBlank(message = "출발 장소 주소를 입력해주세요.")
+    @Size(max = 30, message = "출발 장소 주소는 최대 30자입니다.")
+    private String departureRoadAddress;
+
     @NotBlank(message = "도착 장소를 입력해주세요.")
     @Size(max = 30, message = "도착 장소는 최대 30자입니다.")
     private String arrivalLocation;
+
+    @NotBlank(message = "도착 장소 주소를 입력해주세요.")
+    @Size(max = 30, message = "도착 장소 주소는 최대 30자입니다.")
+    private String arrivalRoadAddress;
 
     @NotNull(message = "출발 시간을 입력해주세요.")
     private String departureDateTime;
