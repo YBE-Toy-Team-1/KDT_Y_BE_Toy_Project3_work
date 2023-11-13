@@ -8,15 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/likes")
 @RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/{trip_id}/like")
-    public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId, UserId userId) {
-        likeService.likeTrip(tripId, userId.getId());
+    @PostMapping("/trips/{trip_id}/like")
+    public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId) {
+        likeService.likeTrip(tripId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
