@@ -16,18 +16,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -44,7 +41,7 @@ public class AuthController {
             return new ResponseEntity<>(new ApiResponse(false, "이미 사용중인 이메일 입니다!"), HttpStatus.BAD_REQUEST);
         }
 
-        // Creating member's account
+
         Member member = new Member(signUpRequest.getName(), signUpRequest.getEmail(),
                 passwordEncoder.encode(signUpRequest.getPassword()));
 
@@ -55,20 +52,29 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateMember(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getEmail(),
+//                        loginRequest.getPassword()
+//                )
+//        );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Upon successful authentication, generate a token.
-        String jwt = tokenProvider.generateToken(authentication);
+//        String jwt = tokenProvider.generateToken(authentication);
         //Todo 수정필요1
 
         // Respond with the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(null));
+    }
+
+    @GetMapping("test")
+    public String test(){
+        return "test";
+    }
+    @PostMapping("test1")
+    public String test1(){
+        return "test";
     }
 }
