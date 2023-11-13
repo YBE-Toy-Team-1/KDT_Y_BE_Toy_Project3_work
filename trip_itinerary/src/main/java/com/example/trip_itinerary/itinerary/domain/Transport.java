@@ -17,14 +17,14 @@ public class Transport extends Itinerary {
     @Column(name = "departure_location", nullable = false, length = 30)
     private String departureLocation;
 
-    @Column(name = "departure_road_address", nullable = false, length = 30)
-    private String departureRoadAddress;
+    @Column(name = "departure_address", nullable = false, length = 30)
+    private String departureAddress;
 
     @Column(name = "arrival_location", nullable = false, length = 30)
     private String arrivalLocation;
 
-    @Column(name = "arrival_road_address", nullable = false, length = 30)
-    private String arrivalRoadAddress;
+    @Column(name = "arrival_address", nullable = false, length = 30)
+    private String arrivalAddress;
 
     @Column(name = "departure_date_time", nullable = false)
     private LocalDateTime departureDateTime;
@@ -36,34 +36,34 @@ public class Transport extends Itinerary {
     }
 
     private Transport(String name, Trip trip, String transportation, String departureLocation,
-                      String departureRoadAddress, String arrivalLocation,String arrivalRoadAddress,
+                      String departureAddress, String arrivalLocation,String arrivalAddress,
                       LocalDateTime departureDate, LocalDateTime arrivalDateTime) {
         super(name, trip);
         this.transportation = transportation;
         this.departureLocation = departureLocation;
-        this.departureRoadAddress = departureRoadAddress;
+        this.departureAddress = departureAddress;
         this.arrivalLocation = arrivalLocation;
-        this.arrivalRoadAddress = arrivalRoadAddress;
+        this.arrivalAddress = arrivalAddress;
         this.departureDateTime = departureDate;
         this.arrivalDateTime = arrivalDateTime;
     }
 
-    public static Transport of(String name, Trip trip, String transportation, String departureLocation, String arrivalLocation,
-                               String departureRoadAddress, String arrivalRoadAddress,
+    public static Transport of(String name, Trip trip, String transportation, String departureLocation,
+                               String departureAddress, String arrivalLocation, String arrivalAddress,
                                LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return new Transport(name, trip, transportation, departureLocation, departureRoadAddress, arrivalLocation,arrivalRoadAddress, startDateTime, endDateTime);
+        return new Transport(name, trip, transportation, departureLocation, departureAddress, arrivalLocation,arrivalAddress, startDateTime, endDateTime);
     }
 
-    public void updateTransport(String name, String transportation, String departureLocation, String departureRoadAddress,
-                                String arrivalLocation, String arrivalRoadAddress,
+    public void updateTransport(String name, String transportation, String departureLocation, String departureAddress,
+                                String arrivalLocation, String arrivalAddress,
                                 LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         super.updateItinerary(name);
         this.transportation = transportation;
         this.departureLocation = departureLocation;
-        this.departureRoadAddress = departureRoadAddress;
+        this.departureAddress = departureAddress;
         this.arrivalLocation = arrivalLocation;
-        this.arrivalRoadAddress = arrivalRoadAddress;
+        this.arrivalAddress = arrivalAddress;
         this.departureDateTime = startDateTime;
         this.arrivalDateTime = endDateTime;
     }
@@ -72,12 +72,12 @@ public class Transport extends Itinerary {
         return transportation;
     }
 
-    public String getDepartureRoadAddress() {
-        return departureRoadAddress;
+    public String getDepartureAddress() {
+        return departureAddress;
     }
 
-    public String getArrivalRoadAddress() {
-        return arrivalRoadAddress;
+    public String getArrivalAddress() {
+        return arrivalAddress;
     }
 
     public String getDepartureLocation() {

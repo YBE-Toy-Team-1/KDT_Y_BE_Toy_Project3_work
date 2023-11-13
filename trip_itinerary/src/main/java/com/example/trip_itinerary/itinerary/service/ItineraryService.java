@@ -39,10 +39,12 @@ public class ItineraryService {
     private final String ACCOMMODATION = "accommodation";
     private final String STAY = "stay";
 
-    public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository, ItineraryDateTimeValidationService itineraryTimeValidationService) {
+    public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository,
+                            ItineraryDateTimeValidationService itineraryTimeValidationService, KakaoApiService kakaoApiService) {
         this.itineraryRepository = itineraryRepository;
         this.tripRepository = tripRepository;
         this.itineraryTimeValidationService = itineraryTimeValidationService;
+        this.kakaoApiService = kakaoApiService;
     }
 
     public void saveTransport(Long id, TransportSaveRequest request) {
@@ -50,7 +52,7 @@ public class ItineraryService {
         itineraryTimeValidationService.validateTransportSaveTimeRange(request, foundTrip);
 
         Transport transport = Transport.of(request.getName(), foundTrip, request.getTransportation(), request.getDepartureLocation(),
-                request.getDepartureRoadAddress(), request.getArrivalLocation(), request.getArrivalRoadAddress(),
+                request.getDepartureAddress(), request.getArrivalLocation(), request.getArrivalAddress(),
                 DateUtil.toLocalDateTime(request.getDepartureDateTime()),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()));
 
@@ -62,7 +64,7 @@ public class ItineraryService {
         itineraryTimeValidationService.validateAccommodationSaveTimeRange(request, foundTrip);
 
         Accommodation accommodation = Accommodation.of(request.getName(), foundTrip, request.getAccommodationName(),
-                request.getRoadAddress(), DateUtil.toLocalDateTime(request.getCheckInTime()),
+                request.getAccommodationAddress(), DateUtil.toLocalDateTime(request.getCheckInTime()),
                 DateUtil.toLocalDateTime(request.getCheckOutTime()));
 
         itineraryRepository.save(accommodation);
@@ -72,7 +74,7 @@ public class ItineraryService {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
         itineraryTimeValidationService.validateStaySaveTimeRange(request, foundTrip);
 
-        Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), request.getRoadAddress(),
+        Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()),
                 DateUtil.toLocalDateTime(request.getLeaveDateTime()));
         itineraryRepository.save(stay);
@@ -83,8 +85,9 @@ public class ItineraryService {
         itineraryTimeValidationService.validateTransportPatchTimeRange(request, foundTransport.getTrip());
 
         foundTransport.updateTransport(request.getName(), request.getTransportation(),
-                request.getDepartureLocation(), request.getDepartureRoadAddress(),
-                request.getArrivalLocation(), request.getArrivalRoadAddress(),
+                request.getDepartureLocation(), request.getDepartureAddress(),
+                request.getArrivalLocation(), request.getArrivalAddress(),
+                DateUtil.toLocalDateTime(request.getDepartureDateTime()), DateUtil.toLocalDateTime(request.getArrivalDateTime()));
 
         return foundTransport.getTrip().getId();
     }
@@ -93,10 +96,8 @@ public class ItineraryService {
         Accommodation foundAccommodation = (Accommodation) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
         itineraryTimeValidationService.validateAccommodationPatchTimeRange(request, foundAccommodation.getTrip());
 
-        accommodation.updateAccommodation(request.getName(), request.getAccommodationName(),request.getRoadAddress(),
-
         foundAccommodation.updateAccommodation(request.getName(), request.getAccommodationName(),
-                                               request.getRoadAddress(),
+                                               request.getAccommodationAddress(),
                                                DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
 
         return foundAccommodation.getTrip().getId();
@@ -106,7 +107,7 @@ public class ItineraryService {
         Stay foundStay = (Stay) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
         itineraryTimeValidationService.validateStayPatchTimeRange(request, foundStay.getTrip());
 
-        foundStay.updateStay(request.getName(), request.getLocation(), request.getRoadAddress(),
+        foundStay.updateStay(request.getName(), request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
 
         return foundStay.getTrip().getId();

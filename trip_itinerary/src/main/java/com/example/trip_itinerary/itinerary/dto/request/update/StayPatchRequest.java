@@ -16,8 +16,8 @@ public class StayPatchRequest extends ItineraryPatchRequest {
     @Size(max = 30, message = "체류 장소는 최대 30자입니다.")
     private String location;
 
-    @Size(max = 30, message = "체류 장소 주소는 최대 30자입니다.")
-    private String roadAddress;
+    @Size(max = 50, message = "체류 장소 주소는 최대 50자입니다.")
+    private String locationAddress;
 
     private String arrivalDateTime;
     private String leaveDateTime;

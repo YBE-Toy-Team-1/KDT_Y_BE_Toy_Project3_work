@@ -23,11 +23,11 @@ ItineraryFindResponse {
 
     private String departureLocation;
 
-    private String departureRoadAddress;
+    private String departureAddress;
 
     private String arrivalLocation;
 
-    private String arrivalRoadAddress;
+    private String arrivalAddress;
 
     private LocalDateTime departureDateTime;
 
@@ -37,7 +37,7 @@ ItineraryFindResponse {
 
     private String accommodationName;
 
-    private String accommodationRoadAddress;
+    private String accommodationAddress;
 
     private LocalDateTime checkInTime;
 
@@ -45,16 +45,16 @@ ItineraryFindResponse {
 
     private String location;
 
-    private String locationRoadAddress;
+    private String locationAddress;
 
     public static ItineraryFindResponse fromEntity(Transport transport) {
         return ItineraryFindResponse.builder()
                 .name(transport.getName())
                 .transportation(transport.getTransportation())
                 .departureLocation(transport.getDepartureLocation())
-                .departureRoadAddress(transport.getDepartureRoadAddress())
+                .departureAddress(transport.getDepartureAddress())
                 .arrivalLocation(transport.getArrivalLocation())
-                .arrivalRoadAddress(transport.getArrivalRoadAddress())
+                .arrivalAddress(transport.getArrivalAddress())
                 .departureDateTime(transport.getDepartureDateTime())
                 .arrivalDateTime(transport.getArrivalDateTime())
                 .build();
@@ -64,7 +64,7 @@ ItineraryFindResponse {
         return ItineraryFindResponse.builder()
                 .name(accommodation.getName())
                 .accommodationName(accommodation.getName())
-                .accommodationRoadAddress(accommodation.getRoadAddress())
+                .accommodationAddress(accommodation.getAccommodationAddress())
                 .checkInTime(accommodation.getCheckInTime())
                 .checkOutTime(accommodation.getCheckOutTime())
                 .build();
@@ -74,7 +74,7 @@ ItineraryFindResponse {
         return ItineraryFindResponse.builder()
                 .name(stay.getName())
                 .location(stay.getLocation())
-                .locationRoadAddress(stay.getRoadAddress())
+                .locationAddress(stay.getLocationAddress())
                 .arrivalDateTime(stay.getArrivalDateTime())
                 .leaveDateTime(stay.getLeaveDateTime())
                 .build();
