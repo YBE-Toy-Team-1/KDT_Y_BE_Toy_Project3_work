@@ -23,10 +23,14 @@ public class LikeService {
         User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Trip trip = tripRepository.findById(tripId).orElseThrow(RuntimeException::new);
         likeRepository.findByUserAndTrip(findUser, trip).ifPresentOrElse(
-                likeRepository::delete,
+                like -> {
+                    likeRepository.delete(like);
+                    trip.deleteLike();
+                },
                 () -> {
                     Likes like = new Likes(findUser, trip);
                     likeRepository.save(like);
+                    trip.addLike();
                 }
         );
     }
