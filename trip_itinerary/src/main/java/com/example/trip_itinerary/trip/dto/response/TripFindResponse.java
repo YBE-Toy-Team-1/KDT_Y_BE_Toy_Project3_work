@@ -1,6 +1,7 @@
 package com.example.trip_itinerary.trip.dto.response;
 
 
+import com.example.trip_itinerary.comment.domain.Comment;
 import com.example.trip_itinerary.comment.dto.response.FindCommentResponse;
 import com.example.trip_itinerary.itinerary.domain.Accommodation;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;

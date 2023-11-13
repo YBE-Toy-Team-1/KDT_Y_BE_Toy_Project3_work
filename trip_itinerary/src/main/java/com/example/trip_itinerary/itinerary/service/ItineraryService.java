@@ -39,13 +39,6 @@ public class ItineraryService {
     private final String ACCOMMODATION = "accommodation";
     private final String STAY = "stay";
 
-    public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository,
-                            ItineraryDateTimeValidationService itineraryTimeValidationService, KakaoApiService kakaoApiService) {
-        this.itineraryRepository = itineraryRepository;
-        this.tripRepository = tripRepository;
-        this.itineraryTimeValidationService = itineraryTimeValidationService;
-        this.kakaoApiService = kakaoApiService;
-    }
 
     public void saveTransport(Long id, TransportSaveRequest request) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));

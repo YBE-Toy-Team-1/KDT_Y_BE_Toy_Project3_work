@@ -1,5 +1,6 @@
 package com.example.trip_itinerary.trip.domain;
 
+import com.example.trip_itinerary.comment.domain.Comment;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Itinerary> itineraryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
     protected Trip() {
