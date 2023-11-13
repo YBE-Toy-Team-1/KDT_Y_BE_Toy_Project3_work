@@ -22,34 +22,30 @@ public class CommentService {
     private final TripRepository tripRepository;
 
     public void createComment(CreateCommentRequest request, Long userId) {
-        User findUser = isUserExist(userId);
+        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Trip findTrip = tripRepository.findById(request.getTripId()).orElseThrow(RuntimeException::new);
         Comment comment = new Comment(findUser, findTrip, request.getContent());
         commentRepository.save(comment);
     }
 
     public void updateComment(Long commentId, UpdateCommentRequest request, Long userId) {
-        User findUser = isUserExist(userId);
+//        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
-        isCorrectUser(findUser, comment);
+//        isCorrectUser(findUser, comment);
         comment.update(request);
     }
 
     public void deleteComment(Long commentId, Long userId) {
-        User findUser = isUserExist(userId);
+//        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
-        isCorrectUser(findUser, comment);
+//        isCorrectUser(findUser, comment);
         commentRepository.delete(comment);
     }
 
 
-    private void isCorrectUser(User findUser, Comment comment) {
-        if (!comment.getUser().getUserId().equals(findUser.getUserId())) {
-            throw new RuntimeException();
-        }
-    }
-
-    private User isUserExist(Long userId) {
-        return userRepository.findById(userId).orElseThrow(RuntimeException::new);
-    }
+//    private void isCorrectUser(User findUser, Comment comment) {
+//        if (!comment.getUser().getUserId().equals(findUser.getUserId())) {
+//            throw new RuntimeException();
+//        }
+//    }
 }
