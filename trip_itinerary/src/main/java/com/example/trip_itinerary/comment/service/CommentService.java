@@ -37,9 +37,9 @@ public class CommentService {
 
     public void deleteComment(Long commentId, Long userId) {
 //        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-        Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
+//        Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);
 //        isCorrectUser(findUser, comment);
-        commentRepository.delete(comment);
+        commentRepository.deleteById(commentId);
     }
 
 
