@@ -1,15 +1,12 @@
 package com.example.trip_itinerary.itinerary.controller;
 
 import com.example.trip_itinerary.itinerary.dto.request.save.AccommodationSaveRequest;
-import com.example.trip_itinerary.itinerary.dto.request.save.ItinerarySaveRequest;
-import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryPatchRequest;
-import com.example.trip_itinerary.itinerary.dto.response.KakaoAddressResponse;
 import com.example.trip_itinerary.itinerary.dto.request.save.StaySaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.save.TransportSaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.AccommodationPatchRequest;
-import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.StayPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.TransportPatchRequest;
+import com.example.trip_itinerary.itinerary.dto.response.KakaoAddressResponse;
 import com.example.trip_itinerary.itinerary.service.ItineraryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +25,9 @@ public class ItineraryController {
     }
 
     @GetMapping("/address")
-    public KakaoAddressResponse getAddressByNameFromKakao(@RequestParam(name= "query") String query){
-        return itineraryService.getAddressByNameFromKakao(query);
+    public ResponseEntity<KakaoAddressResponse> getAddressByNameFromKakao(@RequestParam(name= "query") String query){
+        KakaoAddressResponse addressByNameFromKakao = itineraryService.getAddressByNameFromKakao(query);
+        return new ResponseEntity<>(addressByNameFromKakao, HttpStatus.OK);
     }
   
     @PostMapping("/{trip_id}/transport")
