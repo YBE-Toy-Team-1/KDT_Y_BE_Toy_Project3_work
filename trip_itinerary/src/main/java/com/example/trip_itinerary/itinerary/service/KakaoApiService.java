@@ -2,6 +2,7 @@ package com.example.trip_itinerary.itinerary.service;
 
 import com.example.trip_itinerary.itinerary.dto.data.KakaoAddress;
 import com.example.trip_itinerary.itinerary.dto.response.KakaoAddressResponse;
+import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
 import com.example.trip_itinerary.itinerary.exception.KakaoApiException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -48,7 +49,7 @@ public class KakaoApiService {
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new KakaoApiException("Kakao API request failed with status code: " + responseEntity.getStatusCode());
+            throw new KakaoApiException(ItineraryErrorCode.KAKAO_API_REQUEST_FAILED);
             // 테스트 필요
         }
 
