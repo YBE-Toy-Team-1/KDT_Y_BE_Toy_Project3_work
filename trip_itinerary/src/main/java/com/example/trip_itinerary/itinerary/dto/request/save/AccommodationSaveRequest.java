@@ -17,6 +17,10 @@ public class AccommodationSaveRequest extends ItinerarySaveRequest {
     @Size(max = 30, message = "숙소 이름은 최대 30자입니다.")
     private String accommodationName;
 
+    @NotBlank(message = "숙소 주소를 입력해주세요.")
+    @Size(max = 50, message = "숙소 주소는 최대 50자입니다.")
+    private String accommodationAddress;
+
     @NotNull(message = "체크인 시간을 입력해주세요.")
     private String checkInTime;
 

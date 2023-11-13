@@ -18,6 +18,10 @@ public class StaySaveRequest extends ItinerarySaveRequest {
     @Size(max = 30, message = "체류 장소는 최대 30자입니다.")
     private String location;
 
+    @NotBlank(message = "체류 장소 주소를 입력해주세요.")
+    @Size(max = 50, message = "체류 장소 주소는 최대 50자입니다.")
+    private String locationAddress;
+
     @NotNull(message = "체류 장소 도착 시간을 입력해주세요.")
     private String arrivalDateTime;
 
