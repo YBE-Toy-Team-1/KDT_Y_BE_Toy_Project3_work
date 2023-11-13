@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Likes, Long> {
 
+
     Optional<Likes> findByMemberAndTrip(Member member, Trip trip);
+
 
 }

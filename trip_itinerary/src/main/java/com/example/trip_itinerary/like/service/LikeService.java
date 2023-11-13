@@ -5,7 +5,12 @@ import com.example.trip_itinerary.like.repository.LikeRepository;
 import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.repository.MemberRepository;
 import com.example.trip_itinerary.trip.domain.Trip;
+import com.example.trip_itinerary.trip.exception.TripErrorCode;
+import com.example.trip_itinerary.trip.exception.TripNotFoundException;
 import com.example.trip_itinerary.trip.repository.TripRepository;
+import com.example.trip_itinerary.member.exception.MemberErrorCode;
+import com.example.trip_itinerary.member.exception.MemberNotFoundException;
+import com.example.trip_itinerary.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +21,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeService {
 
     private final LikeRepository likeRepository;
-    private final MemberRepository userRepository;
+
+    private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
 
     public void likeTrip(Long tripId, Long userId) {
-        Member foundMember = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-        Trip trip = tripRepository.findById(tripId).orElseThrow(RuntimeException::new);
-        likeRepository.findByMemberAndTrip(foundMember, trip).ifPresentOrElse(
-                like -> {
-                    likeRepository.delete(like);
-//                    trip.deleteLike();
-                },
+        Member findMember = memberRepository.findById(userId).orElseThrow(
+                () -> new MemberNotFoundException(MemberErrorCode.MEMBER_NOT_FOUND));
+        Trip trip = tripRepository.findById(tripId).orElseThrow(
+                () -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        likeRepository.findByUserAndTrip(findMember, trip).ifPresentOrElse(
+                likeRepository::delete,
                 () -> {
-                    Likes like = new Likes(foundMember, trip);
+                    Likes like = new Likes(findMember, trip);
                     likeRepository.save(like);
-//                    trip.addLike();
                 }
         );
     }
