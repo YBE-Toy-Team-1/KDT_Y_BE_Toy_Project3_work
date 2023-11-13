@@ -15,6 +15,12 @@
 # AWS User-specific
 .idea/**/aws.xml
 
+#Kakao.yml
+/src/main/resources/kakao.yml
+
+#jwt.yml
+/src/main/resources/jwt.yml
+
 # Generated files
 .idea/**/contentModel.xml
 
