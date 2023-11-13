@@ -3,7 +3,6 @@ package com.example.trip_itinerary.comment.controller;
 import com.example.trip_itinerary.comment.dto.request.CreateCommentRequest;
 import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
 import com.example.trip_itinerary.comment.service.CommentService;
-import com.example.trip_itinerary.user.dto.data.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

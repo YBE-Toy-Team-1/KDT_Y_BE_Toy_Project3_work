@@ -1,7 +1,7 @@
 package com.example.trip_itinerary.like.domain;
 
 import com.example.trip_itinerary.trip.domain.Trip;
-import com.example.trip_itinerary.user.domain.User;
+import com.example.trip_itinerary.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,14 +20,14 @@ public class Likes {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    public Likes(User user, Trip trip) {
-        this.user = user;
+    public Likes(Member member, Trip trip) {
+        this.member = member;
         this.trip = trip;
 //        trip.mappingLikes(this);  연관관계 편의 메서드
     }
