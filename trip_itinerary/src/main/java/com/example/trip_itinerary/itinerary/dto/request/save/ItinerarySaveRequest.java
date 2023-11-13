@@ -11,11 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = StaySaveRequest.class, name = "stay"),
-        @JsonSubTypes.Type(value = TransportSaveRequest.class, name = "transport"),
-        @JsonSubTypes.Type(value = AccommodationSaveRequest.class, name = "accommodation")
-})
 public class ItinerarySaveRequest {
 
     @NotBlank(message = "여정 이름을 입력해주세요.")

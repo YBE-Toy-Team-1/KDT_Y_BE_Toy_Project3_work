@@ -43,16 +43,11 @@ public class TripService {
         List<TripListFindResponse> tripFindResponseList = new ArrayList<>();
         for (Trip foundTrip : foundTripList) {
 
-            List<String> itineraryNameList = foundTrip.getItineraryList().stream()
-                    .map(Itinerary::getName)
-                    .collect(Collectors.toList());
-
             TripListFindResponse tripListFindResponse = TripListFindResponse.builder()
                     .id(foundTrip.getId())
                     .startDate(foundTrip.getStartDate())
                     .endDate(foundTrip.getEndDate())
                     .isDomestic(foundTrip.isDomestic())
-                    .itineraryNameList(itineraryNameList)
                     .build();
 
             tripFindResponseList.add(tripListFindResponse);
@@ -63,8 +58,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public TripFindResponse getTripById(Long id) {
-        Optional<Trip> foundTripOptional = tripRepository.findById(id);
-        Trip foundTrip = foundTripOptional.orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
         return TripFindResponse.fromEntity(foundTrip);
     }
 
@@ -76,4 +70,11 @@ public class TripService {
                 DateUtil.toLocalDate(tripPatchRequest.getEndDate()), tripPatchRequest.getIsDomestic());
         return foundTrip.getId();
     }
+
+    @Transactional(readOnly = true)
+    public TripFindResponse searchTrip(String tripName) {
+        Trip foundTrip = tripRepository.findByName(tripName).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        return TripFindResponse.fromEntity(foundTrip);
+    }
+
 }
