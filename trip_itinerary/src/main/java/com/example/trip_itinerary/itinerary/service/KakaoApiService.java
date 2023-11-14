@@ -1,9 +1,9 @@
 package com.example.trip_itinerary.itinerary.service;
 
-import com.example.trip_itinerary.itinerary.dto.data.KakaoAddress;
-import com.example.trip_itinerary.itinerary.dto.response.KakaoAddressResponse;
+import com.example.trip_itinerary.itinerary.dto.response.AddressFindResponse;
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
 import com.example.trip_itinerary.itinerary.exception.KakaoApiException;
+import com.example.trip_itinerary.itinerary.exception.ServerErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,9 +21,11 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class KakaoApiService {
     @Value("${kakao.api.key}")
@@ -31,14 +33,9 @@ public class KakaoApiService {
     @Value("${kakao.url.keyword}")
     private String kakaoUrl;
 
-    private final RestTemplate restTemplate;
+    public List<AddressFindResponse> getAddress(String keyword) {
 
-    public KakaoApiService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
-    public KakaoAddressResponse getAddressFromKakao(String query) {
-        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+        String encodedQuery = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
         URI url = UriComponentsBuilder.fromUriString(kakaoUrl)
                 .queryParam("query", encodedQuery)
                 .build()
@@ -47,12 +44,29 @@ public class KakaoApiService {
         headers.set("Authorization", "KakaoAK " + kakaoApiKey);
         RequestEntity<Void> requestEntity = RequestEntity.get(url).headers(headers).build();
 
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new KakaoApiException(ItineraryErrorCode.KAKAO_API_REQUEST_FAILED);
-            // 테스트 필요
+            throw new KakaoApiException(ItineraryErrorCode.API_REQUEST_FAILED); // 테스트 필요
         }
 
-        return new KakaoAddressResponse(getAddressList(responseEntity.getBody()));
+        return getAddressList(responseEntity.getBody());
     }
+
+    public List<AddressFindResponse> getAddressList(String responseBody) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode;
+        try {
+            rootNode = objectMapper.readTree(responseBody);
+        } catch (JsonProcessingException e) {
+            throw new ServerErrorException(ItineraryErrorCode.SERVER_ERROR);
+        }
+
+        return StreamSupport.stream(rootNode.path("documents")
+                        .spliterator(), false)
+                .map(node -> new AddressFindResponse(node.path("place_name")
+                        .asText(), node.path("road_address_name").asText()))
+                .collect(Collectors.toList());
+    }
+
 }

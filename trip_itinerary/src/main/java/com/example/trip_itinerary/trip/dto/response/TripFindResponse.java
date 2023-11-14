@@ -1,13 +1,12 @@
 package com.example.trip_itinerary.trip.dto.response;
 
-
-import com.example.trip_itinerary.comment.dto.response.FindCommentResponse;
+import com.example.trip_itinerary.comment.domain.Comment;
+import com.example.trip_itinerary.comment.dto.response.CommentFindResponse;
 import com.example.trip_itinerary.itinerary.domain.Accommodation;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import com.example.trip_itinerary.itinerary.domain.Stay;
 import com.example.trip_itinerary.itinerary.domain.Transport;
 import com.example.trip_itinerary.itinerary.dto.response.ItineraryFindResponse;
-import com.example.trip_itinerary.itinerary.dto.response.StayFindResponse;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -39,15 +38,15 @@ public class TripFindResponse {
 
     private Long likeNum;
 
-    private List<FindCommentResponse> commentResponseList;
+    private List<CommentFindResponse> commentResponseList;
 
     private List<ItineraryFindResponse> itineraryList;
 
     public static TripFindResponse fromEntity(Trip trip) {
-        List<FindCommentResponse> findCommentResponsesList = new ArrayList<>();
+        List<CommentFindResponse> findCommentResponsesList = new ArrayList<>();
 
         for(Comment comment : trip.getCommentList()){
-            findCommentResponsesList.add(FindCommentResponse.fromEntity(comment));
+            findCommentResponsesList.add(CommentFindResponse.fromEntity(comment));
         }
 
         List<ItineraryFindResponse> itineraryFindResponseList = new ArrayList<>();

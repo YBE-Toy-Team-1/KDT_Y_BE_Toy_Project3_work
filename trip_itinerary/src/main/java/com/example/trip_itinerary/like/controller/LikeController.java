@@ -1,6 +1,7 @@
 package com.example.trip_itinerary.like.controller;
 
 import com.example.trip_itinerary.like.service.LikeService;
+import com.example.trip_itinerary.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ public class LikeController {
 
     @PostMapping("/trips/{trip_id}/like")
     public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId) {
-        likeService.likeTrip(tripId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Member tester = new Member(2L);
+        likeService.likeTrip(tester, tripId);
+        return ResponseEntity.ok().build();
     }
 
 }

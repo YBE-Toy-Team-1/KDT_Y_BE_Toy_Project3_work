@@ -1,0 +1,2 @@
+## 좋아요 요청
+POST http://localhost:8080/trips/1/like

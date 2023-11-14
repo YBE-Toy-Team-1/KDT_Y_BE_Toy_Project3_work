@@ -1,0 +1,2 @@
+## 댓글 삭제
+DELETE http://localhost:8080/trips/1/comments/1

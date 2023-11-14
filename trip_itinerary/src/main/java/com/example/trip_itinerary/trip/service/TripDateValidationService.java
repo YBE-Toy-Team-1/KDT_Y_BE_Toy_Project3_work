@@ -1,11 +1,8 @@
 package com.example.trip_itinerary.trip.service;
 
-import com.example.trip_itinerary.itinerary.domain.Accommodation;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
-import com.example.trip_itinerary.itinerary.domain.Stay;
-import com.example.trip_itinerary.itinerary.domain.Transport;
 import com.example.trip_itinerary.trip.domain.Trip;
-import com.example.trip_itinerary.trip.dto.request.TripPatchRequest;
+import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.exception.InvalidDateRangeException;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;
@@ -21,17 +18,17 @@ public class TripDateValidationService {
         validateTripSaveDateRange(tripSaveRequest);
     }
 
-    public void validateTripPatchDate(TripPatchRequest tripPatchRequest, Trip trip){
-        validateTripPatchDateRange(tripPatchRequest);
-        validateTripDateForItineraries(trip, tripPatchRequest.getStartDate(), tripPatchRequest.getEndDate());
+    public void validateTripPatchDate(TripUpdateRequest tripUpdateRequest, Trip trip){
+        validateTripPatchDateRange(tripUpdateRequest);
+        validateTripDateForItineraries(trip, tripUpdateRequest.getStartDate(), tripUpdateRequest.getEndDate());
     }
 
     private void validateTripSaveDateRange(TripSaveRequest tripSaveRequest){
         DateUtil.checkValidDateRange(tripSaveRequest.getStartDate(), tripSaveRequest.getEndDate());
     }
 
-    private void validateTripPatchDateRange(TripPatchRequest tripPatchRequest){
-        DateUtil.checkValidDateRange(tripPatchRequest.getStartDate(), tripPatchRequest.getEndDate());
+    private void validateTripPatchDateRange(TripUpdateRequest tripUpdateRequest){
+        DateUtil.checkValidDateRange(tripUpdateRequest.getStartDate(), tripUpdateRequest.getEndDate());
     }
     
     private void validateTripDateForItineraries(Trip trip, String nowTripStart, String nowTripEnd) {
@@ -46,7 +43,6 @@ public class TripDateValidationService {
             if (endDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
                 throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
             }
-
         }
     }
 

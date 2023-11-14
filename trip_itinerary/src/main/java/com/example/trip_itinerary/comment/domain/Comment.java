@@ -1,23 +1,18 @@
 package com.example.trip_itinerary.comment.domain;
 
-import com.example.trip_itinerary.comment.dto.request.UpdateCommentRequest;
-import com.example.trip_itinerary.trip.domain.Trip;
+import com.example.trip_itinerary.comment.dto.request.CommentUpdateRequest;
 import com.example.trip_itinerary.member.domain.Member;
+import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comment")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long commentId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -29,14 +24,36 @@ public class Comment {
 
     private String content;
 
-    public Comment(Member member, Trip trip, String content) {
+    protected Comment() {
+    }
+
+    private Comment(Member member, Trip trip, String content) {
         this.member = member;
         this.trip = trip;
         this.content = content;
-//        trip.mappingComment(this);    연관관계 편의 메서드
     }
 
-    public void update(UpdateCommentRequest request) {
+    public static Comment of(Member member, Trip trip, String content) {
+        return new Comment(member, trip, content);
+    }
+
+    public void update(CommentUpdateRequest request) {
         this.content = request.getContent();
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Trip getTrip() {
+        return this.trip;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public Member getMember() {
+        return this.member;
     }
 }

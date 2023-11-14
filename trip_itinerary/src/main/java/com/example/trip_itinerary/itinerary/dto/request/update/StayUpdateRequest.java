@@ -11,24 +11,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class AccommodationPatchRequest extends ItineraryPatchRequest {
+public class StayUpdateRequest extends ItineraryUpdateRequest {
 
-    @Size(max = 30, message = "숙소 이름은 최대 30자입니다.")
-    private String accommodationName;
+    @Size(max = 30, message = "체류 장소는 최대 30자입니다.")
+    private String location;
 
-    @Size(max = 50, message = "숙소 주소는 최대 50자입니다.")
-    private String accommodationAddress;
+    @Size(max = 50, message = "체류 장소 주소는 최대 50자입니다.")
+    private String locationAddress;
 
-    private String checkInTime;
-    private String checkOutTime;
+    private String arrivalDateTime;
+    private String leaveDateTime;
 
     @Override
     public String getStartDateTime() {
-        return checkInTime;
+        return arrivalDateTime;
     }
 
     @Override
     public String getEndDateTime() {
-        return checkOutTime;
+        return leaveDateTime;
     }
+
 }
