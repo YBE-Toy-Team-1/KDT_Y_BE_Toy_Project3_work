@@ -1,7 +1,7 @@
 ## 댓글 저장
-POST http://localhost:8080/trips/1/comments
+POST http://localhost:8080/trips/2/comments
 Content-Type: application/json
 
 {
-  "content": "댓글을 생성합니다. "
+  "content": "재밌겠네요"
 }
