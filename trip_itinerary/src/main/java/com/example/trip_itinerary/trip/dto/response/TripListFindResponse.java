@@ -20,6 +20,4 @@ public class TripListFindResponse {
     private LocalDate endDate;
     @JsonProperty("is_domestic")
     private boolean isDomestic;
-    private List<String> itineraryNameList;
-
 }

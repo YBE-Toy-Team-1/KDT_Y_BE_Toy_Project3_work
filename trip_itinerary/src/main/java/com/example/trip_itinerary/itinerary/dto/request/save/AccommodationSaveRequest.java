@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -17,10 +19,23 @@ public class AccommodationSaveRequest extends ItinerarySaveRequest {
     @Size(max = 30, message = "숙소 이름은 최대 30자입니다.")
     private String accommodationName;
 
+    @NotBlank(message = "숙소 주소를 입력해주세요.")
+    @Size(max = 50, message = "숙소 주소는 최대 50자입니다.")
+    private String accommodationAddress;
+
     @NotNull(message = "체크인 시간을 입력해주세요.")
     private String checkInTime;
 
     @NotNull(message = "체크아웃 시간을 입력해주세요.")
     private String checkOutTime;
 
+    @Override
+    public String getStartDateTime() {
+        return checkInTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return checkOutTime;
+    }
 }

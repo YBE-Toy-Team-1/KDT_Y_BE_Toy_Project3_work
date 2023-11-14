@@ -3,10 +3,12 @@ package com.example.trip_itinerary.itinerary.domain;
 import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", length = 30)
-public class Itinerary {
+public abstract class Itinerary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +44,9 @@ public class Itinerary {
     public Trip getTrip() {
         return trip;
     }
+
+    public abstract LocalDateTime getStartDateTime();
+    public abstract LocalDateTime getEndDateTime();
 
 }
 
