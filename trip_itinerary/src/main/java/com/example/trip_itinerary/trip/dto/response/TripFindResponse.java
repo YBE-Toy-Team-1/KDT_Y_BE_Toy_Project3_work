@@ -42,17 +42,15 @@ public class TripFindResponse {
         List<ItineraryFindResponse> itineraryFindResponseList = new ArrayList<>();
 
         for (Itinerary itinerary : trip.getItineraryList()) {
-            ItineraryFindResponse.fromEntity(itinerary);
+            ItineraryFindResponse itineraryResponse;
 
-//
-//            itineraryResponse = ItineraryFindResponse.fromEntity(itinerary);
-//            if (itinerary instanceof Transport) {
-//                itineraryResponse = ItineraryFindResponse.fromEntity((Transport) itinerary);
-//            } else if (itinerary instanceof Accommodation) {
-//                itineraryResponse = ItineraryFindResponse.fromEntity((Accommodation) itinerary);
-//            } else {
-//                itineraryResponse = ItineraryFindResponse.fromEntity((Stay) itinerary);
-//            }
+            if (itinerary instanceof Transport) {
+                itineraryResponse = ItineraryFindResponse.fromEntity((Transport) itinerary);
+            } else if (itinerary instanceof Accommodation) {
+                itineraryResponse = ItineraryFindResponse.fromEntity((Accommodation) itinerary);
+            } else {
+                itineraryResponse = ItineraryFindResponse.fromEntity((Stay) itinerary);
+            }
 
             itineraryFindResponseList.add(itineraryResponse);
         }

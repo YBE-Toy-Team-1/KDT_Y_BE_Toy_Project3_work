@@ -12,6 +12,8 @@ import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.util.DateUtil;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ItineraryDateTimeValidationService {
 
@@ -21,23 +23,7 @@ public class ItineraryDateTimeValidationService {
         DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getEndDateTime());
         DateUtil.checkValidDateTimeRange(request.getStartDateTime(), request.getEndDateTime());
     }
-//    public void validateTransportSaveTimeRange(TransportSaveRequest request, Trip trip) {
-//        DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getDepartureDateTime());
-//        DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getArrivalDateTime());
-//        DateUtil.checkValidDateTimeRange(request.getDepartureDateTime(), request.getArrivalDateTime());
-//    }
-//
-//    public void validateAccommodationSaveTimeRange(AccommodationSaveRequest request, Trip trip) {
-//        DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getCheckInTime());
-//        DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getCheckOutTime());
-//        DateUtil.checkValidDateTimeRange(request.getCheckInTime(), request.getCheckOutTime());
-//    }
-//
-//    public void validateStaySaveTimeRange(StaySaveRequest request, Trip trip) {
-//        DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getArrivalDateTime());
-//        DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getLeaveDateTime());
-//        DateUtil.checkValidDateTimeRange(request.getArrivalDateTime(), request.getLeaveDateTime());
-//    }
+
 
     public void validateItineraryPatchTimeRange(ItineraryPatchRequest request, Trip trip) {
         DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getStartDateTime());
@@ -45,27 +31,10 @@ public class ItineraryDateTimeValidationService {
         DateUtil.checkValidDateTimeRange(request.getStartDateTime(), request.getEndDateTime());
     }
 
-//
-//    public void validateTransportPatchTimeRange(TransportPatchRequest request, Trip trip) {
-//            DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getDepartureDateTime());
-//            DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getArrivalDateTime());
-//            DateUtil.checkValidDateTimeRange(request.getDepartureDateTime(), request.getArrivalDateTime());
-//    }
-//
-//    public void validateAccommodationPatchTimeRange(AccommodationPatchRequest request, Trip trip) {
-//            DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getCheckInTime());
-//            DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getCheckOutTime());
-//            DateUtil.checkValidDateTimeRange(request.getCheckInTime(), request.getCheckOutTime());
-//    }
-//
-//    public void validateStayPatchTimeRange(StayPatchRequest request, Trip trip) {
-//            DateUtil.checkRangeStart(trip.getStartDate().toString(), request.getArrivalDateTime());
-//            DateUtil.checkRangeEnd(trip.getEndDate().toString(), request.getLeaveDateTime());
-//            DateUtil.checkValidDateTimeRange(request.getArrivalDateTime(), request.getLeaveDateTime());
-//    }
 
-
-
-
-
+    public void validateItineraryTimeRange(String startDateTime, String endDateTime, Trip trip){
+        DateUtil.checkRangeStart(trip.getStartDate().toString(), startDateTime);
+        DateUtil.checkRangeEnd(trip.getEndDate().toString(), endDateTime);
+        DateUtil.checkValidDateTimeRange(startDateTime, endDateTime);
+    }
 }
