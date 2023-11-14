@@ -1,8 +1,8 @@
 package com.example.trip_itinerary.trip.domain;
 
+import com.example.trip_itinerary.comment.domain.Comment;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,22 +33,21 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Itinerary> itineraryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
     protected Trip() {
     }
 
-    private Trip(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
+    private Trip(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.isDomestic = isDomestic;
-        this.itineraryList = itineraryList;
     }
 
-    public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, List<Itinerary> itineraryList) {
-        return new Trip(name, startDate, endDate, isDomestic, itineraryList);
+    public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic) {
+        return new Trip(name, startDate, endDate, isDomestic);
     }
 
     public void updateTrip(String name, LocalDate startDate, LocalDate endDate, Boolean isDomestic) {
@@ -56,6 +55,14 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isDomestic = isDomestic;
+    }
+
+    public void upLike(){
+        this.likeNum++;
+    }
+
+    public void downLike(){
+        this.likeNum--;
     }
 
     public Long getId() {
