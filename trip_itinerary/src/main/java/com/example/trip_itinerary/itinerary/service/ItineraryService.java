@@ -10,6 +10,7 @@ import com.example.trip_itinerary.itinerary.dto.request.save.TransportSaveReques
 import com.example.trip_itinerary.itinerary.dto.request.update.AccommodationPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.StayPatchRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.TransportPatchRequest;
+import com.example.trip_itinerary.itinerary.dto.response.KakaoAddressResponse;
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
 import com.example.trip_itinerary.itinerary.exception.ItineraryNotFoundException;
 import com.example.trip_itinerary.itinerary.repository.ItineraryRepository;
@@ -18,6 +19,7 @@ import com.example.trip_itinerary.trip.exception.TripErrorCode;
 import com.example.trip_itinerary.trip.exception.TripNotFoundException;
 import com.example.trip_itinerary.trip.repository.TripRepository;
 import com.example.trip_itinerary.util.DateUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +27,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ItineraryService {
 
     private final ItineraryRepository itineraryRepository;
     private final TripRepository tripRepository;
     private final ItineraryDateTimeValidationService itineraryTimeValidationService;
-
-
+    private final KakaoApiService kakaoApiService;
+  
     public ItineraryService(ItineraryRepository itineraryRepository, TripRepository tripRepository, ItineraryDateTimeValidationService itineraryTimeValidationService) {
         this.itineraryRepository = itineraryRepository;
         this.tripRepository = tripRepository;
         this.itineraryTimeValidationService = itineraryTimeValidationService;
+        this.kakaoApiService = kakaoApiService;
     }
 
     public void saveTransport(Long id, TransportSaveRequest request) {
@@ -43,7 +47,8 @@ public class ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundTrip);
 
         Transport transport = Transport.of(request.getName(), foundTrip, request.getTransportation(), request.getDepartureLocation(),
-                request.getArrivalLocation(), DateUtil.toLocalDateTime(request.getDepartureDateTime()),
+                request.getDepartureAddress(), request.getArrivalLocation(), request.getArrivalAddress(),
+                DateUtil.toLocalDateTime(request.getDepartureDateTime()),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()));
 
         itineraryRepository.save(transport);
@@ -54,7 +59,8 @@ public class ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundTrip);
 
         Accommodation accommodation = Accommodation.of(request.getName(), foundTrip, request.getAccommodationName(),
-                DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
+                request.getAccommodationAddress(), DateUtil.toLocalDateTime(request.getCheckInTime()),
+                DateUtil.toLocalDateTime(request.getCheckOutTime()));
 
         itineraryRepository.save(accommodation);
     }
@@ -63,7 +69,8 @@ public class ItineraryService {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundTrip);
 
-        Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), DateUtil.toLocalDateTime(request.getArrivalDateTime()),
+        Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), request.getLocationAddress(),
+                DateUtil.toLocalDateTime(request.getArrivalDateTime()),
                 DateUtil.toLocalDateTime(request.getLeaveDateTime()));
         itineraryRepository.save(stay);
     }
@@ -73,7 +80,8 @@ public class ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundTransport.getTrip());
 
         foundTransport.updateTransport(request.getName(), request.getTransportation(),
-                request.getDepartureLocation(), request.getArrivalLocation(),
+                request.getDepartureLocation(), request.getDepartureAddress(),
+                request.getArrivalLocation(), request.getArrivalAddress(),
                 DateUtil.toLocalDateTime(request.getDepartureDateTime()), DateUtil.toLocalDateTime(request.getArrivalDateTime()));
 
         return foundTransport.getTrip().getId();
@@ -84,7 +92,8 @@ public class ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundAccommodation.getTrip());
 
         foundAccommodation.updateAccommodation(request.getName(), request.getAccommodationName(),
-                DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
+                                               request.getAccommodationAddress(),
+                                               DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
 
         return foundAccommodation.getTrip().getId();
     }
@@ -93,10 +102,13 @@ public class ItineraryService {
         Stay foundStay = (Stay) itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundStay.getTrip());
 
-        foundStay.updateStay(request.getName(), request.getLocation(),
+        foundStay.updateStay(request.getName(), request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
 
         return foundStay.getTrip().getId();
     }
 
+    public KakaoAddressResponse getAddressByNameFromKakao(String query) {
+        return kakaoApiService.getAddressFromKakao(query);
+    }
 }

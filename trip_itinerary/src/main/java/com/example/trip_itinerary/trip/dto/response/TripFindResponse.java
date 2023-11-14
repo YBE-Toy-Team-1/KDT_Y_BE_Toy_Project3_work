@@ -1,6 +1,7 @@
 package com.example.trip_itinerary.trip.dto.response;
 
 
+import com.example.trip_itinerary.comment.dto.response.FindCommentResponse;
 import com.example.trip_itinerary.itinerary.domain.Accommodation;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import com.example.trip_itinerary.itinerary.domain.Stay;
@@ -36,9 +37,19 @@ public class TripFindResponse {
     @JsonProperty("is_domestic")
     private boolean isDomestic;
 
+    private Long likeNum;
+
+    private List<FindCommentResponse> commentResponseList;
+
     private List<ItineraryFindResponse> itineraryList;
 
     public static TripFindResponse fromEntity(Trip trip) {
+        List<FindCommentResponse> findCommentResponsesList = new ArrayList<>();
+
+        for(Comment comment : trip.getCommentList()){
+            findCommentResponsesList.add(FindCommentResponse.fromEntity(comment));
+        }
+
         List<ItineraryFindResponse> itineraryFindResponseList = new ArrayList<>();
 
         for (Itinerary itinerary : trip.getItineraryList()) {
@@ -61,6 +72,8 @@ public class TripFindResponse {
                 .startDate(trip.getStartDate())
                 .endDate(trip.getEndDate())
                 .isDomestic(trip.isDomestic())
+                .likeNum(trip.getLikeNum())
+                .commentResponseList(findCommentResponsesList)
                 .itineraryList(itineraryFindResponseList)
                 .build();
     }
