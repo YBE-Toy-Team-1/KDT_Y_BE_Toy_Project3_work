@@ -1,7 +1,7 @@
 package com.example.trip_itinerary.trip.controller;
 
 
-import com.example.trip_itinerary.trip.dto.request.TripPatchRequest;
+import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
@@ -25,7 +25,7 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
+    public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
         tripService.saveTrip(tripSaveRequest);
 
         return ResponseEntity.created(URI.create("/trips")).build();
@@ -38,25 +38,25 @@ public class TripController {
         return ResponseEntity.ok(trips);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TripFindResponse> getTripById(@PathVariable Long id) {
-        TripFindResponse trip = tripService.getTripById(id);
+    @GetMapping("/{trip_id}")
+    public ResponseEntity<TripFindResponse> getTripById(@PathVariable(name = "trip_id") Long tripId) {
+        TripFindResponse trip = tripService.getTripById(tripId);
 
         return ResponseEntity.ok(trip);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateTripById(@PathVariable Long id, @RequestBody @Validated TripPatchRequest tripPatchRequest) {
-        tripService.updateTrip(id, tripPatchRequest);
+    @PatchMapping("/{trip_id}")
+    public ResponseEntity<HttpStatus> updateTripById(@PathVariable(name = "trip_id") Long tripId, @RequestBody @Validated TripUpdateRequest tripUpdateRequest) {
+        tripService.updateTrip(tripId, tripUpdateRequest);
 
-        return ResponseEntity.created(URI.create("/trips" + id)).build();
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<TripFindResponse> searchTripByName(@RequestParam("trip_name") String tripName){
-        TripFindResponse trip = tripService.searchTrip(tripName);
+    @GetMapping({"/{trip_name}"})
+    public ResponseEntity<List<TripListFindResponse>> searchTripByName(@PathVariable String tripName){
+        List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 
-        return ResponseEntity.ok(trip);
+        return ResponseEntity.ok(tripList);
     }
 
 }

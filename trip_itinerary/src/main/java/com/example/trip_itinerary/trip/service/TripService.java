@@ -1,8 +1,7 @@
 package com.example.trip_itinerary.trip.service;
 
-import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import com.example.trip_itinerary.trip.domain.Trip;
-import com.example.trip_itinerary.trip.dto.request.TripPatchRequest;
+import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
@@ -10,48 +9,61 @@ import com.example.trip_itinerary.trip.exception.TripErrorCode;
 import com.example.trip_itinerary.trip.exception.TripNotFoundException;
 import com.example.trip_itinerary.trip.repository.TripRepository;
 import com.example.trip_itinerary.util.DateUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class TripService {
 
     private final TripRepository tripRepository;
     private final TripDateValidationService tripDateValidationService;
 
-    public TripService(TripRepository tripRepository, TripDateValidationService tripDateValidationService) {
-        this.tripRepository = tripRepository;
-        this.tripDateValidationService = tripDateValidationService;
-    }
-
+    @Transactional
     public Long saveTrip(TripSaveRequest tripSaveRequest) {
         tripDateValidationService.validateTripSaveDate(tripSaveRequest);
-        Trip trip = toEntity(tripSaveRequest);
-        return tripRepository.save(trip).getId();
-
-    }
-      private Trip toEntity(TripSaveRequest tripSaveRequest){
-        return Trip.of(
+        Trip trip = Trip.of(
                 tripSaveRequest.getName(),
                 DateUtil.toLocalDate(tripSaveRequest.getStartDate()),
                 DateUtil.toLocalDate(tripSaveRequest.getEndDate()),
-                tripSaveRequest.getIsDomestic(),
-                null, 
-                null);
-       }
+                tripSaveRequest.getIsDomestic()
+        );
 
-    @Transactional(readOnly = true)
+        return tripRepository.save(trip).getId();
+    }
+
     public List<TripListFindResponse> findAllTrips() {
         List<Trip> foundTripList = tripRepository.findAll();
+        return tripListToResponse(foundTripList);
+    }
 
+    public TripFindResponse getTripById(Long id) {
+        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        return TripFindResponse.fromEntity(foundTrip);
+    }
+
+    @Transactional
+    public void updateTrip(Long id, TripUpdateRequest tripUpdateRequest) {
+        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+        tripDateValidationService.validateTripPatchDate(tripUpdateRequest, foundTrip);
+
+        foundTrip.updateTrip(tripUpdateRequest.getName(), DateUtil.toLocalDate(tripUpdateRequest.getStartDate()),
+                DateUtil.toLocalDate(tripUpdateRequest.getEndDate()), tripUpdateRequest.getIsDomestic());
+    }
+
+    public List<TripListFindResponse> searchTrip(String tripName) { // Todo full scan 막아야 하나??
+        List<Trip> foundTripList = tripRepository.findByNameContains(tripName);
+        return tripListToResponse(foundTripList);
+    }
+
+    private List<TripListFindResponse> tripListToResponse(List<Trip> tripList){
         List<TripListFindResponse> tripFindResponseList = new ArrayList<>();
-        for (Trip foundTrip : foundTripList) {
+        for (Trip foundTrip : tripList) {
 
             TripListFindResponse tripListFindResponse = TripListFindResponse.builder()
                     .id(foundTrip.getId())
@@ -62,29 +74,6 @@ public class TripService {
 
             tripFindResponseList.add(tripListFindResponse);
         }
-
         return tripFindResponseList;
     }
-
-    @Transactional(readOnly = true)
-    public TripFindResponse getTripById(Long id) {
-        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        return TripFindResponse.fromEntity(foundTrip);
-    }
-
-    public Long updateTrip(Long id, TripPatchRequest tripPatchRequest) {
-        Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        tripDateValidationService.validateTripPatchDate(tripPatchRequest, foundTrip);
-
-        foundTrip.updateTrip(tripPatchRequest.getName(), DateUtil.toLocalDate(tripPatchRequest.getStartDate()),
-                DateUtil.toLocalDate(tripPatchRequest.getEndDate()), tripPatchRequest.getIsDomestic());
-        return foundTrip.getId();
-    }
-
-    @Transactional(readOnly = true)
-    public TripFindResponse searchTrip(String tripName) {
-        Trip foundTrip = tripRepository.findByName(tripName).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        return TripFindResponse.fromEntity(foundTrip);
-    }
-
 }
