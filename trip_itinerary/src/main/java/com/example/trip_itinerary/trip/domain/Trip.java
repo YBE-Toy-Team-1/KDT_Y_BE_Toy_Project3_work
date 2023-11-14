@@ -44,6 +44,7 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isDomestic = isDomestic;
+        this.likeNum = 0L;
     }
 
     public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic) {

@@ -1,7 +1,5 @@
 package com.example.trip_itinerary.itinerary.service;
 
-import com.example.trip_itinerary.itinerary.dto.request.save.ItinerarySaveRequest;
-import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryPatchRequest;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.util.DateUtil;
 import org.springframework.stereotype.Service;

@@ -20,11 +20,9 @@ public class TripUpdateRequest {
     @Size(max = 30, message = "여행 이름은 최대 30자입니다.")
     private String name;
 
-    @Setter
     @NotNull(message = "여행의 시작 날짜를 입력해주세요.")
     private String startDate;
 
-    @Setter
     @NotNull(message = "여행의 종료 날짜를 입력해주세요.")
     private String endDate;
 
