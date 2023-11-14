@@ -32,9 +32,19 @@ public class TripService {
 
     public Long saveTrip(TripSaveRequest tripSaveRequest) {
         tripDateValidationService.validateTripSaveDate(tripSaveRequest);
+        Trip trip = toEntity(tripSaveRequest);
+        return tripRepository.save(trip).getId();
 
-        return tripRepository.save(tripSaveRequest.toEntity()).getId();
     }
+      private Trip toEntity(TripSaveRequest tripSaveRequest){
+        return Trip.of(
+                tripSaveRequest.getName(),
+                DateUtil.toLocalDate(tripSaveRequest.getStartDate()),
+                DateUtil.toLocalDate(tripSaveRequest.getEndDate()),
+                tripSaveRequest.getIsDomestic(),
+                null, 
+                null);
+       }
 
     @Transactional(readOnly = true)
     public List<TripListFindResponse> findAllTrips() {
