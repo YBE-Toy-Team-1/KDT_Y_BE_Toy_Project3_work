@@ -5,8 +5,8 @@ import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "like")
-public class Like {
+@Table(name = "likes")
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +21,16 @@ public class Like {
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    protected Like() {
+    protected Likes() {
     }
 
-    private Like(Member member, Trip trip) {
+    private Likes(Member member, Trip trip) {
         this.member = member;
         this.trip = trip;
     }
 
-    public static Like of(Member member, Trip trip) {
-        return new Like(member, trip);
+    public static Likes of(Member member, Trip trip) {
+        return new Likes(member, trip);
     }
 
     public Long getLikeId() {

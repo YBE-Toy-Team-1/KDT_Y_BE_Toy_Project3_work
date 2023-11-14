@@ -19,7 +19,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createComment(@PathVariable(name = "trip_id") Long tripId, @RequestBody CommentSaveRequest request) {
+    public ResponseEntity<HttpStatus> saveComment(@PathVariable(name = "trip_id") Long tripId, @RequestBody CommentSaveRequest request) {
         Member tester = new Member(2L);
         commentService.createComment(tripId, request, tester);
 
