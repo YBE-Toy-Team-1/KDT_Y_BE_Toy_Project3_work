@@ -33,40 +33,18 @@ public class TripDateValidationService {
     private void validateTripPatchDateRange(TripPatchRequest tripPatchRequest){
         DateUtil.checkValidDateRange(tripPatchRequest.getStartDate(), tripPatchRequest.getEndDate());
     }
-
+    
     private void validateTripDateForItineraries(Trip trip, String nowTripStart, String nowTripEnd) {
         List<Itinerary> itineraryList = trip.getItineraryList();
-        for (Itinerary i : itineraryList) {
-            if (i instanceof Transport) {
-                LocalDate departureDate = ((Transport) i).getDepartureDateTime().toLocalDate();
-                LocalDate arrivalDate = ((Transport) i).getArrivalDateTime().toLocalDate();
+        for (Itinerary itinerary : itineraryList) {
+            LocalDate startDate = itinerary.getStartDateTime().toLocalDate();
+            LocalDate endDate = itinerary.getEndDateTime().toLocalDate();
 
-                if (departureDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (arrivalDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-            } else if (i instanceof Accommodation) {
-                LocalDate checkInDate = ((Accommodation) i).getCheckInTime().toLocalDate();
-                LocalDate checkOutDate = ((Accommodation) i).getCheckOutTime().toLocalDate();
-
-                if (checkInDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (checkOutDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-            } else {
-                LocalDate arrivalDate = ((Stay) i).getArrivalDateTime().toLocalDate();
-                LocalDate leaveDate = ((Stay) i).getLeaveDateTime().toLocalDate();
-
-                if (arrivalDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
-                if (leaveDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
-                    throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
-                }
+            if (startDate.isBefore(DateUtil.toLocalDate(nowTripStart))) {
+                throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
+            }
+            if (endDate.isAfter(DateUtil.toLocalDate(nowTripEnd))) {
+                throw new InvalidDateRangeException(TripErrorCode.INVALID_DATE_RANGE);
             }
 
         }

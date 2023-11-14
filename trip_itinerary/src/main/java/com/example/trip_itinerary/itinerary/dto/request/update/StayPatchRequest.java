@@ -22,4 +22,14 @@ public class StayPatchRequest extends ItineraryPatchRequest {
     private String arrivalDateTime;
     private String leaveDateTime;
 
+    @Override
+    public String getStartDateTime() {
+        return arrivalDateTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return leaveDateTime;
+    }
+
 }

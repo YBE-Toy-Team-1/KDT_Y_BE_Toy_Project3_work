@@ -39,4 +39,13 @@ public class TransportSaveRequest extends ItinerarySaveRequest {
     @NotNull(message = "도착 시간을 입력해주세요.")
     private String arrivalDateTime;
 
+    @Override
+    public String getStartDateTime() {
+        return departureDateTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return arrivalDateTime;
+    }
 }

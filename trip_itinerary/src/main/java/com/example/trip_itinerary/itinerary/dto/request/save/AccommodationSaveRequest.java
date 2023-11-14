@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -27,4 +29,13 @@ public class AccommodationSaveRequest extends ItinerarySaveRequest {
     @NotNull(message = "체크아웃 시간을 입력해주세요.")
     private String checkOutTime;
 
+    @Override
+    public String getStartDateTime() {
+        return checkInTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return checkOutTime;
+    }
 }

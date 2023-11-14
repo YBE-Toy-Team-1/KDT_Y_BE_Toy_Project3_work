@@ -88,11 +88,13 @@ public class Transport extends Itinerary {
         return arrivalLocation;
     }
 
-    public LocalDateTime getDepartureDateTime() {
+    @Override
+    public LocalDateTime getStartDateTime() {
         return departureDateTime;
     }
 
-    public LocalDateTime getArrivalDateTime() {
+    @Override
+    public LocalDateTime getEndDateTime() {
         return arrivalDateTime;
     }
 

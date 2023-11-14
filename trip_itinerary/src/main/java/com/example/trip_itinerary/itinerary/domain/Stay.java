@@ -49,16 +49,19 @@ public class Stay extends Itinerary {
     public String getLocation() {
         return location;
     }
+  
 
     public String getLocationAddress() {
         return locationAddress;
     }
 
-    public LocalDateTime getArrivalDateTime() {
+    @Override
+    public LocalDateTime getStartDateTime() {
         return arrivalDateTime;
     }
 
-    public LocalDateTime getLeaveDateTime() {
+    @Override
+    public LocalDateTime getEndDateTime() {
         return leaveDateTime;
     }
 

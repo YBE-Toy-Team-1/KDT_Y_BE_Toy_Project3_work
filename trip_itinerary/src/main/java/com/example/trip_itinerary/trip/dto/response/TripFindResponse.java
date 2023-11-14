@@ -7,6 +7,7 @@ import com.example.trip_itinerary.itinerary.domain.Itinerary;
 import com.example.trip_itinerary.itinerary.domain.Stay;
 import com.example.trip_itinerary.itinerary.domain.Transport;
 import com.example.trip_itinerary.itinerary.dto.response.ItineraryFindResponse;
+import com.example.trip_itinerary.itinerary.dto.response.StayFindResponse;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

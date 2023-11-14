@@ -10,9 +10,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-public class ItineraryPatchRequest {
+public abstract class ItineraryPatchRequest {
 
     @Size(max = 30, message = "여정 이름은 최대 30자입니다.")
     private String name;
+
+    public abstract String getStartDateTime();
+    public abstract String getEndDateTime();
 
 }

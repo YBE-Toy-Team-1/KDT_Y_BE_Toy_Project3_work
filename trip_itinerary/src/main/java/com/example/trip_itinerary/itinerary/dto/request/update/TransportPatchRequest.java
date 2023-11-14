@@ -31,4 +31,14 @@ public class TransportPatchRequest extends ItineraryPatchRequest {
     private String departureDateTime;
     private String arrivalDateTime;
 
+    @Override
+    public String getStartDateTime() {
+        return departureDateTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return arrivalDateTime;
+    }
+
 }

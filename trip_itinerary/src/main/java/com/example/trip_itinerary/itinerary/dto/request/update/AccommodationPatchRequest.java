@@ -22,4 +22,13 @@ public class AccommodationPatchRequest extends ItineraryPatchRequest {
     private String checkInTime;
     private String checkOutTime;
 
+    @Override
+    public String getStartDateTime() {
+        return checkInTime;
+    }
+
+    @Override
+    public String getEndDateTime() {
+        return checkOutTime;
+    }
 }
