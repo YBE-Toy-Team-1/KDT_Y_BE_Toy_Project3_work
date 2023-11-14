@@ -1,24 +1,7 @@
 package com.example.trip_itinerary.trip.service;
 
-import com.example.trip_itinerary.trip.domain.Trip;
-import com.example.trip_itinerary.trip.dto.request.TripPatchRequest;
-import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
-import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
-import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
-import com.example.trip_itinerary.trip.repository.TripRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TripServiceImplTest {
