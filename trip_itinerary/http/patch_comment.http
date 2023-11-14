@@ -1,7 +1,7 @@
 ## 댓글 수정
-PUT http://localhost:8080/trips/1/comments/1
+PUT http://localhost:8080/trips/2/comments/6
 Content-Type: application/json
 
 {
-"content": "너무 재밌겠다"
+"content": "누구랑 가시나요??"
 }
