@@ -52,7 +52,12 @@ public class ItineraryExceptionHandler {
 
     @ExceptionHandler(KakaoApiException.class)
     public ItineraryErrorResponse handle(KakaoApiException e) {
-        return ItineraryErrorResponse.from(ItineraryErrorCode.NOT_MATCH_DATA_TYPE);
+        return ItineraryErrorResponse.from(ItineraryErrorCode.API_REQUEST_FAILED);
+    }
+
+    @ExceptionHandler(ServerErrorException.class)
+    public ItineraryErrorResponse handle(ServerErrorException e) {
+        return ItineraryErrorResponse.from(ItineraryErrorCode.SERVER_ERROR);
     }
 
 }
