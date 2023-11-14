@@ -52,7 +52,7 @@ public class TripController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping({"/{trip_name}"})
+    @GetMapping({"search/{trip_name}"})
     public ResponseEntity<List<TripListFindResponse>> searchTripByName(@PathVariable String tripName){
         List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 

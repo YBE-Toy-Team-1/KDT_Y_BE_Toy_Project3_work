@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@RestControllerAdvice(basePackageClasses = ItineraryController.class)
+@RestControllerAdvice(basePackages = "com.example.trip_itinerary")
 public class ItineraryExceptionHandler {
 
     @ExceptionHandler(ItineraryNotFoundException.class)
-    public ItineraryErrorResponse handle(ItineraryNotFoundException e) {
-        return ItineraryErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<ItineraryErrorResponse> handle(ItineraryNotFoundException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(InvalidDateTimeRangeException.class)
-    public ItineraryErrorResponse handle(InvalidDateTimeRangeException e) {
-        return ItineraryErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<ItineraryErrorResponse> handle(InvalidDateTimeRangeException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(InvalidDateTimeFormatException.class)
-    public ItineraryErrorResponse handle(InvalidDateTimeFormatException e) {
-        return ItineraryErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<ItineraryErrorResponse> handle(InvalidDateTimeFormatException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(e.getErrorCode()));
     }
 
 
@@ -46,18 +46,20 @@ public class ItineraryExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ItineraryErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return ItineraryErrorResponse.from(ItineraryErrorCode.NOT_MATCH_DATA_TYPE);
+    public ResponseEntity<ItineraryErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        int status = ItineraryErrorCode.NOT_MATCH_DATA_TYPE.getStatus();
+        ItineraryErrorResponse body = ItineraryErrorResponse.from(ItineraryErrorCode.NOT_MATCH_DATA_TYPE);
+        return ResponseEntity.status(status).body(body);
     }
 
     @ExceptionHandler(KakaoApiException.class)
-    public ItineraryErrorResponse handle(KakaoApiException e) {
-        return ItineraryErrorResponse.from(ItineraryErrorCode.API_REQUEST_FAILED);
+    public ResponseEntity<ItineraryErrorResponse> handle(KakaoApiException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(ItineraryErrorCode.API_REQUEST_FAILED));
     }
 
     @ExceptionHandler(ServerErrorException.class)
-    public ItineraryErrorResponse handle(ServerErrorException e) {
-        return ItineraryErrorResponse.from(ItineraryErrorCode.SERVER_ERROR);
+    public ResponseEntity<ItineraryErrorResponse> handle(ServerErrorException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(ItineraryErrorCode.SERVER_ERROR));
     }
 
 }

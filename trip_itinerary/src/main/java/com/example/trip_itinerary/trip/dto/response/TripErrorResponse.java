@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.net.http.HttpHeaders;
+
 @Getter
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -16,6 +18,7 @@ public class TripErrorResponse {
     private int status;
 
     public static TripErrorResponse from(TripErrorCode tripErrorCode) {
+
         return TripErrorResponse.builder()
                 .errorCode(tripErrorCode.name())
                 .message(tripErrorCode.getMessage())

@@ -9,7 +9,7 @@ import com.example.trip_itinerary.itinerary.dto.request.save.ItinerarySaveReques
 import com.example.trip_itinerary.itinerary.dto.request.save.StaySaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.save.TransportSaveRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.AccommodationUpdateRequest;
-import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryPatchRequest;
+import com.example.trip_itinerary.itinerary.dto.request.update.ItineraryUpdateRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.StayUpdateRequest;
 import com.example.trip_itinerary.itinerary.dto.request.update.TransportUpdateRequest;
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
@@ -64,8 +64,9 @@ public class  ItineraryService {
         itineraryRepository.save(stay);
     }
 
-    private Trip findTripAndValidateDateTime(Long id, ItinerarySaveRequest request){
+    private Trip findTripAndValidateDateTime(Long id, ItinerarySaveRequest request) {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
+
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundTrip);
         return foundTrip;
     }
@@ -100,7 +101,7 @@ public class  ItineraryService {
         return foundStay.getTrip().getId();
     }
 
-    private Itinerary findItineraryAndValidateDateTime(Long id, ItineraryPatchRequest request) {
+    private Itinerary findItineraryAndValidateDateTime(Long id, ItineraryUpdateRequest request) {
         Itinerary foundItinerary = itineraryRepository.findById(id).orElseThrow(() -> new ItineraryNotFoundException(ItineraryErrorCode.ITINERARY_NOT_FOUND));
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundItinerary.getTrip());
         return foundItinerary;

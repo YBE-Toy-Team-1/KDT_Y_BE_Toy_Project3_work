@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 public abstract class ItinerarySaveRequest {
 
     @NotBlank(message = "여정 이름을 입력해주세요.")
