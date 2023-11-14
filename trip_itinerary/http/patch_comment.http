@@ -1,0 +1,7 @@
+## 댓글 수정
+PUT http://localhost:8080/trips/1/comments/1
+Content-Type: application/json
+
+{
+"content": "너무 재밌겠다"
+}
