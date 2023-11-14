@@ -55,8 +55,8 @@ ItineraryFindResponse {
                 .departureAddress(transport.getDepartureAddress())
                 .arrivalLocation(transport.getArrivalLocation())
                 .arrivalAddress(transport.getArrivalAddress())
-                .departureDateTime(transport.getDepartureDateTime())
-                .arrivalDateTime(transport.getArrivalDateTime())
+                .departureDateTime(transport.getStartDateTime())
+                .arrivalDateTime(transport.getEndDateTime())
                 .build();
     }
 
@@ -65,8 +65,8 @@ ItineraryFindResponse {
                 .name(accommodation.getName())
                 .accommodationName(accommodation.getName())
                 .accommodationAddress(accommodation.getAccommodationAddress())
-                .checkInTime(accommodation.getCheckInTime())
-                .checkOutTime(accommodation.getCheckOutTime())
+                .checkInTime(accommodation.getStartDateTime())
+                .checkOutTime(accommodation.getEndDateTime())
                 .build();
     }
 
@@ -75,8 +75,8 @@ ItineraryFindResponse {
                 .name(stay.getName())
                 .location(stay.getLocation())
                 .locationAddress(stay.getLocationAddress())
-                .arrivalDateTime(stay.getArrivalDateTime())
-                .leaveDateTime(stay.getLeaveDateTime())
+                .arrivalDateTime(stay.getStartDateTime())
+                .leaveDateTime(stay.getEndDateTime())
                 .build();
     }
 

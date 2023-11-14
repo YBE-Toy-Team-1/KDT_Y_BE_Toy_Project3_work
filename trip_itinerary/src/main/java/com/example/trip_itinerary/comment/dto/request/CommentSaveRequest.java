@@ -3,12 +3,11 @@ package com.example.trip_itinerary.comment.dto.request;
 import lombok.Getter;
 
 @Getter
-public class CreateCommentRequest {
-    private Long tripId;
+public class CommentSaveRequest {
+
     private String content;
 
-    public CreateCommentRequest(Long tripId, String content) {
-        this.tripId = tripId;
+    public CommentSaveRequest(String content) {
         this.content = content;
     }
 }

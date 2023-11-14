@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TransportPatchRequest extends ItineraryPatchRequest {
+public class TransportUpdateRequest extends ItineraryUpdateRequest {
 
     @Size(max = 30, message = "이동 방법은 최대 30자입니다.")
     private String transportation;
