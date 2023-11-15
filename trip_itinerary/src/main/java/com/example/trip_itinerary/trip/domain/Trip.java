@@ -2,6 +2,7 @@ package com.example.trip_itinerary.trip.domain;
 
 import com.example.trip_itinerary.comment.domain.Comment;
 import com.example.trip_itinerary.itinerary.domain.Itinerary;
+import com.example.trip_itinerary.member.domain.Member;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -30,6 +31,10 @@ public class Trip {
     @Column(name = "like_num", nullable = true)
     private Long likeNum;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Itinerary> itineraryList = new ArrayList<>();
 
@@ -39,16 +44,17 @@ public class Trip {
     protected Trip() {
     }
 
-    private Trip(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic) {
+    private Trip(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, Member member) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.isDomestic = isDomestic;
         this.likeNum = 0L;
+        this.member = member;
     }
 
-    public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic) {
-        return new Trip(name, startDate, endDate, isDomestic);
+    public static Trip of(String name, LocalDate startDate, LocalDate endDate, boolean isDomestic, Member member) {
+        return new Trip(name, startDate, endDate, isDomestic, member);
     }
 
     public void updateTrip(String name, LocalDate startDate, LocalDate endDate, Boolean isDomestic) {
@@ -96,5 +102,9 @@ public class Trip {
 
     public List<Comment> getCommentList() {
         return commentList;
+    }
+
+    public Member getMember() {
+        return member;
     }
 }

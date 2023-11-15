@@ -1,6 +1,7 @@
 package com.example.trip_itinerary.trip.controller;
 
 
+import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
@@ -8,6 +9,7 @@ import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.service.TripService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,8 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest) {
-        tripService.saveTrip(tripSaveRequest);
+    public ResponseEntity<HttpStatus> saveTrip(@RequestBody @Validated TripSaveRequest tripSaveRequest, @AuthenticationPrincipal Member member) {
+        tripService.saveTrip(tripSaveRequest, member);
 
         return ResponseEntity.created(URI.create("/trips")).build();
     }
@@ -56,6 +58,13 @@ public class TripController {
     public ResponseEntity<List<TripListFindResponse>> searchTripByName(@PathVariable(name = "trip_name") String tripName){
         List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 
+        return ResponseEntity.ok(tripList);
+    }
+
+
+    @GetMapping("/like") // 1. trips/like 2. trips/likes 3.trips/mylikes 3. trips/likedtrips 4. trips/liked
+    public ResponseEntity<List<TripListFindResponse>> findLikeTrip(@AuthenticationPrincipal Member member){
+        List<TripListFindResponse> tripList = tripService.getLikeTripList(member);
         return ResponseEntity.ok(tripList);
     }
 

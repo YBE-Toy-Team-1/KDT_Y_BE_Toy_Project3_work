@@ -1,5 +1,9 @@
 package com.example.trip_itinerary.trip.service;
 
+import com.example.trip_itinerary.comment.domain.Comment;
+import com.example.trip_itinerary.comment.dto.response.CommentFindResponse;
+import com.example.trip_itinerary.like.domain.Likes;
+import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
@@ -25,16 +29,16 @@ public class TripService {
     private final TripDateValidationService tripDateValidationService;
 
     @Transactional
-    public Long saveTrip(TripSaveRequest tripSaveRequest) {
+    public void saveTrip(TripSaveRequest tripSaveRequest, Member member) {
         tripDateValidationService.validateTripSaveDate(tripSaveRequest);
         Trip trip = Trip.of(
                 tripSaveRequest.getName(),
                 DateUtil.toLocalDate(tripSaveRequest.getStartDate()),
                 DateUtil.toLocalDate(tripSaveRequest.getEndDate()),
-                tripSaveRequest.getIsDomestic()
+                tripSaveRequest.getIsDomestic(),
+                member
         );
-
-        return tripRepository.save(trip).getId();
+        tripRepository.save(trip);
     }
 
     public List<TripListFindResponse> findAllTrips() {
@@ -65,15 +69,31 @@ public class TripService {
         List<TripListFindResponse> tripFindResponseList = new ArrayList<>();
         for (Trip foundTrip : tripList) {
 
+            List<CommentFindResponse> commentFindResponses = new ArrayList<>();
+            for(Comment comment : foundTrip.getCommentList()){
+                commentFindResponses.add(CommentFindResponse.fromEntity(comment));
+            }
+
             TripListFindResponse tripListFindResponse = TripListFindResponse.builder()
                     .id(foundTrip.getId())
                     .startDate(foundTrip.getStartDate())
                     .endDate(foundTrip.getEndDate())
                     .isDomestic(foundTrip.isDomestic())
+                    .likeNum(foundTrip.getLikeNum())
+                    .commentList(commentFindResponses)
+                    .memberName(foundTrip.getMember().getName())
                     .build();
 
             tripFindResponseList.add(tripListFindResponse);
         }
         return tripFindResponseList;
+    }
+
+    public List<TripListFindResponse> getLikeTripList(Member member) {
+        List<Trip> foundTripList = new ArrayList<>();
+        for(Likes likes : member.getLikeTripList()){
+            foundTripList.add(likes.getTrip());
+        }
+        return tripListToResponse(foundTripList);
     }
 }
