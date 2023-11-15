@@ -52,8 +52,8 @@ public class TripController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping({"search/{trip_name}"})
-    public ResponseEntity<List<TripListFindResponse>> searchTripByName(@PathVariable String tripName){
+    @GetMapping({"/search/{trip_name}"})
+    public ResponseEntity<List<TripListFindResponse>> searchTripByName(@PathVariable(name = "trip_name") String tripName){
         List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 
         return ResponseEntity.ok(tripList);

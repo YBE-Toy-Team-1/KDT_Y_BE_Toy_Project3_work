@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -36,10 +35,9 @@ public class KakaoApiService {
     public List<AddressFindResponse> getAddress(String keyword) {
 
         String encodedQuery = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
-        URI url = UriComponentsBuilder.fromUriString(kakaoUrl)
-                .queryParam("query", encodedQuery)
-                .build()
-                .toUri();
+
+        URI url = URI.create(kakaoUrl + "?query=" + encodedQuery);
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "KakaoAK " + kakaoApiKey);
         RequestEntity<Void> requestEntity = RequestEntity.get(url).headers(headers).build();
@@ -50,7 +48,8 @@ public class KakaoApiService {
             throw new KakaoApiException(ItineraryErrorCode.API_REQUEST_FAILED); // 테스트 필요
         }
 
-        return getAddressList(responseEntity.getBody());
+        List<AddressFindResponse> addressFindResponses = getAddressList(responseEntity.getBody());
+        return addressFindResponses;
     }
 
     public List<AddressFindResponse> getAddressList(String responseBody) {
