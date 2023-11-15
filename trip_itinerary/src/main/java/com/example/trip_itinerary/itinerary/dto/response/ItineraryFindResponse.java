@@ -4,6 +4,7 @@ package com.example.trip_itinerary.itinerary.dto.response;
 import com.example.trip_itinerary.itinerary.domain.Accommodation;
 import com.example.trip_itinerary.itinerary.domain.Stay;
 import com.example.trip_itinerary.itinerary.domain.Transport;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
@@ -13,9 +14,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class
-ItineraryFindResponse {
+public class ItineraryFindResponse {
 
     private String name;
 

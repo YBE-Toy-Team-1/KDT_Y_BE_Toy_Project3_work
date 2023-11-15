@@ -11,7 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -32,7 +37,9 @@ public class MemberController {
     public ResponseEntity<JwtAuthenticationResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         String userEmail = memberService.login(loginRequest);
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(tokenProvider.generateToken(userEmail)));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(tokenProvider.generateToken(userEmail, authorities)));
     }
 
 }

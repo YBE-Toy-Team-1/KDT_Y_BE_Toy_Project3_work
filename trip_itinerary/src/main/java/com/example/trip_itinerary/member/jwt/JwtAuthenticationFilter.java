@@ -2,29 +2,33 @@ package com.example.trip_itinerary.member.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+@Slf4j
+public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider tokenProvider;
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
-        String token = tokenProvider.resolveToken(request);
-        if(token == null){
-            filterChain.doFilter(request, response);
-            return;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String token = tokenProvider.resolveToken((HttpServletRequest) request);
+        if(token != null){
+            SecurityContextHolder.getContext().setAuthentication(tokenProvider.validateToken(token));
         }
-        tokenProvider.validateToken(token);
-        filterChain.doFilter(request, response);
+        chain.doFilter(request, response);
     }
 }

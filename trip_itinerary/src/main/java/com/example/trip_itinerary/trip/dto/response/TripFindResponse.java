@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripFindResponse {
@@ -33,7 +31,6 @@ public class TripFindResponse {
 
     private LocalDate endDate;
 
-    @JsonProperty("is_domestic")
     private boolean isDomestic;
 
     private Long likeNum;
@@ -47,7 +44,7 @@ public class TripFindResponse {
     public static TripFindResponse fromEntity(Trip trip) {
         List<CommentFindResponse> findCommentResponsesList = new ArrayList<>();
 
-        for(Comment comment : trip.getCommentList()){
+        for (Comment comment : trip.getCommentList()) {
             findCommentResponsesList.add(CommentFindResponse.fromEntity(comment));
         }
 

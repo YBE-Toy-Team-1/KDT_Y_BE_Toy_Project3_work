@@ -1,5 +1,6 @@
 package com.example.trip_itinerary.member.exception;
 
+import com.example.trip_itinerary.TripItineraryApplication;
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
 import com.example.trip_itinerary.member.controller.MemberController;
 import com.example.trip_itinerary.member.dto.response.MemberErrorResponse;
@@ -13,22 +14,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@RestControllerAdvice(basePackageClasses = MemberController.class)
+@RestControllerAdvice(basePackageClasses = TripItineraryApplication.class)
 public class MemberExceptionHandler {
 
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<com.example.trip_itinerary.member.dto.response.MemberErrorResponse> handle(MemberNotFoundException e) {
-        return ResponseEntity.status(e.getErrorCode().getStatus()).body(com.example.trip_itinerary.member.dto.response.MemberErrorResponse.from(e.getErrorCode()));
+    public ResponseEntity<MemberErrorResponse> handle(MemberNotFoundException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(MemberErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<com.example.trip_itinerary.member.dto.response.MemberErrorResponse> handle(EmailAlreadyExistsException e) {
-        return ResponseEntity.status(e.getErrorCode().getStatus()).body(com.example.trip_itinerary.member.dto.response.MemberErrorResponse.from(e.getErrorCode()));
+    public ResponseEntity<MemberErrorResponse> handle(EmailAlreadyExistsException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(MemberErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(LoginFailedException.class)
-    public ResponseEntity<com.example.trip_itinerary.member.dto.response.MemberErrorResponse> handle(LoginFailedException e) {
-        return ResponseEntity.status(e.getErrorCode().getStatus()).body(com.example.trip_itinerary.member.dto.response.MemberErrorResponse.from(e.getErrorCode()));
+    public ResponseEntity<MemberErrorResponse> handle(LoginFailedException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(MemberErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,10 +47,20 @@ public class MemberExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<MemberErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public ResponseEntity<MemberErrorResponse> handle(HttpMessageNotReadableException e) {
         int status = MemberErrorCode.INVALID_USERNAME_PASSWORD.getStatus();
         MemberErrorResponse body = MemberErrorResponse.from(MemberErrorCode.INVALID_USERNAME_PASSWORD);
         return ResponseEntity.status(status).body(body);
+    }
+
+    @ExceptionHandler(MemberNotMatchedException.class)
+    public ResponseEntity<MemberErrorResponse> handle(MemberNotMatchedException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(MemberErrorResponse.from(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(LoginCredentialExpired.class)
+    public ResponseEntity<MemberErrorResponse> handle(LoginCredentialExpired e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(MemberErrorResponse.from(e.getErrorCode()));
     }
 
 }

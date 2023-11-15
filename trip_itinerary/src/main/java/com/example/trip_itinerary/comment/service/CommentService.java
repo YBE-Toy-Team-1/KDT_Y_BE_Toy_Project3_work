@@ -7,6 +7,9 @@ import com.example.trip_itinerary.comment.exception.CommentErrorCode;
 import com.example.trip_itinerary.comment.exception.CommentNotFoundException;
 import com.example.trip_itinerary.comment.repository.CommentRepository;
 import com.example.trip_itinerary.member.domain.Member;
+import com.example.trip_itinerary.member.domain.MemberAdapter;
+import com.example.trip_itinerary.member.exception.MemberErrorCode;
+import com.example.trip_itinerary.member.exception.MemberNotMatchedException;
 import com.example.trip_itinerary.member.repository.MemberRepository;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;
@@ -24,19 +27,31 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final TripRepository tripRepository;
 
-    public void createComment(Long tripId, CommentSaveRequest request, Member member) {
+    public void createComment(Long tripId, CommentSaveRequest request, MemberAdapter memberAdapter) {
         Trip findTrip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-        commentRepository.save(Comment.of(member, findTrip, request.getContent()));
+        commentRepository.save(Comment.of(memberAdapter.getMember(), findTrip, request.getContent()));
     }
 
-    public void updateComment(Long commentId, CommentUpdateRequest request) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(CommentErrorCode.COMMENT_NOT_FOUND));
-        comment.update(request);
-    }
-
-    public void deleteComment(Long commentId) {
+    public void updateComment(Long commentId, CommentUpdateRequest request, MemberAdapter memberAdapter) {
         Comment foundComment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(CommentErrorCode.COMMENT_NOT_FOUND));
-        commentRepository.delete(foundComment);
+
+        if(foundComment.getMember().getUsername().equals(memberAdapter.getUsername())){
+            foundComment.update(request);
+            return;
+        }
+
+        throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+    }
+
+    public void deleteComment(Long commentId, MemberAdapter memberAdapter) {
+        Comment foundComment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(CommentErrorCode.COMMENT_NOT_FOUND));
+
+        if(foundComment.getMember().getUsername().equals(memberAdapter.getUsername())){
+            commentRepository.delete(foundComment);
+            return;
+        }
+
+        throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
     }
 
 }

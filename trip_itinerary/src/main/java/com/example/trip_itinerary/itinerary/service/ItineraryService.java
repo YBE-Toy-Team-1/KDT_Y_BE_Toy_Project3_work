@@ -15,6 +15,9 @@ import com.example.trip_itinerary.itinerary.dto.request.update.TransportUpdateRe
 import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
 import com.example.trip_itinerary.itinerary.exception.ItineraryNotFoundException;
 import com.example.trip_itinerary.itinerary.repository.ItineraryRepository;
+import com.example.trip_itinerary.member.domain.MemberAdapter;
+import com.example.trip_itinerary.member.exception.MemberErrorCode;
+import com.example.trip_itinerary.member.exception.MemberNotMatchedException;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;
 import com.example.trip_itinerary.trip.exception.TripNotFoundException;
@@ -33,8 +36,12 @@ public class  ItineraryService {
     private final TripRepository tripRepository;
     private final ItineraryDateTimeValidationService itineraryTimeValidationService;
 
-    public void saveTransport(Long id, TransportSaveRequest request) {
+    public void saveTransport(Long id, TransportSaveRequest request, MemberAdapter memberAdapter) {
         Trip foundTrip = findTripAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundTrip.getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         Transport transport = Transport.of(request.getName(), foundTrip, request.getTransportation(), request.getDepartureLocation(),
                 request.getDepartureAddress(), request.getArrivalLocation(), request.getArrivalAddress(),
@@ -44,8 +51,12 @@ public class  ItineraryService {
         itineraryRepository.save(transport);
     }
 
-    public void saveAccommodation(Long id, AccommodationSaveRequest request) {
+    public void saveAccommodation(Long id, AccommodationSaveRequest request, MemberAdapter memberAdapter) {
         Trip foundTrip = findTripAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundTrip.getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         Accommodation accommodation = Accommodation.of(request.getName(), foundTrip, request.getAccommodationName(),
                 request.getAccommodationAddress(), DateUtil.toLocalDateTime(request.getCheckInTime()),
@@ -54,8 +65,12 @@ public class  ItineraryService {
         itineraryRepository.save(accommodation);
     }
 
-    public void saveStay(Long id, StaySaveRequest request) {
+    public void saveStay(Long id, StaySaveRequest request, MemberAdapter memberAdapter) {
         Trip foundTrip = findTripAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundTrip.getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         Stay stay = Stay.of(request.getName(), foundTrip, request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()),
@@ -71,34 +86,41 @@ public class  ItineraryService {
         return foundTrip;
     }
 
-    public Long patchTransport(Long id, TransportUpdateRequest request) {
+    public void patchTransport(Long id, TransportUpdateRequest request, MemberAdapter memberAdapter) {
         Transport foundTransport = (Transport) findItineraryAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundTransport.getTrip().getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         foundTransport.updateTransport(request.getName(), request.getTransportation(),
                 request.getDepartureLocation(), request.getDepartureAddress(),
                 request.getArrivalLocation(), request.getArrivalAddress(),
                 DateUtil.toLocalDateTime(request.getDepartureDateTime()), DateUtil.toLocalDateTime(request.getArrivalDateTime()));
-
-        return foundTransport.getTrip().getId();
     }
 
-    public Long patchAccommodation(Long id, AccommodationUpdateRequest request) {
+    public void patchAccommodation(Long id, AccommodationUpdateRequest request, MemberAdapter memberAdapter) {
         Accommodation foundAccommodation = (Accommodation) findItineraryAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundAccommodation.getTrip().getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         foundAccommodation.updateAccommodation(request.getName(), request.getAccommodationName(),
                                                request.getAccommodationAddress(),
                                                DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
-
-        return foundAccommodation.getTrip().getId();
     }
 
-    public Long patchStay(Long id, StayUpdateRequest request) {
+    public void patchStay(Long id, StayUpdateRequest request, MemberAdapter memberAdapter) {
         Stay foundStay = (Stay) findItineraryAndValidateDateTime(id, request);
+
+        if (!memberAdapter.getUsername().equals(foundStay.getTrip().getMember().getUsername())) {
+            throw new MemberNotMatchedException(MemberErrorCode.MEMBER_NOT_MATCHED);
+        }
 
         foundStay.updateStay(request.getName(), request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
 
-        return foundStay.getTrip().getId();
     }
 
     private Itinerary findItineraryAndValidateDateTime(Long id, ItineraryUpdateRequest request) {

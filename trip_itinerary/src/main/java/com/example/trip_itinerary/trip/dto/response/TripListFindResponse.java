@@ -16,12 +16,18 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripListFindResponse {
     private Long id;
+
     private String tripName;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
-    @JsonProperty("is_domestic")
+    
     private boolean isDomestic;
+
     private Long likeNum;
+
     private List<CommentFindResponse> commentList;
+
     private String memberName;
 }
