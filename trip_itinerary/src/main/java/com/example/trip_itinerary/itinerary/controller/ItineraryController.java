@@ -26,8 +26,8 @@ public class ItineraryController {
     private final ItineraryService itineraryService;
     private final KakaoApiService kakaoApiService;
 
-    @GetMapping("/address")
-    public ResponseEntity<List<AddressFindResponse>> getAddressByName(@RequestParam(name= "keyword") String keyword){
+    @GetMapping("/address/{keyword}")
+    public ResponseEntity<List<AddressFindResponse>> getAddressByName(@PathVariable(name = "keyword") String keyword){
         List<AddressFindResponse> addressResponses = kakaoApiService.getAddress(keyword);
         return ResponseEntity.ok(addressResponses);
     }
