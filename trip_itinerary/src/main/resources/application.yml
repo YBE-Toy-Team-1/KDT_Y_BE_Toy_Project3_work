@@ -15,11 +15,22 @@ spring:
         show_sql: true
   config:
     import:
-#      - kakao.yml
-#      - jwt.yml
+      - kakao.yml
+      - jwt.yml
 
   datasource:
     url: jdbc:mysql://localhost:3306/trip_itinerary?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+springdoc:
+  cache:
+    disabled: true
+  swagger-ui:
+    path: /api-docs.html
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-produces-media-type: application/json
