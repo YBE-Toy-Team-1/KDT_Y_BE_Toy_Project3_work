@@ -3,6 +3,10 @@ package com.example.trip_itinerary.member.service;
 import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.dto.request.LoginRequest;
 import com.example.trip_itinerary.member.dto.request.SignUpRequest;
+import com.example.trip_itinerary.member.exception.EmailAlreadyExistsException;
+import com.example.trip_itinerary.member.exception.LoginFailedException;
+import com.example.trip_itinerary.member.exception.MemberErrorCode;
+import com.example.trip_itinerary.member.exception.MemberNotFoundException;
 import com.example.trip_itinerary.member.jwt.JwtTokenProvider;
 import com.example.trip_itinerary.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -24,22 +28,21 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일을 찾을 수 없습니다.  " + email));
+                .orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         return new User(member.getUsername(), member.getPassword(), new ArrayList<>());
     }
 
     @Transactional
     public void registerMember(SignUpRequest signUpRequest){
-        Member member = new Member(signUpRequest.getName(), signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()));
+        Member member = Member.of(signUpRequest.getName(), signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()));
         memberRepository.findByEmail(member.getUsername()).ifPresentOrElse(
                 it -> {
-                    throw new RuntimeException();
+                    throw new EmailAlreadyExistsException(MemberErrorCode.ALREADY_EMAIL_EXIST);
                 },
                 () -> {
                     memberRepository.save(member);
@@ -49,11 +52,11 @@ public class MemberService implements UserDetailsService {
 
     @Transactional
     public String login(LoginRequest loginRequest){
-        Member foundMember = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(RuntimeException::new);
+        Member foundMember = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new LoginFailedException(MemberErrorCode.INVALID_USERNAME_PASSWORD));
         if(passwordEncoder.matches(loginRequest.getPassword(), foundMember.getPassword())){
             return foundMember.getUsername();
         }
-        throw new RuntimeException(); // 로그인 실패 exception
+        throw new LoginFailedException(MemberErrorCode.INVALID_USERNAME_PASSWORD);
     }
 
 }

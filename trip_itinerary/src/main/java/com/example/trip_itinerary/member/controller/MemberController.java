@@ -7,6 +7,7 @@ import com.example.trip_itinerary.member.jwt.JwtTokenProvider;
 import com.example.trip_itinerary.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,7 @@ public class MemberController {
     public ResponseEntity<JwtAuthenticationResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         String userEmail = memberService.login(loginRequest);
 
-        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse(tokenProvider.generateToken(userEmail));
-        return ResponseEntity.ok(jwtAuthenticationResponse);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(tokenProvider.generateToken(userEmail)));
     }
 
-    @PostMapping("test1")
-    public String test1(){
-        return "test";
-    }
 }
