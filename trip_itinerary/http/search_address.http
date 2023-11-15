@@ -1,0 +1,6 @@
+# 키워드로 주소검색 요청(카카오) - 키워드로 검색한 결과가 있는 경우
+GET http://localhost:8080/trips/1/address/신라스테이
+Content-Type: application/json;charset=UTF-8
+
+{
+}

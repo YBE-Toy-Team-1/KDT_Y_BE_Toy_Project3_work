@@ -2,6 +2,7 @@ package com.example.trip_itinerary.like.controller;
 
 import com.example.trip_itinerary.like.service.LikeService;
 import com.example.trip_itinerary.member.domain.Member;
+import com.example.trip_itinerary.member.domain.MemberAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,8 @@ public class LikeController {
 
     @Operation(summary = "여행 좋아요 등록/취소")
     @PostMapping("/trips/{trip_id}/like")
-    public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId, @AuthenticationPrincipal Member member) {
-        likeService.likeTrip(member, tripId);
+    public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId, @AuthenticationPrincipal MemberAdapter memberAdapter) {
+        likeService.likeTrip(memberAdapter, tripId);
         return ResponseEntity.ok().build();
     }
 

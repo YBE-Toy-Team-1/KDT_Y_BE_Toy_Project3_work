@@ -15,7 +15,7 @@ public class CommentFindResponse {
     public static CommentFindResponse fromEntity(Comment comment){
         return CommentFindResponse.builder()
                 .id(comment.getId())
-//                .memberName(comment.getMember().)
+                .memberName(comment.getMember().getName())
                 .content(comment.getContent())
                 .build();
     }

@@ -47,6 +47,5 @@ public abstract class Itinerary {
 
     public abstract LocalDateTime getStartDateTime();
     public abstract LocalDateTime getEndDateTime();
-
 }
 

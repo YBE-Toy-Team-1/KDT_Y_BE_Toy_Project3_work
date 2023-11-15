@@ -1,80 +1,80 @@
 package com.example.trip_itinerary.member.jwt;
 
+import com.example.trip_itinerary.member.exception.LoginCredentialExpired;
+import com.example.trip_itinerary.member.exception.MemberErrorCode;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 
+@Slf4j
+@RequiredArgsConstructor
 public class JwtTokenProvider {
     //    @Value("asgasdas")
 //    private String jwtSecret = "Asdasfbahjsdbajsbfjbajbshjdbasbjfbashjbduqwybeqwjhbdfjbqwhjf";
-    private static final String SECRET_KEY = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
+//    private static final String SECRET_KEY = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
+    private final UserDetailsService userDetailsService;
 
-    private int jwtExpirationTime = 60;
+    @Value("${jwt.key}")
+    private String secretKey;
+    private long tokenValidTime = 30 * 60 * 1000L;
 
-    Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    @PostConstruct
+    public void init() {
+        secretKey = Base64.getEncoder()
+                .encodeToString(secretKey.getBytes());
+    }
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    public String generateToken(String username) {
+    public String generateToken(String username, Collection<? extends GrantedAuthority> roles) {
         Claims claims = Jwts.claims().setSubject(username);
+        claims.put("role", roles);
 
         Date now = new Date();
 
         return Jwts.builder()
-                .signWith(key, SignatureAlgorithm.HS512)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtExpirationTime))
+                .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
-
 
     public String resolveToken(HttpServletRequest request){
         return request.getHeader("Authorization");
     }
 
-
-    // 토큰의 유효성을 검증하는 메소드
     public UsernamePasswordAuthenticationToken validateToken(String token) {
         Date now = new Date();
         if(getExpiryDateFromJWT(token).before(now)){
-            throw new RuntimeException("토큰 만료됨");
+            throw new LoginCredentialExpired(MemberErrorCode.LOGIN_CREDENTIAL_EXPIRED);
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(getEmailFromJWT(token));
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "");
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     private String getEmailFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = Jwts.parser().setSigningKey(secretKey)
+                .parseClaimsJws(token).getBody();
 
         return claims.getSubject();
     }
 
-    // 토큰에서 만료 시간을 추출하는 메소드
+
     public Date getExpiryDateFromJWT(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
 

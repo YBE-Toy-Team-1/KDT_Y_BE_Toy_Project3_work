@@ -1,0 +1,8 @@
+## 좋아요 요청
+POST http://localhost:8080/trips/3/like
+Content-Type: application/json
+#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzM0BuYXZlci5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE3MDAwNjAwMDAsImV4cCI6MTcwMDA2MTgwMH0.I4l3AQERkHFyuKbxFDUduCbneo4mN3Odjfm5tHX5-jQ
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDA2MDAxNCwiZXhwIjoxNzAwMDYxODE0fQ.zW6UFt47ruw7PRhQZ66Cx4aEC8ak8Zn8pICY9zb4-ik
+
+{
+}

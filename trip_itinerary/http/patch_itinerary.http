@@ -1,0 +1,34 @@
+### 이동 여정 수정 성공
+PATCH http://localhost:8080/trips/1/transport/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzM0BuYXZlci5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE3MDAwNTc1NzksImV4cCI6MTcwMDA1OTM3OX0.1jOf9om4ziqNshMNZ4qiN5kIXz87LBPWqvwQru_Z5SQ
+#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDA1NzU5MCwiZXhwIjoxNzAwMDU5MzkwfQ.6_ztxxhH1TEK-4Bux2dSHKl5ij2IDtHDuQRBLXww0-Y
+
+{
+  "name": "강남역으로 이동",
+  "transportation": "버스",
+  "departure_location": "서울역",
+  "departure_address": "서울특별시 용산구 한강대로 지하392 (동자동)",
+  "arrival_location": "강남역",
+  "arrival_address": "서울특별시 강남구 강남대로 328 (역삼동)",
+  "departure_date_time": "2023-12-01T12:30:00",
+  "arrival_date_time": "2023-12-01T13:30:00"
+}
+
+### 숙박 여정 수정 성공
+PATCH http://localhost:8080/trips/2/accommodation/3
+Content-Type: application/json
+
+{
+  "accommodation_name": "가나호텔",
+  "type": "accommodation"
+}
+
+### 체류 여정 수정 성공
+PATCH http://localhost:8080/trips/2/stay/7
+Content-Type: application/json
+
+{
+  "name": "남산 케이블카 타기",
+  "type": "stay"
+}
