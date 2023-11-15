@@ -1,5 +1,7 @@
 package com.example.trip_itinerary.member.domain;
 
+import com.example.trip_itinerary.like.domain.Likes;
+import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 import jakarta.servlet.ServletException;
 import lombok.AccessLevel;
@@ -14,8 +16,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member implements UserDetails {
 
     @Id
@@ -30,6 +30,12 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "member")
+    private List<Likes> likeTripList = new ArrayList<>();
+
+    protected Member() {
+    }
 
     private Member(String name, String email, String password) {
         this.name = name;
@@ -47,6 +53,10 @@ public class Member implements UserDetails {
         authorities.add(new SimpleGrantedAuthority("USER"));
 
         return authorities;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -77,5 +87,9 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public List<Likes> getLikeTripList() {
+        return likeTripList;
     }
 }

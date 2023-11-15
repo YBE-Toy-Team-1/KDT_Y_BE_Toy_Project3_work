@@ -22,35 +22,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
     private final TripRepository tripRepository;
 
-    public void createComment(Long tripId, CommentSaveRequest request, Member member) { // , Long userId
-//        Member findMember = memberRepository.findById(userId).orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.MEMBER_NOT_FOUND));
+    public void createComment(Long tripId, CommentSaveRequest request, Member member) {
         Trip findTrip = tripRepository.findById(tripId).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
-
         commentRepository.save(Comment.of(member, findTrip, request.getContent()));
     }
 
     public void updateComment(Long commentId, CommentUpdateRequest request) {
-//        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(CommentErrorCode.COMMENT_NOT_FOUND));
-//        isCorrectUser(findUser, comment);
         comment.update(request);
     }
 
     public void deleteComment(Long commentId) {
-//        User findUser = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Comment foundComment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(CommentErrorCode.COMMENT_NOT_FOUND));
-//        isCorrectUser(findUser, comment);
-
         commentRepository.delete(foundComment);
     }
 
-
-//    private void isCorrectUser(User findUser, Comment comment) {
-//        if (!comment.getUser().getUserId().equals(findUser.getUserId())) {
-//            throw new RuntimeException();
-//        }
-//    }
 }

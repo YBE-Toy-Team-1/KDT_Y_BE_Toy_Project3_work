@@ -5,6 +5,7 @@ import com.example.trip_itinerary.member.dto.request.SignUpRequest;
 import com.example.trip_itinerary.member.dto.response.JwtAuthenticationResponse;
 import com.example.trip_itinerary.member.jwt.JwtTokenProvider;
 import com.example.trip_itinerary.member.service.MemberService;
+import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,0 @@
-## 좋아요 요청
-POST http://localhost:8080/trips/6/like
-Content-Type: application/json
-
-{
-}

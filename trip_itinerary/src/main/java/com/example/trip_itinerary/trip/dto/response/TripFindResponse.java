@@ -27,7 +27,7 @@ public class TripFindResponse {
 
     private Long id;
 
-    private String name;
+    private String tripName;
 
     private LocalDate startDate;
 
@@ -37,6 +37,8 @@ public class TripFindResponse {
     private boolean isDomestic;
 
     private Long likeNum;
+
+    private String memberName;
 
     private List<CommentFindResponse> commentResponseList;
 
@@ -67,11 +69,12 @@ public class TripFindResponse {
 
         return TripFindResponse.builder()
                 .id(trip.getId())
-                .name(trip.getName())
+                .tripName(trip.getName())
                 .startDate(trip.getStartDate())
                 .endDate(trip.getEndDate())
                 .isDomestic(trip.isDomestic())
                 .likeNum(trip.getLikeNum())
+                .memberName(trip.getMember().getName())
                 .commentResponseList(findCommentResponsesList)
                 .itineraryList(itineraryFindResponseList)
                 .build();

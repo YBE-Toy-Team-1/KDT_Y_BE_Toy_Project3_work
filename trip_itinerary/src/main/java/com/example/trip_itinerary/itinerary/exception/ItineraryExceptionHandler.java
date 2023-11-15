@@ -29,7 +29,6 @@ public class ItineraryExceptionHandler {
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(ItineraryErrorResponse.from(e.getErrorCode()));
     }
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handle(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();

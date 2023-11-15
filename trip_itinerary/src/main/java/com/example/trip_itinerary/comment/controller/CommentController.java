@@ -22,17 +22,22 @@ public class CommentController {
 
     @Operation(summary = "댓글 생성")
     @PostMapping
-    public ResponseEntity<HttpStatus> saveComment(@PathVariable(name = "trip_id") Long tripId, @RequestBody CommentSaveRequest request, @AuthenticationPrincipal Member member){
-        Member tester = Member.of("tester", "abcde@1234", "test");
-        commentService.createComment(tripId, request, tester);
+    public ResponseEntity<HttpStatus> saveComment(
+            @PathVariable(name = "trip_id") Long tripId,
+            @RequestBody CommentSaveRequest request,
+            @AuthenticationPrincipal Member member
+    ) {
+        commentService.createComment(tripId, request, member);
 
         return ResponseEntity.created(URI.create("/trips/" + tripId)).build();
     }
 
     @Operation(summary = "댓글 수정")
     @PutMapping("/{comment_id}")
-    public ResponseEntity<HttpStatus> updateComment(@PathVariable(name = "comment_id") Long commentId,
-                                                    @RequestBody CommentUpdateRequest request) {
+    public ResponseEntity<HttpStatus> updateComment(
+            @PathVariable(name = "comment_id") Long commentId,
+            @RequestBody CommentUpdateRequest request
+    ) {
         commentService.updateComment(commentId, request);
 
         return ResponseEntity.noContent().build();
