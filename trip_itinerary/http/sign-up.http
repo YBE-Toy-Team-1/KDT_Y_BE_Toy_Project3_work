@@ -3,8 +3,8 @@ POST http://localhost:8080/auth/sign-up
 Content-Type: application/json
 
 {
-  "email" : "fastcampus2@naver.com",
-  "password" : "1234asd!@",
+  "email" : "fastcampus3@naver.com",
+  "password" : "1234asd@@@@",
   "name" : "김패캠"
 }
 ###
@@ -15,8 +15,8 @@ Content-Type: application/json
 
 {
   "email" : "fastcampus@naver.com",
-  "password" : "12341234asd!@",
-  "name" : "김패캠"
+  "password" : "1234asd@@@@",
+  "name" : "김패캠2"
 }
 ###
 

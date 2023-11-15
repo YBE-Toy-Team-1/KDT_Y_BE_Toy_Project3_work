@@ -1,12 +1,14 @@
 ### 여행 수정 성공
-PATCH http://localhost:8080/trips/2
+PATCH http://localhost:8080/trips/3
 Content-Type: application/json
+#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzM0BuYXZlci5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE3MDAwNTAyMDksImV4cCI6MTcwMDA1MjAwOX0.A1tGER2TEpRLeN9Ft15EY0d0x7_CTMddl2sbGrMHGoE
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDA1MTMzNywiZXhwIjoxNzAwMDUzMTM3fQ.ztgDp6PO2BDLeAaBulCzwQvdJrEyjA_tNLdo2dhpBWQ
 
 {
-  "name": "근교 여행",
-  "start_date": "2023-12-20",
+  "name": "일본 여행",
+  "start_date": "2023-12-10",
   "end_date": "2023-12-23",
-  "is_domestic": true
+  "is_domestic": false
 }
 
 ### 여행 수정 성공
