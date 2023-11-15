@@ -31,7 +31,7 @@ public class ItineraryController {
         List<AddressFindResponse> addressResponses = kakaoApiService.getAddress(keyword);
         return ResponseEntity.ok(addressResponses);
     }
-  
+
     @PostMapping("/transport")
     public ResponseEntity<HttpStatus> saveTransport(@PathVariable(name = "trip_id") Long id, @RequestBody @Validated TransportSaveRequest transportSaveRequest) {
         itineraryService.saveTransport(id, transportSaveRequest);

@@ -7,6 +7,7 @@ import com.example.trip_itinerary.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,8 +20,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<HttpStatus> saveComment(@PathVariable(name = "trip_id") Long tripId, @RequestBody CommentSaveRequest request) {
-        Member tester = new Member(2L);
+    public ResponseEntity<HttpStatus> saveComment(@PathVariable(name = "trip_id") Long tripId, @RequestBody CommentSaveRequest request, @AuthenticationPrincipal Member member){
+        Member tester = Member.of("tester", "abcde@1234", "test");
         commentService.createComment(tripId, request, tester);
 
         return ResponseEntity.created(URI.create("/trips/" + tripId)).build();

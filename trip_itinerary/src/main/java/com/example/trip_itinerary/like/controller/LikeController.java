@@ -17,7 +17,7 @@ public class LikeController {
 
     @PostMapping("/trips/{trip_id}/like")
     public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId) {
-        Member tester = new Member(2L);
+        Member tester = Member.of("tester", "abcde@1234", "test");
         likeService.likeTrip(tester, tripId);
         return ResponseEntity.ok().build();
     }

@@ -1,0 +1,57 @@
+###회원가입 요청(성공)
+POST http://localhost:8080/auth/sign-up
+Content-Type: application/json
+
+{
+  "email" : "fastcampus2@naver.com",
+  "password" : "1234asd!@",
+  "name" : "김패캠"
+}
+###
+
+###회원가입 요청(이미 존재하는 회원)
+POST http://localhost:8080/auth/sign-up
+Content-Type: application/json
+
+{
+  "email" : "fastcampus@naver.com",
+  "password" : "12341234asd!@",
+  "name" : "김패캠"
+}
+###
+
+###회원가입 요청(유효하지 않은 이메일 형식)
+POST http://localhost:8080/auth/sign-up
+Content-Type: application/json
+
+{
+  "email" : "fastcampus3@naver.co",
+  "password" : "1234asd!@",
+  "name" : "김패캠"
+}
+
+###
+
+###회원가입 요청(유효하지 않은 비밀번호 형식)
+POST http://localhost:8080/auth/sign-up
+Content-Type: application/json
+
+{
+  "email" : "fastcampus5@naver.com",
+  "password" : "123412345",
+  "name" : "김패캠"
+}
+
+
+
+###회원가입 요청(빈 비밀번호)
+POST http://localhost:8080/auth/sign-up
+Content-Type: application/json
+
+{
+  "email" : "fastcampus@navcom",
+  "password" : "",
+  "name" : "김패캠"
+}
+
+
