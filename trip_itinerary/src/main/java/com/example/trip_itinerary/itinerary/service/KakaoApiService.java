@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,9 @@ import java.util.stream.StreamSupport;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class KakaoApiService {
-    @Value("${kakao.api.key}")
+//    @Value("${kakao.api.key}")
     private String kakaoApiKey;
-    @Value("${kakao.url.keyword}")
+//    @Value("${kakao.url.keyword}")
     private String kakaoUrl;
 
     public List<AddressFindResponse> getAddress(String keyword) {
