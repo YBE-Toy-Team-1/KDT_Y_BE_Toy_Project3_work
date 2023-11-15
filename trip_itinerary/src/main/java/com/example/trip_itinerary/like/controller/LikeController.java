@@ -19,7 +19,7 @@ public class LikeController {
     @Operation(summary = "여행 좋아요 등록/취소")
     @PostMapping("/trips/{trip_id}/like")
     public ResponseEntity<HttpStatus> likeTrip(@PathVariable("trip_id") Long tripId) {
-        Member tester = new Member(2L);
+        Member tester = Member.of("tester", "abcde@1234", "test");
         likeService.likeTrip(tester, tripId);
         return ResponseEntity.ok().build();
     }

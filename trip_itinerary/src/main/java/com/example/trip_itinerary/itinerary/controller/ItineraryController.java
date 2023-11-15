@@ -28,8 +28,8 @@ public class ItineraryController {
     private final KakaoApiService kakaoApiService;
 
     @Operation(summary = "주소 검색")
-    @GetMapping("/address")
-    public ResponseEntity<List<AddressFindResponse>> getAddressByName(@RequestParam(name= "keyword") String keyword){
+    @GetMapping("/address/{keyword}")
+    public ResponseEntity<List<AddressFindResponse>> getAddressByName(@PathVariable(name = "keyword") String keyword){
         List<AddressFindResponse> addressResponses = kakaoApiService.getAddress(keyword);
         return ResponseEntity.ok(addressResponses);
     }

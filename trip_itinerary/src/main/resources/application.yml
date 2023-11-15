@@ -15,8 +15,8 @@ spring:
         show_sql: true
   config:
     import:
-      - kakao.yml
-      - jwt.yml
+#      - kakao.yml
+#      - jwt.yml
 
   datasource:
     url: jdbc:mysql://localhost:3306/trip_itinerary?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
