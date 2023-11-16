@@ -17,7 +17,7 @@ public abstract class Itinerary {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
