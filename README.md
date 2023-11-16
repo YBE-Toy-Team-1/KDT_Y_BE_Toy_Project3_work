@@ -94,8 +94,8 @@
 <br/>
 
 
-## 📝 [API 명세서 링크](https://kwonminwoos-organization.gitbook.io/trip-itinerary-project-api/)
-## 📝 [프로젝트 설계서 링크](https://brick-freckle-cec.notion.site/2-c7bdf106d0ce4b01b64c8681174f8b4f?pvs=4)
+## 📝 [API 명세서 링크](https://www.notion.so/API-a35aa5a0e25c4b4ea394c9e448a593aa?pvs=4)
+## 📝 [프로젝트 설계서 링크](https://www.notion.so/3-3eb22d36897f42488c6face067e13d34?pvs=4)
 
 <br/>
 
