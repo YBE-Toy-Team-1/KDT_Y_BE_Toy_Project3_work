@@ -32,10 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @WebMvcTest(LikeController.class)
 class LikeControllerTest {
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @MockBean
-    LikeService likeService;
+    private LikeService likeService;
 
     @Autowired
     private WebApplicationContext context;
@@ -51,12 +51,8 @@ class LikeControllerTest {
     @Test
     @DisplayName("좋아요 추가 성공 테스트")
     @WithMember(username = "tester", password = "1234asd!@")
-    void add_like() throws Exception {
-
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.getAuthentication();
-
-        mvc.perform(post("/test")
+    void likeSaveSuccess() throws Exception {
+        mvc.perform(post("/trips/1/like")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(csrf())
         )
