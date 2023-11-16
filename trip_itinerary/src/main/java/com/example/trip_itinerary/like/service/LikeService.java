@@ -2,7 +2,6 @@ package com.example.trip_itinerary.like.service;
 
 import com.example.trip_itinerary.like.domain.Likes;
 import com.example.trip_itinerary.like.repository.LikeRepository;
-import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;

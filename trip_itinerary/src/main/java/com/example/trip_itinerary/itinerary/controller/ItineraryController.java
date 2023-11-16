@@ -34,8 +34,10 @@ public class ItineraryController {
     @GetMapping("/address")
     public ResponseEntity<List<AddressFindResponse>> getAddressByName(
             @Parameter(description = "검색할 키워드", required = true, example = "신라스테이")
-            @RequestParam("keyword") String keyword){
+            @RequestParam("keyword") String keyword
+    ) {
         List<AddressFindResponse> addressResponses = kakaoApiService.getAddress(keyword);
+
         return ResponseEntity.ok(addressResponses);
     }
 
@@ -43,50 +45,50 @@ public class ItineraryController {
     @PostMapping("/transport")
     public ResponseEntity<HttpStatus> saveTransport(
             @Parameter(description = "이동 정보를 저장할 여행 ID", required = true, example = "1")
-            @PathVariable(name = "trip_id") Long id,
+            @PathVariable(name = "trip_id") Long tripId,
             @RequestBody @Validated TransportSaveRequest transportSaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.saveTransport(id, transportSaveRequest, memberAdapter);
+        itineraryService.saveTransport(tripId, transportSaveRequest, memberAdapter);
 
-        return ResponseEntity.created(URI.create("/trips/" + id)).build();
+        return ResponseEntity.created(URI.create("/trips/" + tripId)).build();
     }
 
     @Operation(summary = "체류 정보 저장", description = "체류 정보를 저장합니다.")
     @PostMapping("/stay")
     public ResponseEntity<HttpStatus> saveStay(
             @Parameter(description = "체류 정보를 저장할 여행 ID", required = true, example = "1")
-            @PathVariable(name = "trip_id") Long id,
+            @PathVariable(name = "trip_id") Long tripId,
             @RequestBody @Validated StaySaveRequest staySaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.saveStay(id, staySaveRequest, memberAdapter);
+        itineraryService.saveStay(tripId, staySaveRequest, memberAdapter);
 
-        return ResponseEntity.created(URI.create("/trips/" + id)).build();
+        return ResponseEntity.created(URI.create("/trips/" + tripId)).build();
     }
 
     @Operation(summary = "숙박 정보 저장", description = "숙박 정보를 저장합니다.")
     @PostMapping("/accommodation")
     public ResponseEntity<HttpStatus> saveAccommodation(
             @Parameter(description = "숙박 정보를 저장할 여행 ID", required = true, example = "1")
-            @PathVariable(name = "trip_id") Long id,
+            @PathVariable(name = "trip_id") Long tripId,
             @RequestBody @Validated AccommodationSaveRequest accommodationSaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.saveAccommodation(id, accommodationSaveRequest, memberAdapter);
+        itineraryService.saveAccommodation(tripId, accommodationSaveRequest, memberAdapter);
 
-        return ResponseEntity.created(URI.create("/trips/" + id)).build();
+        return ResponseEntity.created(URI.create("/trips/" + tripId)).build();
     }
 
     @Operation(summary = "이동 정보 수정", description = "이동 정보를 수정합니다.")
     @PatchMapping("/transport/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchTransport(
             @Parameter(description = "이동 정보를 수정할 여정 ID", required = true, example = "1")
-            @PathVariable(name = "itinerary_id") Long id,
+            @PathVariable(name = "itinerary_id") Long itineraryId,
             @RequestBody @Validated TransportUpdateRequest transportPatchRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.patchTransport(id, transportPatchRequest, memberAdapter);
+        itineraryService.patchTransport(itineraryId, transportPatchRequest, memberAdapter);
 
         return ResponseEntity.noContent().build();
     }
@@ -95,11 +97,11 @@ public class ItineraryController {
     @PatchMapping("/stay/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchStay(
             @Parameter(description = "체류 정보를 수정할 여정 ID", required = true, example = "1")
-            @PathVariable(name = "itinerary_id") Long id,
+            @PathVariable(name = "itinerary_id") Long itineraryId,
             @RequestBody @Validated StayUpdateRequest stayUpdateRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.patchStay(id, stayUpdateRequest, memberAdapter);
+        itineraryService.patchStay(itineraryId, stayUpdateRequest, memberAdapter);
 
         return ResponseEntity.noContent().build();
     }
@@ -108,11 +110,11 @@ public class ItineraryController {
     @PatchMapping("/accommodation/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchAccommodation(
             @Parameter(description = "숙박 정보를 수정할 여정 ID", required = true, example = "1")
-            @PathVariable(name = "itinerary_id") Long id,
+            @PathVariable(name = "itinerary_id") Long itineraryId,
             @RequestBody @Validated AccommodationUpdateRequest accommodationUpdateRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
     ) {
-        itineraryService.patchAccommodation(id, accommodationUpdateRequest, memberAdapter);
+        itineraryService.patchAccommodation(itineraryId, accommodationUpdateRequest, memberAdapter);
 
         return ResponseEntity.noContent().build();
     }

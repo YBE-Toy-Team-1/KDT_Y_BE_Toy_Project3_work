@@ -12,5 +12,4 @@ public class CommentSaveRequest {
     public CommentSaveRequest(String content) {
         this.content = content;
     }
-
 }

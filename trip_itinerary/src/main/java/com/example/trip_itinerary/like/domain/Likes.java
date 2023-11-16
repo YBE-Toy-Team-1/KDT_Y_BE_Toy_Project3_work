@@ -5,13 +5,11 @@ import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "likes")
 public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
-    private Long likeId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -31,10 +29,6 @@ public class Likes {
 
     public static Likes of(Member member, Trip trip) {
         return new Likes(member, trip);
-    }
-
-    public Long getLikeId() {
-        return this.likeId;
     }
 
     public Member getMember() {

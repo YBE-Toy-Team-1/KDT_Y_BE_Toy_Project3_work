@@ -49,7 +49,7 @@ public class Stay extends Itinerary {
     public String getLocation() {
         return location;
     }
-  
+
 
     public String getLocationAddress() {
         return locationAddress;

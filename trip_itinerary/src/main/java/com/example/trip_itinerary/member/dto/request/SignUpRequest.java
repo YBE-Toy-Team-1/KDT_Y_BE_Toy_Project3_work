@@ -17,12 +17,12 @@ public class SignUpRequest {
     private String email;
 
     @NotBlank(message = "비밀번호는 필수 입력 해주세요")
-    @Size (min = 8, max = 24, message = "비밀번호는 8자 이상 24자 이하로 입력해주세요")
+    @Size(min = 8, max = 24, message = "비밀번호는 8자 이상 24자 이하로 입력해주세요")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W).*$", message = "비밀번호는 숫자, 영문자, 특수문자를 포함해야 합니다.")
     private String password;
 
     @NotBlank(message = "이름은 필수 입력 해주세요")
-    @Size(min = 2 , max = 24, message = "이름은 2자 이상 24자 이하로 입력해주세요")
+    @Size(min = 2, max = 24, message = "이름은 2자 이상 24자 이하로 입력해주세요")
     private String name;
 
     @Builder

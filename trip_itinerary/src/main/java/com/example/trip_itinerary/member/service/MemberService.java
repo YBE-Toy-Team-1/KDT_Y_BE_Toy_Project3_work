@@ -11,14 +11,11 @@ import com.example.trip_itinerary.member.exception.MemberNotFoundException;
 import com.example.trip_itinerary.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +33,7 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void registerMember(SignUpRequest signUpRequest){
+    public void registerMember(SignUpRequest signUpRequest) {
         Member member = Member.of(signUpRequest.getName(), signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()));
         memberRepository.findByEmail(member.getUsername()).ifPresentOrElse(
                 it -> {
@@ -49,9 +46,9 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public String login(LoginRequest loginRequest){
+    public String login(LoginRequest loginRequest) {
         Member foundMember = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new LoginFailedException(MemberErrorCode.INVALID_USERNAME_PASSWORD));
-        if(passwordEncoder.matches(loginRequest.getPassword(), foundMember.getPassword())){
+        if (passwordEncoder.matches(loginRequest.getPassword(), foundMember.getPassword())) {
             return foundMember.getUsername();
         }
         throw new LoginFailedException(MemberErrorCode.INVALID_USERNAME_PASSWORD);

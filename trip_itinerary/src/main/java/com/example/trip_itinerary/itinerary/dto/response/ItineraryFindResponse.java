@@ -13,40 +13,63 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ItineraryFindResponse {
 
-    private String name;
+    private final String name;
 
-    private String transportation;
+    private final String transportation;
 
-    private String departureLocation;
+    private final String departureLocation;
 
-    private String departureAddress;
+    private final String departureAddress;
 
-    private String arrivalLocation;
+    private final String arrivalLocation;
 
-    private String arrivalAddress;
+    private final String arrivalAddress;
 
-    private LocalDateTime departureDateTime;
+    private final LocalDateTime departureDateTime;
 
-    private LocalDateTime arrivalDateTime;
+    private final LocalDateTime arrivalDateTime;
 
-    private LocalDateTime leaveDateTime;
+    private final LocalDateTime leaveDateTime;
 
-    private String accommodationName;
+    private final String accommodationName;
 
-    private String accommodationAddress;
+    private final String accommodationAddress;
 
-    private LocalDateTime checkInTime;
+    private final LocalDateTime checkInTime;
 
-    private LocalDateTime checkOutTime;
+    private final LocalDateTime checkOutTime;
 
-    private String location;
+    private final String location;
 
-    private String locationAddress;
+    private final String locationAddress;
+
+    @Builder
+    public ItineraryFindResponse(
+            String name, String transportation, String departureLocation, String departureAddress, String arrivalLocation,
+            String arrivalAddress, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime,
+            LocalDateTime leaveDateTime, String accommodationName, String accommodationAddress,
+            LocalDateTime checkInTime, LocalDateTime checkOutTime, String location, String locationAddress
+    ) {
+        this.name = name;
+        this.transportation = transportation;
+        this.departureLocation = departureLocation;
+        this.departureAddress = departureAddress;
+        this.arrivalLocation = arrivalLocation;
+        this.arrivalAddress = arrivalAddress;
+        this.departureDateTime = departureDateTime;
+        this.arrivalDateTime = arrivalDateTime;
+        this.leaveDateTime = leaveDateTime;
+        this.accommodationName = accommodationName;
+        this.accommodationAddress = accommodationAddress;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.location = location;
+        this.locationAddress = locationAddress;
+    }
 
     public static ItineraryFindResponse fromEntity(Transport transport) {
         return ItineraryFindResponse.builder()
