@@ -25,4 +25,9 @@ public class LikeController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/test")
+    public String test(){
+        return "test";
+    }
+
 }
