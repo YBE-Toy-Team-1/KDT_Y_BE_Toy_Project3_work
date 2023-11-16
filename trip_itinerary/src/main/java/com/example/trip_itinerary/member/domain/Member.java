@@ -16,11 +16,14 @@ public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 30)
     private String email;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 30)
     private String password;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 30)
     private String name;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
