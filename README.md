@@ -6,7 +6,7 @@
 
 여행과 그 세부 여정을 기록, 수정하고 조회하는 서비스입니다.
 
-- 토이프로젝트 2단계 - Spring Boot
+- 토이프로젝트 3단계 - Spring Boot , Spring Security
   
 <br/>
 
@@ -34,6 +34,27 @@
 - 저장된 여행 전체 리스트 조회
 - 여행 전체 리스트에서 확인된 아이디를 입력하면 해당 여행 정보 조회
 <br/>
+
+
+### 회원가입 및 로그인 기능
+
+- 기본 정보(이메일 주소와 비밀번호, 이름)를 통해 회원가입
+- 이메일 주소와 비밀번호를 통해 로그인
+<br/>
+
+
+### 좋아요 및 댓글 기능
+
+- 회원은 여행 정보에 좋아요 표시, 댓글 등록 가능
+- 여행 정보 조회 시 좋아요 개수와 댓글 리스트 출력
+- 본인이 좋아요 누른 여행 리스트 조회
+<br/>
+
+### 위치 정보 검색 기능
+
+- 키워드 검색을 통한 정확한 주소 획득
+<br/>
+
 
 ## 💡예외처리
 
@@ -65,14 +86,23 @@
 - 여행 id를 조회하였으나 해당 여행이 없는 경우
 <br/>
 
-## 📝 [API 명세서 링크](https://kwonminwoos-organization.gitbook.io/trip-itinerary-project-api/)
-## 📝 [프로젝트 설계서 링크](https://brick-freckle-cec.notion.site/2-c7bdf106d0ce4b01b64c8681174f8b4f?pvs=4)
+
+## :three:회원 가입, 로그인 시 실패할 경우
+
+- 회원 가입 시 이메일 형식이 맞지 않는 경우
+- 로그인에 실패할 경우
+<br/>
+
+
+## 📝 [API 명세서 링크](https://www.notion.so/API-a35aa5a0e25c4b4ea394c9e448a593aa?pvs=4)
+## 📝 [프로젝트 설계서 링크](https://www.notion.so/3-3eb22d36897f42488c6face067e13d34?pvs=4)
 
 <br/>
 
 ## 🗂 ERD
 
-![image](https://github.com/Kwonminwoo/KDT_Y_BE_Toy_Project2_work/assets/132974447/27fa7cbf-51ae-4c3a-9037-597c980233ed)
+![erd](https://github.com/YBE-Toy-Team-1/KDT_Y_BE_Toy_Project3_work/assets/116000898/fbecdd72-ee48-49f6-b87b-ce8ac1877347)
+
 
 <br/>
 
@@ -80,7 +110,7 @@
 
 
 
-- 23.10.23 ~ 23.10.27
+- 23.11.10 ~ 23.11.16
 
 <br/>
 
@@ -111,3 +141,5 @@
     - JPA
     - Mysql
     - Validation
+    - Security
+    - Jwt
