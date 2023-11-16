@@ -120,7 +120,6 @@ public class ItineraryService {
 
         foundStay.updateStay(request.getName(), request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
-
     }
 
     private Itinerary findItineraryAndValidateDateTime(Long id, ItineraryUpdateRequest request) {
@@ -128,6 +127,5 @@ public class ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundItinerary.getTrip());
         return foundItinerary;
     }
-
 
 }

@@ -15,15 +15,13 @@ import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 
-
-
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.ANY)
 @TestPropertySource("classpath:application-test.properties")
 @DataJpaTest
 class LikeRepositoryTest {
 
     @Autowired
-    LikeRepository likeRepository;
+    private LikeRepository likeRepository;
 
     @Test
     @DisplayName("좋아요 저장 성공")

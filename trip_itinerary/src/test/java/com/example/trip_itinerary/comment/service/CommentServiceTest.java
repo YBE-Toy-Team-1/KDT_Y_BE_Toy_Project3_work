@@ -6,6 +6,7 @@ import com.example.trip_itinerary.comment.repository.CommentRepository;
 import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import com.example.trip_itinerary.trip.domain.Trip;
+import com.example.trip_itinerary.trip.repository.TripRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
 
     @Mock
     private CommentRepository commentRepository;
+
+    @Mock
+    private TripRepository tripRepository;
+
     @InjectMocks
     private CommentService commentService;
 
@@ -35,6 +44,8 @@ class CommentServiceTest {
         Comment comment = Comment.of(member, trip, "댓글 테스트");
 
         CommentSaveRequest commentSaveRequest = new CommentSaveRequest("댓글 테스트");
+
+        given(tripRepository.findById(any())).willReturn(Optional.of(trip));
 
         commentService.createComment(1L, commentSaveRequest, new MemberAdapter(member));
 
