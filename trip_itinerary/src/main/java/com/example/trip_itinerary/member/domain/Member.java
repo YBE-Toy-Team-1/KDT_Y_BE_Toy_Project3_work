@@ -1,16 +1,9 @@
 package com.example.trip_itinerary.member.domain;
 
 import com.example.trip_itinerary.like.domain.Likes;
-import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
-import jakarta.servlet.ServletException;
-import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
