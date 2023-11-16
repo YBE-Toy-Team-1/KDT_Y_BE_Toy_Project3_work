@@ -25,11 +25,9 @@ import static org.mockito.BDDMockito.given;
 @TestPropertySource("classpath:application-test.properties")
 @DataJpaTest
 class ItineraryRepositoryTest {
-    @Autowired
-    private ItineraryRepository itineraryRepository;
 
     @Autowired
-    private TripRepository tripRepository;
+    private ItineraryRepository itineraryRepository;
 
     @Test
     @DisplayName("숙박 여정 저장 성공")
@@ -43,7 +41,6 @@ class ItineraryRepositoryTest {
                 "서울특별시 중구 동호로 249 (장충동2가)", LocalDateTime.of(2023, 12, 10, 19, 00),
                 LocalDateTime.of(2023, 12, 11, 11, 00));
 
-        tripRepository.save(trip);
         Itinerary savedAccommodation = itineraryRepository.save(accommodation);
 
         Assertions.assertThat(savedAccommodation).isEqualTo(accommodation);

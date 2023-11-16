@@ -30,8 +30,7 @@ public class MemberController {
 
     @Operation(summary = "회원가입", description = "서비스에 회원 가입합니다.")
     @PostMapping("/sign-up")
-    public ResponseEntity<HttpStatus> registerMember(
-            @Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<HttpStatus> registerMember(@Valid @RequestBody SignUpRequest signUpRequest) {
         memberService.registerMember(signUpRequest);
 
         return ResponseEntity.status(HttpStatus.OK).build();
