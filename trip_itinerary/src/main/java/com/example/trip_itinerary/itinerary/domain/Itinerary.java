@@ -3,10 +3,12 @@ package com.example.trip_itinerary.itinerary.domain;
 import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", length = 30)
-public class Itinerary {
+public abstract class Itinerary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,23 +17,20 @@ public class Itinerary {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
     protected Itinerary() {
     }
 
-    protected Itinerary(Long id, String name, Trip trip) {
-        this.id = id;
+    protected Itinerary(String name, Trip trip) {
         this.name = name;
         this.trip = trip;
     }
 
     public void updateItinerary(String name) {
-        if (name != null) {
-            this.name = name;
-        }
+        this.name = name;
     }
 
     public Long getId() {
@@ -46,5 +45,8 @@ public class Itinerary {
         return trip;
     }
 
+    public abstract LocalDateTime getStartDateTime();
+
+    public abstract LocalDateTime getEndDateTime();
 }
 

@@ -1,0 +1,38 @@
+###로그인 요청 (성공)
+POST http://localhost:8080/auth/sign-in
+Content-Type: application/json
+
+{
+  "email" : "fastcampus3@naver.com",
+  "password" : "1234asd@@@@"
+}
+###
+
+POST http://localhost:8080/auth/sign-in
+Content-Type: application/json
+
+{
+"email" : "fastcampus@naver.com",
+"password" : "1234asd@@@@"
+}
+###
+
+###로그인 요청 (비밀번호 오류)
+POST http://localhost:8080/auth/sign-in
+Content-Type: application/json
+
+{
+  "email" : "fastcampus@naver.com",
+  "password" : 12345
+}
+###
+
+###로그인 요청 (존재하지 않는 이메일)
+POST http://localhost:8080/auth/sign-in
+Content-Type: application/json
+
+{
+  "email" : "fast@naver.com",
+  "password" : "1234"
+}
+###

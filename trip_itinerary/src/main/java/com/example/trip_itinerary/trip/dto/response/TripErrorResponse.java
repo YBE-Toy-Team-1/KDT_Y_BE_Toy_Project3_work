@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripErrorResponse {
 
@@ -15,7 +14,15 @@ public class TripErrorResponse {
     private String message;
     private int status;
 
+    @Builder
+    public TripErrorResponse(String errorCode, String message, int status) {
+        this.errorCode = errorCode;
+        this.message = message;
+        this.status = status;
+    }
+
     public static TripErrorResponse from(TripErrorCode tripErrorCode) {
+
         return TripErrorResponse.builder()
                 .errorCode(tripErrorCode.name())
                 .message(tripErrorCode.getMessage())

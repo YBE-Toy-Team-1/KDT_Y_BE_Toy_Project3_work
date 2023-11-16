@@ -1,0 +1,42 @@
+### 이동 여정 생성 성공
+POST http://localhost:8080/trips/1/transport
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzM0BuYXZlci5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE3MDAwNTc1NzksImV4cCI6MTcwMDA1OTM3OX0.1jOf9om4ziqNshMNZ4qiN5kIXz87LBPWqvwQru_Z5SQ
+#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDA1NzU5MCwiZXhwIjoxNzAwMDU5MzkwfQ.6_ztxxhH1TEK-4Bux2dSHKl5ij2IDtHDuQRBLXww0-Y
+
+{
+  "name": "강남역으로 이동",
+  "transportation": "지하철",
+  "departure_location": "서울역",
+  "arrival_location": "강남역",
+  "departure_address": "서울특별시 용산구 한강대로 지하392 (동자동)",
+  "arrival_address": "서울특별시 강남구 강남대로 328 (역삼동)",
+  "departure_date_time": "2023-12-01T11:00:00",
+  "arrival_date_time": "2023-12-01T12:00:00"
+}
+
+### 숙박 여정 생성 성공
+POST http://localhost:8080/trips/3/accommodation
+Content-Type: application/json
+#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzM0BuYXZlci5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE3MDAwNTc1NzksImV4cCI6MTcwMDA1OTM3OX0.1jOf9om4ziqNshMNZ4qiN5kIXz87LBPWqvwQru_Z5SQ
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYXN0Y2FtcHVzQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDA1NzU5MCwiZXhwIjoxNzAwMDU5MzkwfQ.6_ztxxhH1TEK-4Bux2dSHKl5ij2IDtHDuQRBLXww0-Y
+
+{
+  "name": "둘쨋날 신라호텔 숙박",
+  "accommodation_name": "신라호텔",
+  "accommodation_address": "서울특별시 중구 동호로 249 (장충동2가)",
+  "check_in_time": "2023-12-11T19:00:00",
+  "check_out_time": "2023-12-12T11:00:00"
+}
+
+### 체류 여정 생성 성공
+POST http://localhost:8080/trips/2/stay
+Content-Type: application/json
+
+{
+  "name": "남산 타워 구경",
+  "location": "남산",
+  "location_address": "서울특별시 용산구 녹사평대로46길 36 (이태원동, 남산 ARK TOWER)",
+  "arrival_date_time": "2023-12-26T12:00:00",
+  "leave_date_time": "2023-12-26T15:00:00"
+}

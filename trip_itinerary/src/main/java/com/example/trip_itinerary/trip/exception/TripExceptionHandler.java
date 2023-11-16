@@ -1,6 +1,5 @@
 package com.example.trip_itinerary.trip.exception;
 
-import com.example.trip_itinerary.trip.controller.TripController;
 import com.example.trip_itinerary.trip.dto.response.TripErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,22 +11,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@RestControllerAdvice(basePackageClasses = TripController.class)
+@RestControllerAdvice(basePackages = "com.example.trip_itinerary")
 public class TripExceptionHandler {
 
     @ExceptionHandler(TripNotFoundException.class)
-    public TripErrorResponse handle(TripNotFoundException e) {
-        return TripErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<TripErrorResponse> handle(TripNotFoundException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(TripErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(InvalidDateRangeException.class)
-    public TripErrorResponse handle(InvalidDateRangeException e) {
-        return TripErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<TripErrorResponse> handle(InvalidDateRangeException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(TripErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(InvalidDateFormatException.class)
-    public TripErrorResponse handle(InvalidDateFormatException e) {
-        return TripErrorResponse.from(e.getErrorCode());
+    public ResponseEntity<TripErrorResponse> handle(InvalidDateFormatException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(TripErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -46,8 +45,10 @@ public class TripExceptionHandler {
 
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public TripErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return TripErrorResponse.from(TripErrorCode.NOT_MATCH_DATA_TYPE);
+    public ResponseEntity<TripErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        int status = TripErrorCode.NOT_MATCH_DATA_TYPE.getStatus();
+        TripErrorResponse body = TripErrorResponse.from(TripErrorCode.NOT_MATCH_DATA_TYPE);
+        return ResponseEntity.status(status).body(body);
     }
 
 }
