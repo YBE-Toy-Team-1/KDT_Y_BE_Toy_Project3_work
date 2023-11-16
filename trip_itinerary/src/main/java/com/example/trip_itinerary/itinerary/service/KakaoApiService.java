@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,9 @@ import java.util.stream.StreamSupport;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class KakaoApiService {
-//    @Value("${kakao.api.key}")
+    @Value("${kakao.api.key}")
     private String kakaoApiKey;
-//    @Value("${kakao.url.keyword}")
+    @Value("${kakao.url.keyword}")
     private String kakaoUrl;
 
     public List<AddressFindResponse> getAddress(String keyword) {
@@ -44,11 +45,10 @@ public class KakaoApiService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new KakaoApiException(ItineraryErrorCode.API_REQUEST_FAILED); // 테스트 필요
+            throw new KakaoApiException(ItineraryErrorCode.API_REQUEST_FAILED);
         }
 
-        List<AddressFindResponse> addressFindResponses = getAddressList(responseEntity.getBody());
-        return addressFindResponses;
+        return getAddressList(responseEntity.getBody());
     }
 
     public List<AddressFindResponse> getAddressList(String responseBody) {
