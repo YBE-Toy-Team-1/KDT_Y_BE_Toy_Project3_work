@@ -101,7 +101,8 @@
 
 ## 🗂 ERD
 
-![erd](https://github.com/YBE-Toy-Team-1/KDT_Y_BE_Toy_Project3_work/assets/116000898/fbecdd72-ee48-49f6-b87b-ce8ac1877347)
+![image](https://github.com/YBE-Toy-Team-1/KDT_Y_BE_Toy_Project3_work/assets/132974447/9719873d-0d38-4d1e-8702-a0bd0691e301)
+
 
 
 <br/>
