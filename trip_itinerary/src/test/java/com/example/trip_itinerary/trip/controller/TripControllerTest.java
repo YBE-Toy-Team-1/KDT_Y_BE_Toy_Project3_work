@@ -49,7 +49,6 @@ class TripControllerTest {
                 .endDate(LocalDate.now())
                 .isDomestic(true)
                 .build());
-        List<ItineraryFindResponse> itineraryList;
 
         given(tripService.findAllTrips())
                 .willReturn(tripListFindResponses);
