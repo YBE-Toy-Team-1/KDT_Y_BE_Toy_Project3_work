@@ -32,7 +32,7 @@ class LikeServiceTest {
     private LikeService likeService;
 
     @Test
-    @DisplayName("좋아요 추가 성공 테스트")
+    @DisplayName("특정 여행에 좋아요 수 누적 성공")
     public void likeSaveSuccess(){
         Member tester = Member.of("tester", "qseqfg@naver.com", "1234@agsr");
         Trip trip = Trip.of("일본 여행", LocalDate.of(2022, 10, 2),

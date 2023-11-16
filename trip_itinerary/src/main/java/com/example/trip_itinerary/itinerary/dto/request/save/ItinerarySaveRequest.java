@@ -18,4 +18,7 @@ public abstract class ItinerarySaveRequest {
     public abstract String getStartDateTime();
     public abstract String getEndDateTime();
 
+    public ItinerarySaveRequest(String name) {
+        this.name = name;
+    }
 }
