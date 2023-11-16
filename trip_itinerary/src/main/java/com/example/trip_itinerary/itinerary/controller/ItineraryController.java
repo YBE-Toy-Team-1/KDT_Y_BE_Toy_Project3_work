@@ -31,7 +31,7 @@ public class ItineraryController {
     private final KakaoApiService kakaoApiService;
 
     @Operation(summary = "주소 검색", description = "키워드를 통해 정확한 주소를 검색합니다.")
-    @GetMapping("/address")
+    @GetMapping("/address/search")
     public ResponseEntity<List<AddressFindResponse>> getAddressByName(
             @Parameter(description = "검색할 키워드", required = true, example = "신라스테이")
             @RequestParam("keyword") String keyword
