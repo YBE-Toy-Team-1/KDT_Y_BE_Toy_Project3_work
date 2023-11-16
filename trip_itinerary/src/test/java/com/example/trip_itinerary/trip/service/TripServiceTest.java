@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.trip.service;
 
 import com.example.trip_itinerary.member.domain.Member;
-import com.example.trip_itinerary.member.service.MemberService;
 import com.example.trip_itinerary.trip.domain.Trip;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.repository.TripRepository;
@@ -13,22 +12,19 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class TripServiceTest {
-
     @Mock
     private TripRepository tripRepository;
-    @Mock
-    private MemberService memberService;
-
     @InjectMocks
     private TripService tripService;
 
@@ -52,19 +48,7 @@ class TripServiceTest {
         //then
         assertNotNull(responses);
         assertEquals(2, responses.size());
-        assertEquals(responses.get(0).getTripName(),"testName");
+        assertEquals(responses.get(0).getTripName(), "testName");
         verify(tripRepository).findAll();
     }
 }
-//        given(tripRepository.save(any()))
-//                .willReturn(savedTrip);
-//        TripSaveRequest requestTrip = TripSaveRequest.builder()
-//                .name("testName")
-//                .startDate(LocalDate.now().toString())
-//                .endDate(LocalDate.now().toString())
-//                .isDomestic(false)
-//                .build();
-//        Long savedId = tripService.saveTrip(requestTrip);
-//        Assertions.assertThat(savedTrip.getName()).isEqualTo(requestTrip.getName());
-//    }
-//}
