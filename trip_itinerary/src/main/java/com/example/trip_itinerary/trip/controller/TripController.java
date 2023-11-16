@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.trip.controller;
 
 
-import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
@@ -14,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,10 +71,10 @@ public class TripController {
     }
 
     @Operation(summary = "여행 검색", description = "입력한 키워드를 통해 여행을 검색합니다.")
-    @GetMapping({"/search/{trip_name}"})
+    @GetMapping("/search")
     public ResponseEntity<List<TripListFindResponse>> searchTripByName(
             @Parameter(description = "검색할 키워드", required = true, example = "서울")
-            @PathVariable(name = "trip_name") String tripName){
+            @RequestParam("trip_name") String tripName){
         List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 
         return ResponseEntity.ok(tripList);
