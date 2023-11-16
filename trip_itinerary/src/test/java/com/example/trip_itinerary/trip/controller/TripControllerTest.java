@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.trip.controller;
 
 import com.example.trip_itinerary.WithMember;
-import com.example.trip_itinerary.itinerary.dto.response.ItineraryFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.service.TripService;
 import org.junit.jupiter.api.DisplayName;
