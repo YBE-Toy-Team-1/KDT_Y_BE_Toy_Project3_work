@@ -49,7 +49,7 @@ class LikeControllerTest {
     }
 
     @Test
-    @DisplayName("좋아요 추가 성공 테스트")
+    @DisplayName("좋아요 추가 요청 및 응답 성공")
     @WithMember(username = "tester", password = "1234asd!@")
     void likeSaveSuccess() throws Exception {
         mvc.perform(post("/trips/1/like")

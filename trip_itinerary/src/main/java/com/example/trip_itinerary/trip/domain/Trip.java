@@ -31,7 +31,7 @@ public class Trip {
     @Column(name = "like_num", nullable = true)
     private Long likeNum;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 

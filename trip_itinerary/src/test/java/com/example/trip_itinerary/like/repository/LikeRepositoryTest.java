@@ -26,8 +26,8 @@ class LikeRepositoryTest {
     LikeRepository likeRepository;
 
     @Test
-    @DisplayName("좋아요 저장 성공 테스트")
-    void likeSave(){
+    @DisplayName("좋아요 저장 성공")
+    void likeSaveSuccess(){
         Member tester = Member.of("tester", "tester@anfsa.com", "1234@@eeaqs");
         Trip trip = Trip.of("제주도 여행", LocalDate.of(2023, 6, 2),
                 LocalDate.of(2023, 6, 5), true, tester);

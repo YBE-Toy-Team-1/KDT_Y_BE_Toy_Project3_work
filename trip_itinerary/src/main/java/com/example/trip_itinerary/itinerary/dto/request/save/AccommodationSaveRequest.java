@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,15 @@ public class AccommodationSaveRequest extends ItinerarySaveRequest {
 
     @NotNull(message = "체크아웃 시간을 입력해주세요.")
     private String checkOutTime;
+
+    @Builder
+    public AccommodationSaveRequest(String name, String accommodationName, String accommodationAddress, String checkInTime, String checkOutTime) {
+        super(name);
+        this.accommodationName = accommodationName;
+        this.accommodationAddress = accommodationAddress;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+    }
 
     @Override
     public String getStartDateTime() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,15 @@ public class StaySaveRequest extends ItinerarySaveRequest {
 
     @NotNull(message = "체류 장소에서 떠날 시간을 입력해주세요.")
     private String leaveDateTime;
+
+    @Builder
+    public StaySaveRequest(String name, String location, String locationAddress, String arrivalDateTime, String leaveDateTime) {
+        super(name);
+        this.location = location;
+        this.locationAddress = locationAddress;
+        this.arrivalDateTime = arrivalDateTime;
+        this.leaveDateTime = leaveDateTime;
+    }
 
     @Override
     public String getStartDateTime() {
