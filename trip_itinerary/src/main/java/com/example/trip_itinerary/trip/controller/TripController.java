@@ -41,7 +41,6 @@ public class TripController {
     @Operation(summary = "전체 여행 리스트 조회", description = "전체 여행 리스트를 조회합니다.")
     @GetMapping
     public ResponseEntity<List<TripListFindResponse>> getAllTrips() {
-        log.error("here");
         List<TripListFindResponse> trips = tripService.findAllTrips();
 
         return ResponseEntity.ok(trips);
