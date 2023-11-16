@@ -11,6 +11,7 @@ import com.example.trip_itinerary.itinerary.service.ItineraryService;
 import com.example.trip_itinerary.itinerary.service.KakaoApiService;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +30,19 @@ public class ItineraryController {
     private final ItineraryService itineraryService;
     private final KakaoApiService kakaoApiService;
 
-    @Operation(summary = "주소 검색")
+    @Operation(summary = "주소 검색", description = "키워드를 통해 정확한 주소를 검색합니다.")
     @GetMapping("/address")
-    public ResponseEntity<List<AddressFindResponse>> getAddressByName(@RequestParam("keyword") String keyword){
+    public ResponseEntity<List<AddressFindResponse>> getAddressByName(
+            @Parameter(description = "검색할 키워드", required = true, example = "신라스테이")
+            @RequestParam("keyword") String keyword){
         List<AddressFindResponse> addressResponses = kakaoApiService.getAddress(keyword);
         return ResponseEntity.ok(addressResponses);
     }
 
-    @Operation(summary = "이동 정보 저장")
+    @Operation(summary = "이동 정보 저장", description = "이동 정보를 저장합니다.")
     @PostMapping("/transport")
     public ResponseEntity<HttpStatus> saveTransport(
+            @Parameter(description = "이동 정보를 저장할 여행 ID", required = true, example = "1")
             @PathVariable(name = "trip_id") Long id,
             @RequestBody @Validated TransportSaveRequest transportSaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
@@ -48,9 +52,10 @@ public class ItineraryController {
         return ResponseEntity.created(URI.create("/trips/" + id)).build();
     }
 
-    @Operation(summary = "체류 정보 저장")
+    @Operation(summary = "체류 정보 저장", description = "체류 정보를 저장합니다.")
     @PostMapping("/stay")
     public ResponseEntity<HttpStatus> saveStay(
+            @Parameter(description = "체류 정보를 저장할 여행 ID", required = true, example = "1")
             @PathVariable(name = "trip_id") Long id,
             @RequestBody @Validated StaySaveRequest staySaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
@@ -60,9 +65,10 @@ public class ItineraryController {
         return ResponseEntity.created(URI.create("/trips/" + id)).build();
     }
 
-    @Operation(summary = "숙박 정보 저장")
+    @Operation(summary = "숙박 정보 저장", description = "숙박 정보를 저장합니다.")
     @PostMapping("/accommodation")
     public ResponseEntity<HttpStatus> saveAccommodation(
+            @Parameter(description = "숙박 정보를 저장할 여행 ID", required = true, example = "1")
             @PathVariable(name = "trip_id") Long id,
             @RequestBody @Validated AccommodationSaveRequest accommodationSaveRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
@@ -72,9 +78,10 @@ public class ItineraryController {
         return ResponseEntity.created(URI.create("/trips/" + id)).build();
     }
 
-    @Operation(summary = "이동 정보 수정")
+    @Operation(summary = "이동 정보 수정", description = "이동 정보를 수정합니다.")
     @PatchMapping("/transport/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchTransport(
+            @Parameter(description = "이동 정보를 수정할 여정 ID", required = true, example = "1")
             @PathVariable(name = "itinerary_id") Long id,
             @RequestBody @Validated TransportUpdateRequest transportPatchRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
@@ -84,9 +91,10 @@ public class ItineraryController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "체류 정보 수정")
+    @Operation(summary = "체류 정보 수정", description = "체류 정보를 수정합니다.")
     @PatchMapping("/stay/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchStay(
+            @Parameter(description = "체류 정보를 수정할 여정 ID", required = true, example = "1")
             @PathVariable(name = "itinerary_id") Long id,
             @RequestBody @Validated StayUpdateRequest stayUpdateRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
@@ -96,9 +104,10 @@ public class ItineraryController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "숙박 정보 수정")
+    @Operation(summary = "숙박 정보 수정", description = "숙박 정보를 수정합니다.")
     @PatchMapping("/accommodation/{itinerary_id}")
     public ResponseEntity<HttpStatus> patchAccommodation(
+            @Parameter(description = "숙박 정보를 수정할 여정 ID", required = true, example = "1")
             @PathVariable(name = "itinerary_id") Long id,
             @RequestBody @Validated AccommodationUpdateRequest accommodationUpdateRequest,
             @AuthenticationPrincipal MemberAdapter memberAdapter
