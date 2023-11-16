@@ -4,6 +4,7 @@ import com.example.trip_itinerary.like.domain.Likes;
 import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
 import jakarta.servlet.ServletException;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,13 +24,13 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String name;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
