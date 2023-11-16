@@ -23,9 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(TripController.class)
 class TripControllerTest {
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
+
     @MockBean
-    TripService tripService;
+    private TripService tripService;
 
     @Test
     @DisplayName("여행 전체 검색 성공")
@@ -49,69 +50,13 @@ class TripControllerTest {
                 .isDomestic(true)
                 .build());
 
-        given(tripService.findAllTrips())
-                .willReturn(tripListFindResponses);
+        given(tripService.findAllTrips()).willReturn(tripListFindResponses);
 
         mvc.perform(
                     get("/trips")
                 )
                 .andExpect(status().isOk())
                 .andDo(print());
-
     }
-//    @Test
-//    void findOneTrip()throws Exception{
-//        Long findId = 1L;
-//        TripFindResponse tripFindResponse = new TripFindResponse(1L, "testName", LocalDate.now(), LocalDate.now(), false, null);
-//        given(tripService.getTripById(any()))
-//                .willReturn(tripFindResponse);
-//
-//        mvc.perform(
-//                        get("/trips/1")
-//                )
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(jsonPath("$.id", findId).exists());
-//    }
-//
-//    @Test
-//    void saveTrip() throws Exception{
-//        Long id = 1L;
-//        given(tripService.saveTrip(any()))
-//                .willReturn(id);
-//
-//        mvc.perform(
-//                        post("/trips")
-//                )
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(jsonPath("$.id", id).exists());
-//    }
-//
-//    @Test
-//    void patchTripById() throws Exception{
-//        Long findId = 1L;
-//        given(tripService.updateTrip(any(), any()))
-//                .willReturn(findId);
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.registerModule(new JavaTimeModule());
-//        String patchRequestJson = objectMapper.writeValueAsString(
-//                TripPatchRequest.builder()
-//                .name("ansdas")
-//                .startDate(LocalDate.now().toString())
-//                .endDate(LocalDate.now().toString())
-//                .isDomestic(false)
-//                .build()
-//        );
-//
-//        mvc.perform(
-//                    patch("/trips/1")
-//                        .content(patchRequestJson)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(jsonPath("$", findId).exists());
-//    }
+
 }
