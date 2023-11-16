@@ -7,13 +7,19 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MemberErrorResponse {
 
     private String errorCode;
     private String message;
     private int status;
+
+    @Builder
+    public MemberErrorResponse(String errorCode, String message, int status) {
+        this.errorCode = errorCode;
+        this.message = message;
+        this.status = status;
+    }
 
     public static MemberErrorResponse from(MemberErrorCode memberErrorCode) {
         return MemberErrorResponse.builder()

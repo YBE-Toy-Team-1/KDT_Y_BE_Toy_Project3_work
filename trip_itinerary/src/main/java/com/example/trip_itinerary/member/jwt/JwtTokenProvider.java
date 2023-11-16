@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,22 +18,18 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
-@Slf4j
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-    //    @Value("asgasdas")
-//    private String jwtSecret = "Asdasfbahjsdbajsbfjbajbshjdbasbjfbashjbduqwybeqwjhbdfjbqwhjf";
-//    private static final String SECRET_KEY = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
-    private final UserDetailsService userDetailsService;
-
     @Value("${jwt.key}")
-    private String secretKey;
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private String SECRET_KEY;
+
+    private final UserDetailsService userDetailsService;
+    private final long tokenValidTime = 30 * 60 * 1000L;
 
     @PostConstruct
     public void init() {
-        secretKey = Base64.getEncoder()
-                .encodeToString(secretKey.getBytes());
+        SECRET_KEY = Base64.getEncoder()
+                .encodeToString(SECRET_KEY.getBytes());
     }
 
     public String generateToken(String username, Collection<? extends GrantedAuthority> roles) {
@@ -47,17 +42,17 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
-    public String resolveToken(HttpServletRequest request){
+    public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
     public UsernamePasswordAuthenticationToken validateToken(String token) {
         Date now = new Date();
-        if(getExpiryDateFromJWT(token).before(now)){
+        if (getExpiryDateFromJWT(token).before(now)) {
             throw new LoginCredentialExpired(MemberErrorCode.LOGIN_CREDENTIAL_EXPIRED);
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(getEmailFromJWT(token));
@@ -65,7 +60,7 @@ public class JwtTokenProvider {
     }
 
     private String getEmailFromJWT(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secretKey)
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token).getBody();
 
         return claims.getSubject();
@@ -74,7 +69,7 @@ public class JwtTokenProvider {
 
     public Date getExpiryDateFromJWT(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
 

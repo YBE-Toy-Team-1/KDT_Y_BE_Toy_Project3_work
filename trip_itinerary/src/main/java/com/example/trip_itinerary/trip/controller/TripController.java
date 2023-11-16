@@ -2,14 +2,14 @@ package com.example.trip_itinerary.trip.controller;
 
 
 import com.example.trip_itinerary.member.domain.MemberAdapter;
-import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
+import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.service.TripService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,15 +20,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/trips")
-@Slf4j
 public class TripController {
 
     private final TripService tripService;
-
-    public TripController(TripService tripService) {
-        this.tripService = tripService;
-    }
 
     @Operation(summary = "여행 저장", description = "여행 정보를 저장합니다.")
     @PostMapping
@@ -50,7 +46,8 @@ public class TripController {
     @GetMapping("/{trip_id}")
     public ResponseEntity<TripFindResponse> getTripById(
             @Parameter(description = "조회할 여행 ID", required = true, example = "1")
-            @PathVariable(name = "trip_id") Long tripId) {
+            @PathVariable(name = "trip_id") Long tripId
+    ) {
         TripFindResponse trip = tripService.getTripById(tripId);
 
         return ResponseEntity.ok(trip);
@@ -62,8 +59,8 @@ public class TripController {
             @Parameter(description = "여행 정보를 수정할 여행 ID", required = true, example = "1")
             @PathVariable(name = "trip_id") Long tripId,
             @RequestBody @Validated TripUpdateRequest tripUpdateRequest,
-            @AuthenticationPrincipal MemberAdapter memberAdapter) {
-
+            @AuthenticationPrincipal MemberAdapter memberAdapter
+    ) {
         tripService.updateTrip(tripId, tripUpdateRequest, memberAdapter);
 
         return ResponseEntity.noContent().build();
@@ -73,17 +70,18 @@ public class TripController {
     @GetMapping("/search")
     public ResponseEntity<List<TripListFindResponse>> searchTripByName(
             @Parameter(description = "검색할 키워드", required = true, example = "서울")
-            @RequestParam("trip_name") String tripName){
+            @RequestParam("trip_name") String tripName
+    ) {
         List<TripListFindResponse> tripList = tripService.searchTrip(tripName);
 
         return ResponseEntity.ok(tripList);
     }
 
     @Operation(summary = "사용자가 좋아요 표시한 여행 리스트 조회", description = "사용자가 좋아요 표시한 여행 리스트를 조회합니다.")
-    @GetMapping("/like") // 1. trips/like 2. trips/likes 3.trips/mylikes 3. trips/likedtrips 4. trips/liked
-    public ResponseEntity<List<TripListFindResponse>> findLikeTrip(
-            @AuthenticationPrincipal MemberAdapter memberAdapter){
+    @GetMapping("/like")
+    public ResponseEntity<List<TripListFindResponse>> findLikeTrip(@AuthenticationPrincipal MemberAdapter memberAdapter) {
         List<TripListFindResponse> tripList = tripService.getLikeTripList(memberAdapter);
+
         return ResponseEntity.ok(tripList);
     }
 

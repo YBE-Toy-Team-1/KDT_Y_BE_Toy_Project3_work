@@ -27,7 +27,7 @@ public class Member implements UserDetails {
     private String name;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Likes> likeTripList = new ArrayList<>();
+    private final List<Likes> likeTripList = new ArrayList<>();
 
     protected Member() {
     }

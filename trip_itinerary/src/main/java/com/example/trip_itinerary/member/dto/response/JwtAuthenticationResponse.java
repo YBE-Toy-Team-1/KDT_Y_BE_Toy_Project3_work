@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class JwtAuthenticationResponse {
 
-    private String accessToken;
+    private final String accessToken;
 
     public JwtAuthenticationResponse(String accessToken) {
         this.accessToken = accessToken;

@@ -9,4 +9,7 @@ public class CommentSaveRequest {
 
     private String content;
 
+    public CommentSaveRequest(String content) {
+        this.content = content;
+    }
 }

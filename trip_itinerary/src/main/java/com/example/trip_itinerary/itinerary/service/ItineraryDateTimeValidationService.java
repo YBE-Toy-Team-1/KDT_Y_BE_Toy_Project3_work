@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ItineraryDateTimeValidationService {
-    public void validateItineraryTimeRange(String startDateTime, String endDateTime, Trip trip){
+    public void validateItineraryTimeRange(String startDateTime, String endDateTime, Trip trip) {
         DateUtil.checkRangeStart(trip.getStartDate().toString(), startDateTime);
         DateUtil.checkRangeEnd(trip.getEndDate().toString(), endDateTime);
         DateUtil.checkValidDateTimeRange(startDateTime, endDateTime);

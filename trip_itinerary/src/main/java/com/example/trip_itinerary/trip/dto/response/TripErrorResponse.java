@@ -6,16 +6,20 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.net.http.HttpHeaders;
-
 @Getter
-@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripErrorResponse {
 
     private String errorCode;
     private String message;
     private int status;
+
+    @Builder
+    public TripErrorResponse(String errorCode, String message, int status) {
+        this.errorCode = errorCode;
+        this.message = message;
+        this.status = status;
+    }
 
     public static TripErrorResponse from(TripErrorCode tripErrorCode) {
 

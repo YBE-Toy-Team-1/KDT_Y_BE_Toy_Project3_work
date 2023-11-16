@@ -1,8 +1,6 @@
 package com.example.trip_itinerary.member.exception;
 
 import com.example.trip_itinerary.TripItineraryApplication;
-import com.example.trip_itinerary.itinerary.exception.ItineraryErrorCode;
-import com.example.trip_itinerary.member.controller.MemberController;
 import com.example.trip_itinerary.member.dto.response.MemberErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

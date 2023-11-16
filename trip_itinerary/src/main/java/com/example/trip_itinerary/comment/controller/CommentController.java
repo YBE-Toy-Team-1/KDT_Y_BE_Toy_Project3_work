@@ -3,7 +3,6 @@ package com.example.trip_itinerary.comment.controller;
 import com.example.trip_itinerary.comment.dto.request.CommentSaveRequest;
 import com.example.trip_itinerary.comment.dto.request.CommentUpdateRequest;
 import com.example.trip_itinerary.comment.service.CommentService;
-import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,7 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Operation(summary = "댓글 생성", description = "댓글이 생성됩니다.")
+    @Operation(summary = "댓글 생성", description = "여행에 새로운 댓글을 생성합니다.")
     @PostMapping
     public ResponseEntity<HttpStatus> saveComment(
             @Parameter(description = "여행 ID", required = true, example = "1")
@@ -35,7 +34,7 @@ public class CommentController {
         return ResponseEntity.created(URI.create("/trips/" + tripId)).build();
     }
 
-    @Operation(summary = "댓글 수정", description = "댓글이 수정됩니다.")
+    @Operation(summary = "댓글 수정", description = "해당 댓글을 수정합니다.")
     @PutMapping("/{comment_id}")
     public ResponseEntity<HttpStatus> updateComment(
             @Parameter(description = "댓글 ID", required = true, example = "1")
@@ -48,12 +47,13 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "댓글 삭제", description = "댓글이 삭제됩니다.")
+    @Operation(summary = "댓글 삭제", description = "해당 댓글을 삭제합니다.")
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<HttpStatus> deleteComment(
             @Parameter(description = "댓글 ID", required = true, example = "1")
             @PathVariable(name = "comment_id") Long commentId,
-            @AuthenticationPrincipal MemberAdapter memberAdapter) {
+            @AuthenticationPrincipal MemberAdapter memberAdapter
+    ) {
         commentService.deleteComment(commentId, memberAdapter);
 
         return ResponseEntity.noContent().build();

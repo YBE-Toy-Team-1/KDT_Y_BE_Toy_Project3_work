@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.itinerary.dto.request.update;
 
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -16,6 +15,7 @@ public abstract class ItineraryUpdateRequest {
     private String name;
 
     public abstract String getStartDateTime();
+
     public abstract String getEndDateTime();
 
 }

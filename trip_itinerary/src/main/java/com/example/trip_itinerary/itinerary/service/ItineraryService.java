@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class  ItineraryService {
+public class ItineraryService {
 
     private final ItineraryRepository itineraryRepository;
     private final TripRepository tripRepository;
@@ -107,8 +107,8 @@ public class  ItineraryService {
         }
 
         foundAccommodation.updateAccommodation(request.getName(), request.getAccommodationName(),
-                                               request.getAccommodationAddress(),
-                                               DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
+                request.getAccommodationAddress(),
+                DateUtil.toLocalDateTime(request.getCheckInTime()), DateUtil.toLocalDateTime(request.getCheckOutTime()));
     }
 
     public void patchStay(Long id, StayUpdateRequest request, MemberAdapter memberAdapter) {
@@ -120,7 +120,6 @@ public class  ItineraryService {
 
         foundStay.updateStay(request.getName(), request.getLocation(), request.getLocationAddress(),
                 DateUtil.toLocalDateTime(request.getArrivalDateTime()), DateUtil.toLocalDateTime(request.getLeaveDateTime()));
-
     }
 
     private Itinerary findItineraryAndValidateDateTime(Long id, ItineraryUpdateRequest request) {
@@ -128,6 +127,5 @@ public class  ItineraryService {
         itineraryTimeValidationService.validateItineraryTimeRange(request.getStartDateTime(), request.getEndDateTime(), foundItinerary.getTrip());
         return foundItinerary;
     }
-
 
 }
