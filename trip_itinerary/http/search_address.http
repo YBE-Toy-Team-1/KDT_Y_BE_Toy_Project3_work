@@ -1,6 +1,7 @@
 # 키워드로 주소검색 요청(카카오) - 키워드로 검색한 결과가 있는 경우
-GET http://localhost:8080/trips/1/address/신라스테이
+GET http://localhost:8080/trips/1/address?keyword=seoul
 Content-Type: application/json;charset=UTF-8
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3kyQG5hdmVyLmNvbSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTcwMDExMjM1MCwiZXhwIjoxNzAwMTE0MTUwfQ.WEF6BHyzmQCy6I7p-NfIOl7fd2ni3sdO9OrJ9SVth6k
 
 {
 }
