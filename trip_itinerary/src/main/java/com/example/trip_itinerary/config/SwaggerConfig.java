@@ -7,19 +7,28 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@OpenAPIDefinition(servers = {@Server(url = "https://localhost:8080/")})
+@OpenAPIDefinition(servers = {@Server(url = "http://localhost:8080/")})
 @Configuration
 public class SwaggerConfig {
 
     @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("v1-definition")
+                .pathsToMatch("/**")
+                .build();
+    }
+
+    @Bean
     public OpenAPI springShopOpenAPI() {
         // SecuritySecheme명
-        String jwtSchemeName = "jwtAuth";
+        String jwtSchemeName = "Authorization";
 
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
 
@@ -27,8 +36,8 @@ public class SwaggerConfig {
         Components components = new Components()
                 .addSecuritySchemes(jwtSchemeName, new SecurityScheme()
                         .name(jwtSchemeName)
-                        .type(SecurityScheme.Type.HTTP) // HTTP 방식
-                        .scheme("bearer")
+                        .type(SecurityScheme.Type.APIKEY) // HTTP 방식
+                        .in(SecurityScheme.In.HEADER)
                         .bearerFormat("JWT")); // 토큰 형식을 지정하는 임의의 문자(Optional)
 
         return new OpenAPI()
