@@ -31,15 +31,15 @@ public class Trip {
     @Column(name = "like_num", nullable = true)
     private Long likeNum;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
-    private List<Itinerary> itineraryList = new ArrayList<>();
+    private final List<Itinerary> itineraryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private final List<Comment> commentList = new ArrayList<>();
 
     protected Trip() {
     }
@@ -64,11 +64,11 @@ public class Trip {
         this.isDomestic = isDomestic;
     }
 
-    public void upLike(){
+    public void upLike() {
         this.likeNum++;
     }
 
-    public void downLike(){
+    public void downLike() {
         this.likeNum--;
     }
 

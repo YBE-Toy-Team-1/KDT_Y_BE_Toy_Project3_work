@@ -34,7 +34,7 @@ public class Accommodation extends Itinerary {
         this.checkOutTime = checkOutTime;
     }
 
-    public static Accommodation of(String name, Trip trip, String accommodationName,String accommodationAddress,
+    public static Accommodation of(String name, Trip trip, String accommodationName, String accommodationAddress,
                                    LocalDateTime checkInTime, LocalDateTime checkOutTime) {
         return new Accommodation(name, trip, accommodationName, accommodationAddress, checkInTime, checkOutTime);
     }

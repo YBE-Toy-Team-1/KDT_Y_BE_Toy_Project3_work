@@ -8,18 +8,16 @@ import com.example.trip_itinerary.itinerary.domain.Stay;
 import com.example.trip_itinerary.itinerary.domain.Transport;
 import com.example.trip_itinerary.itinerary.dto.response.ItineraryFindResponse;
 import com.example.trip_itinerary.trip.domain.Trip;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
-@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TripFindResponse {
 
@@ -40,6 +38,22 @@ public class TripFindResponse {
     private List<CommentFindResponse> commentResponseList;
 
     private List<ItineraryFindResponse> itineraryList;
+
+    @Builder
+    public TripFindResponse(
+            Long id, String tripName, LocalDate startDate, LocalDate endDate, boolean isDomestic,
+            Long likeNum, String memberName, List<CommentFindResponse> commentResponseList, List<ItineraryFindResponse> itineraryList
+    ) {
+        this.id = id;
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isDomestic = isDomestic;
+        this.likeNum = likeNum;
+        this.memberName = memberName;
+        this.commentResponseList = commentResponseList;
+        this.itineraryList = itineraryList;
+    }
 
     public static TripFindResponse fromEntity(Trip trip) {
         List<CommentFindResponse> findCommentResponsesList = new ArrayList<>();

@@ -1,15 +1,9 @@
 package com.example.trip_itinerary.member.domain;
 
 import com.example.trip_itinerary.like.domain.Likes;
-import com.example.trip_itinerary.trip.domain.Trip;
 import jakarta.persistence.*;
-import jakarta.servlet.ServletException;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -22,18 +16,15 @@ public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Likes> likeTripList = new ArrayList<>();
+    private final List<Likes> likeTripList = new ArrayList<>();
 
     protected Member() {
     }

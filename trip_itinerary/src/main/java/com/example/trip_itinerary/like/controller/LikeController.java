@@ -1,7 +1,6 @@
 package com.example.trip_itinerary.like.controller;
 
 import com.example.trip_itinerary.like.service.LikeService;
-import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,8 +23,10 @@ public class LikeController {
     public ResponseEntity<HttpStatus> likeTrip(
             @Parameter(description = "좋아요를 표시하거나 취소할 여행 ID", required = true, example = "1")
             @PathVariable("trip_id") Long tripId,
-            @AuthenticationPrincipal MemberAdapter memberAdapter) {
+            @AuthenticationPrincipal MemberAdapter memberAdapter
+    ) {
         likeService.likeTrip(memberAdapter, tripId);
+
         return ResponseEntity.ok().build();
     }
 

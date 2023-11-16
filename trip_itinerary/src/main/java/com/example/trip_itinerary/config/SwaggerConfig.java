@@ -10,8 +10,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @OpenAPIDefinition(servers = {@Server(url = "http://localhost:8080/")})
 @Configuration
@@ -46,11 +44,6 @@ public class SwaggerConfig {
                         .version("v0.0.1"))
                 .addSecurityItem(securityRequirement)
                 .components(components);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

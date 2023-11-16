@@ -36,7 +36,7 @@ public class Transport extends Itinerary {
     }
 
     private Transport(String name, Trip trip, String transportation, String departureLocation,
-                      String departureAddress, String arrivalLocation,String arrivalAddress,
+                      String departureAddress, String arrivalLocation, String arrivalAddress,
                       LocalDateTime departureDate, LocalDateTime arrivalDateTime) {
         super(name, trip);
         this.transportation = transportation;
@@ -51,7 +51,7 @@ public class Transport extends Itinerary {
     public static Transport of(String name, Trip trip, String transportation, String departureLocation,
                                String departureAddress, String arrivalLocation, String arrivalAddress,
                                LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return new Transport(name, trip, transportation, departureLocation, departureAddress, arrivalLocation,arrivalAddress, startDateTime, endDateTime);
+        return new Transport(name, trip, transportation, departureLocation, departureAddress, arrivalLocation, arrivalAddress, startDateTime, endDateTime);
     }
 
     public void updateTransport(String name, String transportation, String departureLocation, String departureAddress,

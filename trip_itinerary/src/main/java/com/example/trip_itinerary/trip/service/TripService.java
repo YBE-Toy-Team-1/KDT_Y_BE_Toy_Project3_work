@@ -6,11 +6,10 @@ import com.example.trip_itinerary.like.domain.Likes;
 import com.example.trip_itinerary.member.domain.Member;
 import com.example.trip_itinerary.member.domain.MemberAdapter;
 import com.example.trip_itinerary.member.exception.MemberErrorCode;
-import com.example.trip_itinerary.member.exception.MemberNotFoundException;
 import com.example.trip_itinerary.member.exception.MemberNotMatchedException;
 import com.example.trip_itinerary.trip.domain.Trip;
-import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.request.TripSaveRequest;
+import com.example.trip_itinerary.trip.dto.request.TripUpdateRequest;
 import com.example.trip_itinerary.trip.dto.response.TripFindResponse;
 import com.example.trip_itinerary.trip.dto.response.TripListFindResponse;
 import com.example.trip_itinerary.trip.exception.TripErrorCode;
@@ -18,16 +17,14 @@ import com.example.trip_itinerary.trip.exception.TripNotFoundException;
 import com.example.trip_itinerary.trip.repository.TripRepository;
 import com.example.trip_itinerary.util.DateUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class TripService {
 
     private final TripRepository tripRepository;
@@ -63,7 +60,7 @@ public class TripService {
         Trip foundTrip = tripRepository.findById(id).orElseThrow(() -> new TripNotFoundException(TripErrorCode.TRIP_NOT_FOUND));
         tripDateValidationService.validateTripPatchDate(tripUpdateRequest, foundTrip);
 
-        if(foundTrip.getMember().getUsername().equals(memberAdapter.getUsername())){
+        if (foundTrip.getMember().getUsername().equals(memberAdapter.getUsername())) {
             foundTrip.updateTrip(tripUpdateRequest.getName(), DateUtil.toLocalDate(tripUpdateRequest.getStartDate()),
                     DateUtil.toLocalDate(tripUpdateRequest.getEndDate()), tripUpdateRequest.getIsDomestic());
             return;
@@ -81,18 +78,18 @@ public class TripService {
     public List<TripListFindResponse> getLikeTripList(MemberAdapter memberAdapter) {
         List<Trip> foundTripList = new ArrayList<>();
         Member member = memberAdapter.getMember();
-        for(Likes likes : member.getLikeTripList()){
+        for (Likes likes : member.getLikeTripList()) {
             foundTripList.add(likes.getTrip());
         }
         return tripListToResponse(foundTripList);
     }
 
-    private List<TripListFindResponse> tripListToResponse(List<Trip> tripList){
+    private List<TripListFindResponse> tripListToResponse(List<Trip> tripList) {
         List<TripListFindResponse> tripFindResponseList = new ArrayList<>();
         for (Trip foundTrip : tripList) {
 
             List<CommentFindResponse> commentFindResponses = new ArrayList<>();
-            for(Comment comment : foundTrip.getCommentList()){
+            for (Comment comment : foundTrip.getCommentList()) {
                 commentFindResponses.add(CommentFindResponse.fromEntity(comment));
             }
 

@@ -27,8 +27,10 @@ import java.util.stream.StreamSupport;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class KakaoApiService {
+
     @Value("${kakao.api.key}")
     private String kakaoApiKey;
+
     @Value("${kakao.url.keyword}")
     private String kakaoUrl;
 
